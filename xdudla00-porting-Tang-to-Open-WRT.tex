@@ -15,12 +15,14 @@
 %   projekt-01-kapitoly-chapters.tex - obsah práce / the thesis content
 %   projekt-30-prilohy-appendices.tex - přílohy / appendices
 %==============================================================================
-\documentclass[]{fitthesis} % bez zadání - pro začátek práce, aby nebyl problém s překladem
-%\documentclass[english]{fitthesis} % without assignment - for the work start to avoid compilation problem
+%\documentclass{fitthesis} % bez zadání - pro začátek práce, aby nebyl problém s překladem
+\documentclass[english]{fitthesis} % without assignment - for the work start to avoid compilation problem
 %\documentclass[zadani]{fitthesis} % odevzdani do wisu - odkazy jsou barevné
 %\documentclass[english,zadani]{fitthesis} % for submission to the IS FIT - links are color
 %\documentclass[zadani,print]{fitthesis} % pro tisk - odkazy jsou černé
 %\documentclass[english,zadani,print]{fitthesis} % for the print - links are black
+%\documentclass[listFigures,listTables,listAppendices]{fitthesis} % s listem obrazku, tabulek a priloh
+%\documentclass[uifs]{fitthesis} % ustavni logo
 % * Je-li prace psana v anglickem jazyce, je zapotrebi u tridy pouzit 
 %   parametr english nasledovne:
 %   If thesis is written in english, it is necessary to use 
@@ -33,6 +35,11 @@
 % Základní balíčky jsou dole v souboru šablony fitthesis.cls
 % Basic packages are at the bottom of template file fitthesis.cls
 %zde muzeme vlozit vlastni balicky / you can place own packages here
+
+% BEGIN ipluskal modifikace
+\usepackage{graphicx}
+\graphicspath{{obrazky-figures/}{../figures/}}
+%END ipluskal modifikace
 
 %---rm---------------
 \renewcommand{\rmdefault}{lmr}%zavede Latin Modern Roman jako rm / set Latin Modern Roman as rm
@@ -87,27 +94,27 @@
 %---------------------------------------------------------------------------
 \projectinfo{
   %Prace / Thesis
-  project=BP,            %typ prace BP/SP/DP/DR  / thesis type (SP = term project)
-  year=2017,             %rok odevzdání / year of submission
+  project=SP,            %typ prace BP/SP/DP/DR  / thesis type (SP = term project)
+  year=\the\year,             %rok odevzdání / year of submission
   date=\today,           %datum odevzdani / submission date
   %Nazev prace / thesis title
-  title.cs={Název práce},  %nazev prace v cestine ci slovenstine (dle zadani) / thesis title in czech language (according to assignment)
-  title.en={Thesis title}, %nazev prace v anglictine / thesis title in english
+  title.cs={Portovanie Tang na OpenWRT},  %nazev prace v cestine ci slovenstine (dle zadani) / thesis title in czech language (according to assignment)
+  title.en={Porting Tang to OpenWRT}, %nazev prace v anglictine / thesis title in english
   %Autor / Author
-  author={Jméno Příjmení},   %cele jmeno a prijmeni autora / full name and surname of the author
-  author.name={Jméno},   %jmeno autora (pro citaci) / author name (for reference) 
-  author.surname={Příjmení},   %prijmeni autora (pro citaci) / author surname (for reference) 
+  author={Tibor Dudlák},   %cele jmeno a prijmeni autora / full name and surname of the author
+  author.name={Tibor},   %jmeno autora (pro citaci) / author name (for reference) 
+  author.surname={Dudlák},   %prijmeni autora (pro citaci) / author surname (for reference) 
   %author.title.p=Bc., %titul pred jmenem (nepovinne) / title before the name (optional)
   %author.title.a=PhD, %titul za jmenem (nepovinne) / title after the name (optional)
   %Ustav / Department
-  department=UPGM, % doplnte prislusnou zkratku dle ustavu na zadani: UPSY/UIFS/UITS/UPGM
+  department=UIFS, % doplnte prislusnou zkratku dle ustavu na zadani: UPSY/UIFS/UITS/UPGM
   %                  fill in appropriate abbreviation of the department according to assignment: UPSY/UIFS/UITS/UPGM
   %Skolitel / supervisor
-  supervisor=Jméno Příjmení, %cele jmeno a prijmeni skolitele / full name and surname of the supervisor
-  supervisor.name={Jméno},   %jmeno skolitele (pro citaci) / supervisor name (for reference) 
-  supervisor.surname={Příjmení},   %prijmeni skolitele (pro citaci) / supervisor surname (for reference) 
-  supervisor.title.p=Doc. RNDr.,   %titul pred jmenem (nepovinne) / title before the name (optional)
-  supervisor.title.a={Ph.D.},    %titul za jmenem (nepovinne) / title after the name (optional)
+  supervisor=Ondrej Lichtner, %cele jmeno a prijmeni skolitele / full name and surname of the supervisor
+  supervisor.name={Ondrej},   %jmeno skolitele (pro citaci) / supervisor name (for reference) 
+  supervisor.surname={Lichtner},   %prijmeni skolitele (pro citaci) / supervisor surname (for reference) 
+  supervisor.title.p=Ing.,   %titul pred jmenem (nepovinne) / title before the name (optional)
+  %supervisor.title.a={Ph.D.},    %titul za jmenem (nepovinne) / title after the name (optional)
   %Klicova slova, abstrakty, prohlaseni a podekovani je mozne definovat 
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %Keywords, abstracts, declaration and acknowledgement can be defined by following 
@@ -138,17 +145,18 @@
 
 %Prohlaseni (u anglicky psane prace anglicky, u slovensky psane prace slovensky)
 %Declaration (for thesis in english should be in english)
-\declaration{Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením pana X...
-Další informace mi poskytli...
-Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
+%\declaration{Prohlašuji, že jsem tuto (bakalářskou|diplomovou|disertační) práci vypracoval samostatně %pod vedením Ing.~Jméno~Příjmení,~Ph.D. 
+%Další informace mi poskytli...
+%Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
 
-% \declaration{Hereby I declare that this bachelor's thesis was prepared as an original author’s work under the supervision of Mr. X
-% The supplementary information was provided by Mr. Y
-% All the relevant information sources, which were used during preparation of this thesis, are properly cited and included in the list of references.}
+\declaration{Hereby I declare that this term project was prepared as an original author’s work under the supervision of Ing. Ondrej Lichtner.
+ The supplementary information was provided by Jan Pazdziora, Ph. D.
+ %All the relevant information sources, which were used during preparation of this thesis, are properly cited and included in the list of references.
+ }
 
 %Podekovani (nepovinne, nejlepe v jazyce prace) / Acknowledgement (optional, ideally in the language of the thesis)
-\acknowledgment{V této sekci je možno uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc
-(externí zadavatel, konzultant, apod.).}
+%\acknowledgment{V této sekci je možno uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc
+%(externí zadavatel, konzultant, apod.).}
 %\acknowledgment{Here it is possible to express thanks to the supervisor and to the people which provided professional help
 %(external submitter, consultant, etc.).}
 
@@ -174,7 +182,10 @@ Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
   \renewcommand\listfigurename{Zoznam obrázkov}
 \fi
 
-  % \listoffigures
+\ifListFigures
+  \listoffigures
+\fi
+
 \ifczech
   \renewcommand\listtablename{Seznam tabulek}
 \fi
@@ -182,7 +193,10 @@ Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
   \renewcommand\listtablename{Zoznam tabuliek}
 \fi
 
-  % \listoftables 
+\ifListTables
+   \listoftables 
+\fi
+ 
 
   % vynechani stranky v oboustrannem rezimu
   % Skip the page in the two-sided mode
@@ -192,7 +206,12 @@ Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
 
   % Text prace / Thesis text
   % ----------------------------------------------
-  \input{projekt-01-kapitoly-chapters} % viz. obsah.tex / see obsah.tex
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-01-introduction}
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-02-encryption}
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-03-tang}
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-04-clevis} 
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-05-openwrt}
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-06-conclusion}
 
   % Pouzita literatura / Bibliography
   % ----------------------------------------------
@@ -216,7 +235,7 @@ Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
   \fi
 \fi
   \begin{flushleft}
-  \bibliography{projekt-20-literatura-bibliography}
+   \bibliography{bibl/xdudla00-porting-Tang-to-Open-WRT-20-literatura-bibliography}   
   \end{flushleft}
 
   % vynechani stranky v oboustrannem rezimu
@@ -227,44 +246,51 @@ Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
 
   % Prilohy / Appendices
   % ---------------------------------------------
-  \appendix
-\ifczech
-  \renewcommand{\appendixpagename}{Přílohy}
-  \renewcommand{\appendixtocname}{Přílohy}
-  \renewcommand{\appendixname}{Příloha}
-\fi
-\ifslovak
-  \renewcommand{\appendixpagename}{Prílohy}
-  \renewcommand{\appendixtocname}{Prílohy}
-  \renewcommand{\appendixname}{Príloha}
-\fi
-  \appendixpage
+%   \appendix
+% \ifczech
+%   \renewcommand{\appendixpagename}{Přílohy}
+%   \renewcommand{\appendixtocname}{Přílohy}
+%   \renewcommand{\appendixname}{Příloha}
+% \fi
+% \ifslovak
+%   \renewcommand{\appendixpagename}{Prílohy}
+%   \renewcommand{\appendixtocname}{Prílohy}
+%   \renewcommand{\appendixname}{Príloha}
+% \fi
+%   \appendixpage
 
 % vynechani stranky v oboustrannem rezimu
 % Skip the page in the two-sided mode
-\iftwoside
-  \cleardoublepage
-\fi
+% \iftwoside
+%   \cleardoublepage
+% \fi
   
-\ifslovak
-%  \section*{Zoznam príloh}
-%  \addcontentsline{toc}{section}{Zoznam príloh}
-\else
-  \ifczech
-%    \section*{Seznam příloh}
-%    \addcontentsline{toc}{section}{Seznam příloh}
-  \else
-%    \section*{List of Appendices}
-%    \addcontentsline{toc}{section}{List of Appendices}
-  \fi
-\fi
-  \startcontents[chapters]
-  % seznam příloh / list of appendices
-  % \printcontents[chapters]{l}{0}{\setcounter{tocdepth}{2}}
-  
-  % vynechani stranky v oboustrannem rezimu
-  \iftwoside
-    \cleardoublepage
-  \fi
-  \input{projekt-30-prilohy-appendices} % viz. prilohy.tex / see prilohy.tex
+% \ifListAppendices  
+%   \ifslovak
+%     \section*{Zoznam príloh}
+%     \addcontentsline{toc}{section}{Zoznam príloh}
+%   \else
+%     \ifczech
+%       \section*{Seznam příloh}
+%       \addcontentsline{toc}{section}{Seznam příloh}
+%     \else
+%       \section*{List of Appendices}
+%       \addcontentsline{toc}{section}{List of Appendices}
+%     \fi
+%   \fi
+%     \startcontents[chapters]
+%     % seznam příloh / list of appendices
+%     \printcontents[chapters]{l}{0}{\setcounter{tocdepth}{2}}  
+% \fi  
+
+% vynechani stranky v oboustrannem rezimu
+% \iftwoside
+%   \cleardoublepage
+% \fi
+
+% Prilohy / Appendices
+% ----------------------------------------------
+%\subfile{chapters/projekt-30-prilohy-appendices}
+%\subfile{chapters/projekt-40-prilohy-ipluskal}
+% ----------------------------------------------
 \end{document}

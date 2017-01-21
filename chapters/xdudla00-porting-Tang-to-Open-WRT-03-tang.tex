@@ -1,0 +1,118 @@
+\documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
+\begin{document}
+
+
+
+\chapter{Tang}\label{tang}
+
+
+Tang server is open source project implemented in C programming language, and it bind data to network presence.
+It rely on few other software libraries:
+
+\begin{itemize}
+\item http-parser \ref{parser}
+\item systemd / xinetd \ref{systemd}
+\item jose \ref{jose}
+    \begin{itemize}
+    \item jansson \ref{jansson}
+    \item openssl \ref{openssl}
+    \item zlib \ref{zlib}
+    \end{itemize}
+\end{itemize}
+
+Now when we know what Tang rely on and what is for we should be more specific about it and find out how Tang provides its service.
+What binding data to network presence really means? Essentially it allows us to make some data to be available only when the system containing the data is on a certain, usually secure, network.
+
+Tang server advertises asymmetric keys and client is able to get list off these signing keys \ref{jose} by HTTP GET request.
+Now follows the provisioning step. With list of these public keys may process of encrypting data start. Client chooses one of asymmetric keys to generate a unique encryption key with.
+After this client encrypt data using created key. Once the data is encrypted, the key is discarded.
+Some small metadata has to be produced as part of this operation. The client should store these metadata in a convenient location.
+Finally when client want to access encrypted data it must be able to recover encryption key.
+This step starts with loading stored metadata and ends with simply performing a HTTP POST to Tang server.
+
+Before Tang, automated decryption was handled usually with key escrow.
+Client using key escrow usually generates a key, encrypt data with it and then stores the key in a remote server.
+Key escrow server (also known as a “fair” cryptosystem) stores decryption keys. This should signal potential security risks when storing and also transmitting keys over network.
+For security purposes key escrow uses SSL/TLS to provide privacy and data integrity between server and client.
+Even with SSL/TLS key escrow requires authentication.
+\todo{Treba to doplnit...}
+To sum up an authorized third party may gain access to those keys under certain circumstances only.
+
+\begin{table}[h]
+\centering
+\label{compare}
+\begin{tabular}{@{}lll@{}}
+\toprule
+               & Escrow   & Tang                         \\ \midrule
+Stateless      & No       & Yes                          \\
+X.509          & Required & Optional                     \\
+SSL/TLS        & Required & Optional                     \\
+Authentication & Required & Optional                     \\
+Anonymous      & No       & Yes                          \\ \bottomrule
+\end{tabular}
+\caption{Comparing Escrow and Tang}
+\end{table}
+\todo{popisat...}
+
+
+Tang is originally packaged for Fedora OS version 24 and later but we can build it from source of course.\todo{doplnic...}
+
+To build it from source download source from poject's GitHub or clone~it.
+
+Make sure you have all needed dependencies installed and then run:
+
+{\tt \$ autoreconf -if}
+
+{\tt \$ ./configure --prefix=/usr}
+
+{\tt \$ make}
+
+{\tt \$ sudo make install}
+
+Optionally to run tests:
+
+{\tt \$ make check}
+
+\section{http-parser}\label{parser}
+Tang uses this is parser for both parsing HTTP requests and HTTP responses. 
+You can find this parser on its own GitHub \cite{http-parser}.
+
+\section{systemd / xinetd}\label{systemd}
+systemd \cite{systemd} is a suite of basic building blocks for a Linux system. It provides a system and service manager that runs as PID 1 and starts the rest of the system. systemd provides aggressive parallelization capabilities, uses socket and D-Bus activation for starting services, offers on-demand starting of daemons, keeps track of processes using Linux control groups, maintains mount and automount points, and implements an elaborate transactional dependency-based service control logic.
+
+\section{José}\label{jose}
+José \cite{Jos} is a C-language implementation of the Javascript Object Signing and Encryption standards. Specifically, José aims towards implementing the following standards:
+\begin{itemize}
+   \item RFC 7515 - JSON Web Signature (JWS)        \cite{JWS}
+   \item RFC 7516 - JSON Web Encryption (JWE)       \cite{JWE}
+   \item RFC 7517 - JSON Web Key (JWK)              \cite{JWK}
+   \item RFC 7518 - JSON Web Algorithms (JWA)       \cite{JWA}
+   \item RFC 7519 - JSON Web Token (JWT)            \cite{JWT}
+   \item RFC 7520 - Examples of ... JOSE            
+   \item RFC 7638 - JSON Web Key (JWK) Thumbprint   \cite{JWK}
+\end{itemize}
+
+JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties. 
+
+Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
+
+\subsection{jansson}\label{jansson}
+Jansson \cite{jansson}(licenced under MIT licence)is a C library for encoding, decoding and manipulating JSON data. It features:
+\begin{itemize}
+   
+    \item Simple and intuitive API and data model
+    \item Comprehensive documentation
+    \item No dependencies on other libraries
+    \item Full Unicode support (UTF-8)
+    \item Extensive test suite
+\end{itemize}
+
+\subsection{OpenSSL}\label{openssl}
+OpenSSL \cite{openssl} contains an open-source implementation of the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. It is used by network applications to secure communication between two parties over network.
+
+
+\subsection{zlib}\label{zlib}
+Library zlib \cite{zlib} is used for data compression.
+\todo{zmazat ako podkapitoly?}
+
+\end{document}

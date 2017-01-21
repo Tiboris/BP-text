@@ -1,0 +1,140 @@
+\documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
+\begin{document}
+
+\chapter{Ukazka rozsireni sablony}
+
+\section{Definice v projekt.tex}
+
+Kazde nastaveni sablny se hodi pro neco jineho. Minamlne pouzijete tyto:
+\begin{itemize}
+    \item \begin{verbatim}\documentclass[]{fitthesis}\end{verbatim}
+    \item \begin{verbatim}\documentclass[zadani,print]{fitthesis}\end{verbatim}
+\end{itemize}
+
+Experimentujte a vyzkousejte i zbyle moznosti napr s ustavnim logem, seznamem obrazku, tabulek, atd\dots
+
+\begin{verbatim}
+\documentclass[]{fitthesis} % bez zadání - pro začátek práce, aby nebyl 
+    problém s překladem
+%\documentclass[english]{fitthesis} % without assignment - for the work 
+    start to avoid compilation problem
+%\documentclass[zadani]{fitthesis} % odevzdani do wisu - odkazy jsou barevné
+%\documentclass[english,zadani]{fitthesis} % for submission to the 
+    IS FIT - links are color
+%\documentclass[zadani,print]{fitthesis} % pro tisk - odkazy jsou černé
+%\documentclass[english,zadani,print]{fitthesis} % for the print - links 
+are black
+%\documentclass[listFigures,listTables,listAppendices]{fitthesis} 
+% s listem obrazku, tabulek a priloh
+%\documentclass[uifs]{fitthesis} % ustavni logo
+\end{verbatim}
+
+\newpage
+\section{Ukazky kodu}
+Ukazka kodu pro Microsoft Network monitor v jazyce NPL \autoref{nplExample}.
+
+\begin{lstlisting}[style=npl,label=nplExample,caption=Example of not complete NPL description of YMSG IM protocol. Commented parts are not supported by NPlangCompiler.]
+//[RegisterAfter(TCPPayload.HTTP, YMSG, 5050)]
+//[RegisterAfter(PayloadHeader.LLC, YMSG, YMSG)]
+Protocol YMSG = FormatString("Type = %s (%d), status = %s (%d)",
+                     YMSGTypes(Type),Type, YMSGHEADStatus(Status),Status)
+{ 
+  AsciiString(4) YMSGconst;
+  UINT16 Version;
+  UINT16 VendorID;
+  [Post.Properties.Length = Length]
+  UINT16 Length;
+  UINT16 Type = FormatString("%s (%#04x)", YMSGTypes(Type), Type);
+  UINT32 Status = FormatString("%s (%#04x)", YMSGHEADStatus(this), this);
+  UINT32 Session;
+
+/* [BuildConversationWithParent(Session)]	StartPayload
+  [YMSGPayload = Blob(FrameData, FrameOffset, Length),
+  DataFieldFrameLength = frameOffset + Length,
+  PayloadStart (
+  NetworkDirection, //direction 
+  0, // id 
+  0, // sequence token 
+  0, // next sequence token 
+  Length, // total payload length 
+  !Property.TCPContinuation, // is first  
+  (TCP.Flags.Push || TCP.Flags.Fin || TCP.Flags.Urgent),//is last 
+  RssmblyIndStartBit + RssmblyIndEndBit // Properties...   )]*/
+
+  [HeaderOffset = FrameOffset] 				
+  TVs tvs;
+  status = "%s (%d)", YMSGTypes(Type),Type,YMSGHEADStatus(Status),Status)]
+  switch{
+    case (FrameLength - FrameOffset - 1 > 0) && (HeaderOffset <= FrameOffset):      
+      [MultiYMSG = "YES"] 
+      StringTerm(0, "YMSG", 1, 0, 0 ) blank0 = FormatString("Optional stuffing between multiple YMSG messages", ymsg);
+      YMSG ymsg;
+    case (FrameLength - FrameOffset > 0) && (HeaderOffset <= FrameOffset):
+      BLOB(FrameLength - FrameOffset) blank1 = FormatString("Optional terminator of YMSG message", this);
+  }	
+}	
+\end{lstlisting}
+
+\newpage
+Ukazka XML vstupu \dots, \autoref{xmlLogIM}.
+\begin{lstlisting}[language=XML,basicstyle=\ttfamily\footnotesize,label=xmlLogIM,caption=Example of IMSleuths`s xml log used as input in ContextBrowser.]
+<?xml version="1.0" encoding="utf-8"?>
+<log>
+  <user guid="192.168.2.101">
+    <protocol val="ICQ">
+      <event validity="valid">
+        <src version="IPv4" port="49874">192.168.2.101</src>
+        <dst version="IPv4" port="5190">205.188.10.251</dst>
+        <conversationPart type="statusChange" timeStamp="2013-08-08T02:06:19.518767"
+        frameNumber="86" flowDirection="up" statusType="online" />
+        <conversationPart type="contactList" timeStamp="2013-08-08T02:06:39.318927" 
+        frameNumber="113" flowDirection="down">
+          <group id="0" name="">
+            <contact id="3" firstName="277264821"
+              nick="Contact1" />
+          </group>
+          <group id="1" name="rename_group" />
+          <group id="3" name="friends_group">
+            <contact id="9327" firstName="647175775"
+              nick="Contact2" />
+            <contact id="2" firstName="284569266"
+              nick="Contact3" />
+            <contact id="29425" firstName="312345170"
+              nick="Contact4" />
+          </group>
+        </conversationPart>
+        <conversationPart type="message" 
+        timeStamp="2013-08-08T02:11:18.357794" frameNumber="791" flowDirection="up">
+          <![CDATA[<HTML><BODY dir="ltr"><FONT size="2">test</FONT></BODY></HTML>]]>
+          <receiver>310451170</receiver>
+        </conversationPart>
+        <conversationPart type="contactListChange" 
+        timeStamp="2013-08-08T02:32:11.914733" frameNumber="1528" flowDirection="up"
+        contactListChangeAction="add">
+          <contact id="31432670" />
+        </conversationPart>
+        <conversationPart type="authorizationReply" 
+        timeStamp="2013-08-08T02:32:55.885157"
+          frameNumber="1543" flowDirection="down" sender="310451170" 
+          authorizationStatus="permit" />   
+    </protocol>
+  </user>
+</log>
+\end{lstlisting}
+
+\begin{lstlisting}[language=c,basicstyle=\ttfamily\footnotesize,label=c,caption=Basic C code.]
+    #include<stdio.h>
+    #include<iostream>
+    int main(void)
+    {
+    printf("Hello World\n");
+    // comment
+    return 0;
+    }
+\end{lstlisting}
+
+\section{TODO}
+
+Kdyz pouzijete TODO \todo{Neco bych mel doplnit...}.
+
+\end{document}

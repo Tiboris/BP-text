@@ -21,6 +21,12 @@
 \newif\ifzadani   \let\ifzadani\iffalse
 \newif\iftwoside   \let\iftwoside\iffalse
 
+\newif\ifListFigures   \let\ifListFigures\iffalse
+\newif\ifListTables   \let\ifListTables\iffalse
+\newif\ifListAppendices   \let\ifListAppendices\iffalse
+
+\newif\ifUifs \let\ifUifs\iffalse
+
 
 %-----------------------------------------------------------------------------
 % Parametry tridy (odkomentovani zakomentovanych na vlastni nebezpeci)
@@ -34,6 +40,11 @@
 \DeclareOption{twoside}{\let\iftwoside\iftrue}
 %\DeclareOption{COPEN}{\let\ifCOPEN\iftrue}
 %\DeclareOption{CBOPEN}{\let\ifCBOPEN\iftrue}
+\DeclareOption{listFigures}{\let\ifListFigures\iftrue}
+\DeclareOption{listTables}{\let\ifListTables\iftrue}
+\DeclareOption{listAppendices}{\let\ifListAppendices\iftrue}
+
+\DeclareOption{uifs}{\let\ifUifs\iftrue}
 
 \DeclareOption*{}
 \ProcessOptions\relax
@@ -213,6 +224,7 @@
    \typeout{Spatny ustav! Moznosti: UPSY, UIFS, UITS, UPGM}\set@department{UIFS}
  \fi
 }
+
 
 %Nazev ustavu (CS, SK, EN) / name of the department
 \def\@departmentname@CS{\@dep@CS\ \@department@CS}
@@ -507,10 +519,35 @@
 \newsavebox{\@obrlogo}\newsavebox{\@rtext}\newlength{\@vyskartext}\newlength{\@sirkartext}\newlength{\@vyskaobr}\newlength{\@sirkaobr}%
 
 
-\ifPrint
-  \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=4.1cm,keepaspectratio,trim={1.2cm 1.2cm 1.2cm 1.2cm},clip]{template-fig/VUT_symbol_cernobile_CZ}}%symbol VUT
+
+\ifUifs
+  \ifPrint
+   \ifczechslovak
+     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_CB_CMYK_CZ}}
+   \else
+     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_bw_CMYK_EN}}
+   \fi
+  \else
+    \ifczechslovak
+      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_color_PANTONE_CZ}}
+    \else
+      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_color_PANTONE_EN}}
+    \fi
+  \fi
 \else
-  \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=4.1cm,keepaspectratio,trim={1.2cm 1.2cm 1.2cm 1.2cm},clip]{template-fig/VUT_symbol_barevne_CMYK_CZ}}%symbol VUT
+  \ifPrint
+   \ifczechslovak
+     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_cernobile_CZ}}
+   \else
+     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_black_white_EN}}
+   \fi
+  \else
+    \ifczechslovak
+      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_barevne_PANTONE_CZ}}
+    \else
+      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_color_PANTONE_EN}}
+    \fi
+  \fi
 \fi
 
 \savebox{\@rtext}{\vbox{\mkuctxt{18}{\ifslovak\@vut@SK\else\ifczech\@vut@CS\else\@vut@EN\fi\fi}\mkuctxt{11}{\ifczech\@vut@EN\else\ifslovak\@vut@EN\else\@vut@CS\fi\fi}}}%text VUT
@@ -792,7 +829,7 @@
 
 % Příkazy pro TODO
 % commands for TODO
-\newcommand{\todo}[1]{\textcolor{red}{\textbf{[[#1]]}}}
+%\newcommand{\todo}[1]{\textcolor{red}{\textbf{[[#1]]}}}
 \newcommand{\phony}[1]{\textcolor{gray}{#1}}
 \newcommand{\blind}[1]{\textcolor{gray}{\Blindtext[#1]}}
 
@@ -801,6 +838,91 @@
 % Left aligned column with a fixed width
 \newcolumntype{L}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
 
+% BEGIN ipluskal modifikace
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape,
+  captionpos=b
+}
+
+\lstdefinestyle{csh}{language=[Sharp]C,
+  showspaces=false,
+  showtabs=false,
+  breaklines=false,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  escapeinside={(*@}{@*)},
+  commentstyle=\color{greencomments},
+  keywordstyle=\color{bluekeywords},
+  stringstyle=\color{redstrings},
+  basicstyle=\ttfamily,
+  captionpos=b,
+  numbers=left,
+  frame=single,
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
+\lstdefinestyle{npl}{language=c,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  escapeinside={(*@}{@*)},
+  commentstyle=\color{greencomments},
+  keywordstyle=\color{bluekeywords},
+  stringstyle=\color{redstrings},
+  basicstyle=\ttfamily,
+  captionpos=b,
+  numbers=left,
+  frame=single,
+  morekeywords={UINT8, UINT16, UINT32, INT8, INT16, INT32, Post, Properties, Protocol, AsciiString, String, StringTerm, BLOB, FormatString, this},
+}
+
+
+\lstdefinestyle{c++}{language=c,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  escapeinside={(*@}{@*)},
+  commentstyle=\color{greencomments},
+  keywordstyle=\color{bluekeywords},
+  stringstyle=\color{redstrings},
+  basicstyle=\ttfamily,
+  captionpos=b,
+  numbers=left,
+  frame=single,
+  morekeywords={UINT8, UINT16, UINT32, INT8, INT16, INT32, Post, Properties, Protocol, AsciiString, String, StringTerm, BLOB, FormatString, this},
+}
+
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny, disable]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{subfiles} 
+
+%END ipluskal modifikace
 
 \endinput
 %%
