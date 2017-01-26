@@ -1,0 +1,13 @@
+\documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
+\begin{document}
+
+\chapter{Escrow}\label{escrow}
+Before Tang, automated decryption was handled usually with key escrow.
+Client using key escrow usually generates a key, encrypt data with it and then stores the key in a remote server.
+Key escrow server (also known as a “fair” cryptosystem) stores decryption keys. This should signal potential security risks when storing and also transmitting keys over network.
+For security purposes key escrow uses SSL/TLS to provide privacy and data integrity between server and client.
+Even with SSL/TLS key escrow requires authentication.
+\todo{Treba to doplnit...}
+To sum up an authorized third party may gain access to those keys under certain circumstances only.
+
+\end{document}

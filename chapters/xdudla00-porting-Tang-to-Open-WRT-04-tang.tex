@@ -1,11 +1,7 @@
 \documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
 \begin{document}
 
-
-
 \chapter{Tang}\label{tang}
-
-
 Tang server is open source project implemented in C programming language, and it bind data to network presence.
 It rely on few other software libraries:
 
@@ -29,14 +25,6 @@ After this client encrypt data using created key. Once the data is encrypted, th
 Some small metadata has to be produced as part of this operation. The client should store these metadata in a convenient location.
 Finally when client want to access encrypted data it must be able to recover encryption key.
 This step starts with loading stored metadata and ends with simply performing a HTTP POST to Tang server.
-
-Before Tang, automated decryption was handled usually with key escrow.
-Client using key escrow usually generates a key, encrypt data with it and then stores the key in a remote server.
-Key escrow server (also known as a “fair” cryptosystem) stores decryption keys. This should signal potential security risks when storing and also transmitting keys over network.
-For security purposes key escrow uses SSL/TLS to provide privacy and data integrity between server and client.
-Even with SSL/TLS key escrow requires authentication.
-\todo{Treba to doplnit...}
-To sum up an authorized third party may gain access to those keys under certain circumstances only.
 
 \begin{table}[h]
 \centering
@@ -74,7 +62,7 @@ Optionally to run tests:
 {\tt \$ make check}
 
 \section{http-parser}\label{parser}
-Tang uses this is parser for both parsing HTTP requests and HTTP responses. 
+Tang uses this is parser for both parsing HTTP requests and HTTP responses.
 You can find this parser on its own GitHub \cite{http-parser}.
 
 \section{systemd / xinetd}\label{systemd}
@@ -88,18 +76,18 @@ José \cite{Jos} is a C-language implementation of the Javascript Object Signing
    \item RFC 7517 - JSON Web Key (JWK)              \cite{JWK}
    \item RFC 7518 - JSON Web Algorithms (JWA)       \cite{JWA}
    \item RFC 7519 - JSON Web Token (JWT)            \cite{JWT}
-   \item RFC 7520 - Examples of ... JOSE            
+   \item RFC 7520 - Examples of ... JOSE
    \item RFC 7638 - JSON Web Key (JWK) Thumbprint   \cite{JWK}
 \end{itemize}
 
-JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties. 
+JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties.
 
 Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
 
 \subsection{jansson}\label{jansson}
 Jansson \cite{jansson}(licenced under MIT licence)is a C library for encoding, decoding and manipulating JSON data. It features:
 \begin{itemize}
-   
+
     \item Simple and intuitive API and data model
     \item Comprehensive documentation
     \item No dependencies on other libraries

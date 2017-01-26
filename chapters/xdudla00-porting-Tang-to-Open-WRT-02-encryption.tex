@@ -13,7 +13,7 @@ Lets look how the encryption is typically done. As you can see in the image belo
 At the most these secrets are stored on our hard drives. Usually we encrypt this secret by using an encryption key.
 But our secret data might grow in size, and it is time and resource consuming to decrypt and encrypt secret every time encryption key changes or it is compromised.
 Because of that we wrap encrypted data in the key encryption key and this is what system prompts from us on boot.
-So changing key encryption key does not affect encrypted data and we can change it whenever we desire to.
+So changing key encryption key does not affect encrypted data. We can change it whenever we desire to and redistribute new key to all users who are suposed to access this data.
 
 % does not work on fedora with pdflatex
 % \begin{figure}[h]
@@ -23,6 +23,8 @@ So changing key encryption key does not affect encrypted data and we can change 
 %     \label{fig:encdata}
 % \end{figure}
 
-\todo{dopisat}
+To automatize this we could generate something cryptographicaly stronger than user provided password.
+Then we store this cryptographicaly stronger random key on some remote system which is can then get from it.
+This is basically how the Escrow \ref{escrow} model works.
 
 \end{document}
