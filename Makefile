@@ -43,11 +43,11 @@ rename:
 	sed -i "s/$(CO)-20-literatura-bibliography/$(NAME)-20-literatura-bibliography/g" $(NAME).tex
 	sed -i "s/$(CO)-30-prilohy-appendices/$(NAME)-30-prilohy-appendices/g" $(NAME).tex
 	sed -i "s/$(CO)/$(NAME)/g" Makefile
-	
+
 # Pozor, vlna neresi vse (viz popis.txt) / Warning - vlna is not solving all problems (see description.txt)
 vlna:
 	vlna -l $(CO)-*.tex
 
 # Spocita normostrany / Count of standard pages
 normostrany:
-	echo "scale=2; `detex -n $(CO)-[01]*.tex | wc -c`/1800;" | bc
+	echo "scale=2; `detex -n chapters/$(CO)-0*.tex | wc -c`/1800;" | bc
