@@ -15,17 +15,17 @@ We can not just start sending these keys to server if we do not know that this s
 This server has to have its own identity to trust and we have to authenticate to this server too.
 Increasing amount of keys implicates need for certification authority server (CA) or Key distribution center (KDC) to manage all of them.
 With all these keys and at this point only, server can verify if person is permitted to get his or her key, and client is able to identify trusted server.
-This is a fully  process.
+This is a fully statefull process.
 To sum up an authorized third party may gain access to keys stored on Escrow server under certain circumstances only.
 
 \begin{figure}[h]
     \centering
-    \includegraphics{../figures/placeholder.pdf}
+    %\includegraphics{../figures/placeholder.pdf}
     \caption{Escrow model}
     \label{fig:escrowmodel}
 \end{figure}
 
-With this complex system would be unimaginable to not have backups.
+Complexity of this system increases the attack surface and for this complex system would be unimaginable to not have backups.
 Escrow server may store lots of keys from lots of different places and basically we can not afford to loose them.
 
 \end{document}
