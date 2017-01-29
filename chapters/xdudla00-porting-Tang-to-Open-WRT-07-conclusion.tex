@@ -4,7 +4,7 @@
 
 \chapter{Conclusion}\label{conlusion}
 
-The Tang \ref{tang} server is very lightweight program.
+The Tang \ref{tang} server is a very lightweight program.
 It provides secure and anonymous data binding using McCallum-Relyea exchange \ref{fig:mrexchange} algorythm.
 
 Clevis \ref{clevis} is a client software with full support for Tang.
@@ -12,10 +12,10 @@ It has minimal dependencies and it is possible to use with HTTP, Escrow \ref{esc
 Clevis has GNOME \cite{gnome} integration so it is not only a command line tool.
 Clevis also supports early boot integration with dracut\ref{dracut} or even removable devices unocking using UDisks2 \ref{udisk2}.
 
-To port Tang to OpenWrt system \ref{owrt} will be necesarry to port all its dependencies first.
+To port Tang to OpenWrt system \ref{owrt} it will be necesarry to port all its dependencies first.
 The OpenWrt system has already package openssl \ref{openssl}, zlib \ref{zlib}, and jansson \ref{jansson} but only version 2.7 which is too old.
-So there will be need for porting jansson. José will require porting and http-parser \ref{http-parser} too.
+So there will be a need for porting jansson. José will require porting and http-parser \ref{http-parser} too.
 The systemd \ref{systemd} would be huge effort but tang's requirements are minimal and we should be able to
-work with xinetd \cite{xinetd}. Finally some work will be required to port Tang itself.
+work with xinetd \cite{xinetd}. Finally, some work will be required to port Tang itself.
 
 \end{document}

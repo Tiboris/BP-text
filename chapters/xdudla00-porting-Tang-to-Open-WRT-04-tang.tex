@@ -2,19 +2,19 @@
 \begin{document}
 
 \chapter{Tang}\label{tang}
-Tang server is open source project implemented in C \cite{c} programming language, and it bind data to network presence.
-What binding data to network presence really means?
-Essentially it allows us to make some data to be available only when the system containing the data is on a certain, usually secure, network.
+Tang server is an open source project implemented in C \cite{c} programming language, and it binds data to network presence.
+What does binding data to network presence really mean?
+Essentially, it allows us to make some data to be available only when the system containing the data is on a particular, usually secure, network.
 
-Tang server advertises asymmetric keys\cite{askey} and client is able to get list off these signing keys \ref{jose} by HTTP \cite{http} GET request.
-Now follows the provisioning step. With list of these public keys may process of encrypting data start.
-Client chooses one of asymmetric keys to generate a unique encryption key with.
-After this client encrypt data using created key. Once the data is encrypted, the key is discarded.
-Some small metadata has to be produced as part of this operation. The client should store these metadata to work with them when decrypting.
-Finally when client want to access encrypted data it must be able to recover encryption key.
-This step starts with loading stored metadata and ends with simply performing a HTTP\cite{http} POST to Tang server.
-Server perform its mathematical operation and send result back to client.
-Finally client has to calculate the key value rather then server calculates it.
+Tang server advertises asymmetric keys\cite{askey} and a client is able to get the list of these signing keys \ref{jose} by HTTP \cite{http} GET request.
+The next step is the provisioning step. With the list of these public keys the process of encrypting data may start.
+A client chooses one of the asymmetric keys to generate a unique encryption key.
+After this, the client encrypts data using the created key. Once the data is encrypted, the key is discarded.
+Some small metadata has to be produced as a part of this operation. The client should store this metadata to work with it when decrypting.
+Finally, when the client wants to access the encrypted data, it must be able to recover encryption key.
+This step starts with loading the stored metadata and ends with simply performing a HTTP\cite{http} POST to Tang server.
+Server performs its mathematical operation and sends the result back to the client.
+Finally, the client has to calculate the key value, which is better than when server calculates it.
 So the Tang server never knew the value of the key and literraly nothing about its clients.
 
 \begin{figure}[h]
@@ -26,22 +26,22 @@ So the Tang server never knew the value of the key and literraly nothing about i
 
 On Figure \ref{fig:tangmodel} you can see the Tang model.
 It is very similar to Escrow model \ref{fig:escrowmodel} but there are some thing missing.
-In fact there is no longer need for TLS channel to secure comunication between client and server,
- and that is because Tang implements the McCallum-Relyea exchange \ref{fig:mrexchange} as described below.
+In fact, there is no longer a need for TLS channel to secure comunication between the client and the server,
+ and that is the reason why Tang implements the McCallum-Relyea exchange \ref{fig:mrexchange} as described below.
 
 \section{Binding with Tang}
 
-Client performs an ECDH \cite{ecdh} key exchange in order to generate the binding key.
-Then client discards its own private key so that the Tang server is the only party that can reconstitute the binding key.
+A client performs an ECDH \cite{ecdh} key exchange in order to generate the binding key.
+Then the client discards its own private key so that the Tang server is the only party that can reconstitute the binding key.
 To blind the client's public key and the binding key Tang uses a third, ephemeral key \cite{epkey}.
 Ephemeral key is generated for each execution of a key establishment process.
 Now only the client can unblind his public key and binding key.
 
 \begin{figure}[h]
     \centering
-    %\includegraphics{../figures/placeholder.pdf}
-    \caption{McCallum-Relyea exchange}
-    \label{fig:mrexchange}
+    %\includegraphics[scale=0.7]{../figures/TangModel.pdf}
+    \caption{Tang model}
+    \label{fig:tangmodel}
 \end{figure}
 
 \section{Provisioning}
@@ -130,7 +130,7 @@ In this case \cite{mitm}, the eavesdropper in this case sees the client send xJW
 Since, these packets are blinded by eJWK, only the party that can unblind these values is the client itself (since only it has eJWK's private key).
 Thus, the MitM attack fails.
 \subsection{Compromise the client to gain access to cJWK}
-It is of utmost importance that the client protect cJWK from prying eyes.
+It is of utmost importance that the client protects cJWK from prying eyes.
 This may include device permissions, filesystem permissions, security frameworks (such as SELinux \cite{selinux}- Security-Enhanced Linux) or even the use of hardware encryption such as a TPM.
 How precisely this is accomplished is an exercise left to the client implementation.
 \subsection{Compromise the server to gain access to sJWK's private key}
@@ -140,7 +140,7 @@ An alternative implementation might use hardware cryptography (for example, an H
 \section{Building Tang}
 
 Tang is originally packaged for Fedora OS\cite{fedora} version 23 and later but we can build it from source of course.
-It rely on few other software libraries:
+It relies on few other software libraries:
 
 \begin{itemize}
 \item http-parser \ref{http-parser}
@@ -153,7 +153,7 @@ It rely on few other software libraries:
     \end{itemize}
 \end{itemize}
 
-To build it from source download source from poject's GitHub \cite{github} or clone~it.
+To build it from source, download source from poject's GitHub \cite{github} or clone~it.
 Make sure you have all needed dependencies installed and then run:
 
 {\tt \$ autoreconf -if}
@@ -169,7 +169,7 @@ Optionally to run tests:
 {\tt \$ make check}
 
 \subsection{http-parser}\label{http-parser}
-Tang uses this is parser for both parsing HTTP requests and HTTP responses.
+Tang uses this parser for both parsing HTTP requests and HTTP responses.
 You can find this parser on its own GitHub \cite{http-parser}.
 
 \subsection{systemd / xinetd}\label{systemd}
@@ -197,7 +197,7 @@ JOSE (Javascript Object Signing and Encryption) is a framework intended to provi
 Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
 
 \subsection{jansson}\label{jansson}
-Jansson \cite{jansson}(licenced under MIT \cite{mit} licence)is a C library for encoding, decoding and manipulating JSON data. It features:
+Jansson \cite{jansson}(licenced under MIT \cite{mit} licence) is a C library for encoding, decoding and manipulating JSON data. It features:
 \begin{itemize}
 
     \item Simple and intuitive API and data model
