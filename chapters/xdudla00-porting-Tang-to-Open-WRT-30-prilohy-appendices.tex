@@ -16,7 +16,7 @@
 \chapter{Jak pracovat s touto šablonou}
 \label{jak}
 
-V této kapitole je uveden popis jednotlivých částí šablony, po kterém následuje stručný návod, jak s touto šablonou pracovat. 
+V této kapitole je uveden popis jednotlivých částí šablony, po kterém následuje stručný návod, jak s touto šablonou pracovat.
 
 Jedná se o přechodnou verzi šablony. Nová verze bude zveřejněna do konce roku 2016 a bude navíc obsahovat nové pokyny ke správnému využití šablony, závazné pokyny k~vypracování bakalářských a diplomových prací (rekapitulace pokynů, které jsou dostupné na~webu) a nezávazná doporučení od vybraných vedoucích. Jediné soubory, které se v nové verzi změní, budou projekt-01-kapitoly-chapters.tex a projekt-30-prilohy-appendices.tex, jejichž obsah každý student vymaže a nahradí vlastním. Šablonu lze tedy bez problémů využít i~v~současné verzi.
 
@@ -24,7 +24,7 @@ Jedná se o přechodnou verzi šablony. Nová verze bude zveřejněna do konce r
 
 Po rozbalení šablony naleznete následující soubory a adresáře:
 \begin{DESCRIPTION}
-  \item [bib-styles] Styly literatury (viz níže). 
+  \item [bib-styles] Styly literatury (viz níže).
   \item [obrazky-figures] Adresář pro Vaše obrázky. Nyní obsahuje placeholder.pdf (tzv. TODO obrázek, který lze použít jako pomůcku při tvorbě technické zprávy), který se s prací neodevzdává. Název adresáře je vhodné zkrátit, aby byl jen ve zvoleném jazyce.
   \item [template-fig] Obrázky šablony (znak VUT).
   \item [fitthesis.cls] Šablona (definice vzhledu).
@@ -60,7 +60,7 @@ Nezapomeňte, že vlna neřeší všechny nezlomitelné mezery. Vždy je třeba 
 make rename NAME=xlogin00-Cisteni-a-extrakce-textu
 \end{verbatim}
   \item Vyplňte požadované položky v souboru, který byl původně pojmenován projekt.tex, tedy typ, rok (odevzdání), název práce, svoje jméno, ústav (dle zadání), tituly a~jméno vedoucího, abstrakt, klíčová slova a další formální náležitosti.
-  \item Nahraďte obsah souborů s kapitolami práce, literaturou a přílohami obsahem svojí technické zprávy. Jednotlivé přílohy či kapitoly práce může být výhodné uložit do~samostatných souborů -- rozhodnete-li se pro toto řešení, je doporučeno zachovat konvenci pro názvy souborů, přičemž za číslem bude následovat název kapitoly. 
+  \item Nahraďte obsah souborů s kapitolami práce, literaturou a přílohami obsahem svojí technické zprávy. Jednotlivé přílohy či kapitoly práce může být výhodné uložit do~samostatných souborů -- rozhodnete-li se pro toto řešení, je doporučeno zachovat konvenci pro názvy souborů, přičemž za číslem bude následovat název kapitoly.
   \item Nepotřebujete-li přílohy, zakomentujte příslušnou část v projekt.tex a příslušný soubor vyprázdněte či smažte. Nesnažte se prosím vymyslet nějakou neúčelnou přílohu jen proto, aby daný soubor bylo čím naplnit. Vhodnou přílohou může být obsah přiloženého paměťového média.
   \item Nascanované zadání uložte do souboru zadani.pdf a povolte jeho vložení do práce parametrem šablony v projekt.tex (\verb|documentclass[zadani]{fitthesis}|).
   \item Nechcete-li odkazy tisknout barevně (tedy červený obsah -- bez konzultace s vedoucím nedoporučuji), budete pro tisk vytvářet druhé PDF s tím, že nastavíte parametr šablony pro tisk: (\verb|documentclass[zadani,print]{fitthesis}|).  Barevné logo se nesmí tisknout černobíle!
@@ -98,7 +98,7 @@ Studenti při sazbě textu často řeší stejné problémy. Některé z nich lz
 \begin{itemize}
   \item \verb|amsmath| -- rozšířené možnosti sazby rovnic,
   \item \verb|float, afterpage, placeins| -- úprava umístění obrázků,
-  \item \verb|fancyvrb, alltt| -- úpravy vlastností prostředí Verbatim, 
+  \item \verb|fancyvrb, alltt| -- úpravy vlastností prostředí Verbatim,
   \item \verb|makecell| -- rozšíření možností tabulek,
   \item \verb|pdflscape, rotating| -- natočení stránky o 90 stupňů (pro obrázek či tabulku),
   \item \verb|hyphenat| -- úpravy dělení slov,
@@ -108,4 +108,3 @@ Studenti při sazbě textu často řeší stejné problémy. Některé z nich lz
 Některé balíčky jsou využity přímo v šabloně (v dolní části souboru fitthesis.cls). Nahlédnutí do jejich dokumentace může být rovněž užitečné.
 
 Sloupec tabulky zarovnaný vlevo s pevnou šířkou je v šabloně definovaný \uv{L} (používá se jako \uv{p}).
-

@@ -3,14 +3,14 @@
 \chapter{Clevis}\label{clevis}
 
 Clevis provides a pluggable key management framework for automated decryption \cite{clevis}.
-It can handle even automated unlocking of LUKS volumes.
+It can handle even automated unlocking of LUKS \cite{luks} volumes.
 To do so we have to encrypt some data with simple command:
 
 {\tt\begin{verbatim} $ clevis encrypt PIN CONFIG < PLAINTEXT > CIPHERTEXT.jwe\end{verbatim}
 }
-In clevis terminology, a {\it PIN} is a plugin which implements automated decryption.
+In clevis terminology, a {\it pin} is a plugin which implements automated decryption.
 We simply pass the name of supported pin here.
-Secondly {\it CONFIG} is a JSON object which will be passed directly to the {\it PIN}.
+Secondly {\it config} is a JSON object which will be passed directly to the {\it pin}.
 It contains all the necessary configuration to perform encryption and setup automated decryption.
 
 \section{PIN: Tang}
@@ -24,7 +24,7 @@ Clevis has full support for Tang. Here is an example of how to use Clevis with T
 In this example, we encrypt the message "hi" using the Tang pin.
 The only parameter needed in this case is the URL of the Tang server.
 During the encryption process, the Tang pin requests the key advertisement from the server and asks you to trust the keys.
-This works similarly to SSH.
+This works similarly to SSH \cite{ssh}.
 
 Alternatively, you can manually load the advertisment using the adv parameter.
 This parameter takes either a string referencing the file where the advertisement is stored, or the JSON contents of the advertisment itself.
@@ -36,7 +36,7 @@ This provides integration with services like Custodia.
 
 \section{PIN: SSS - Shamir Secret Sharing}
 Clevis provides a way to mix pins together to provide sophisticated unlocking policies.
-This is accomplished by using an algorithm called Shamir Secret Sharing (SSS).
+This is accomplished by using an algorithm called Shamir Secret Sharing (SSS) \cite{sss}.
 
 \section{Binding LUKS volumes}
 Clevis can be used to bind a LUKS volume using a pin so that it can be automatically unlocked.
@@ -54,7 +54,7 @@ Here is an example where we bind {\tt /dev/vda2} using the Tang ping:
 Upon successful completion of this binding process, the disk can be unlocked using one of the provided unlockers.
 
 \subsection{Dracut}\label{dracut}
-The Dracut unlocker attempts to automatically unlock volumes during early boot. This permits automated root volume encryption. Enabling the Dracut unlocker is easy. Just rebuild your initramfs after installing Clevis:
+The Dracut unlocker \cite{dracut} attempts to automatically unlock volumes during early boot. This permits automated root volume encryption. Enabling the Dracut unlocker is easy. Just rebuild your initramfs after installing Clevis:
 
 {\tt \begin{verbatim} $ sudo dracut -f\end{verbatim}
 }
@@ -62,7 +62,7 @@ The Dracut unlocker attempts to automatically unlock volumes during early boot. 
 Upon reboot, you will be prompted to unlock the volume using a password. In the background, Clevis will attempt to unlock the volume automatically. If it succeeds, the password prompt will be cancelled and boot will continue.
 
 \subsection{UDisks2}\label{udisk2}
-Our UDisks2 unlocker runs in your desktop session.
+Our UDisks2 unlocker \cite{udisk2} runs in your desktop session.
 You should not need to manually enable it; just install the Clevis UDisks2 unlocker and restart your desktop session.
 The unlocker should be started automatically.
 

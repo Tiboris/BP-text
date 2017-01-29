@@ -14,17 +14,17 @@ Kazde nastaveni sablny se hodi pro neco jineho. Minamlne pouzijete tyto:
 Experimentujte a vyzkousejte i zbyle moznosti napr s ustavnim logem, seznamem obrazku, tabulek, atd\dots
 
 \begin{verbatim}
-\documentclass[]{fitthesis} % bez zadání - pro začátek práce, aby nebyl 
+\documentclass[]{fitthesis} % bez zadání - pro začátek práce, aby nebyl
     problém s překladem
-%\documentclass[english]{fitthesis} % without assignment - for the work 
+%\documentclass[english]{fitthesis} % without assignment - for the work
     start to avoid compilation problem
 %\documentclass[zadani]{fitthesis} % odevzdani do wisu - odkazy jsou barevné
-%\documentclass[english,zadani]{fitthesis} % for submission to the 
+%\documentclass[english,zadani]{fitthesis} % for submission to the
     IS FIT - links are color
 %\documentclass[zadani,print]{fitthesis} % pro tisk - odkazy jsou černé
-%\documentclass[english,zadani,print]{fitthesis} % for the print - links 
+%\documentclass[english,zadani,print]{fitthesis} % for the print - links
 are black
-%\documentclass[listFigures,listTables,listAppendices]{fitthesis} 
+%\documentclass[listFigures,listTables,listAppendices]{fitthesis}
 % s listem obrazku, tabulek a priloh
 %\documentclass[uifs]{fitthesis} % ustavni logo
 \end{verbatim}
@@ -38,7 +38,7 @@ Ukazka kodu pro Microsoft Network monitor v jazyce NPL \autoref{nplExample}.
 //[RegisterAfter(PayloadHeader.LLC, YMSG, YMSG)]
 Protocol YMSG = FormatString("Type = %s (%d), status = %s (%d)",
                      YMSGTypes(Type),Type, YMSGHEADStatus(Status),Status)
-{ 
+{
   AsciiString(4) YMSGconst;
   UINT16 Version;
   UINT16 VendorID;
@@ -52,27 +52,27 @@ Protocol YMSG = FormatString("Type = %s (%d), status = %s (%d)",
   [YMSGPayload = Blob(FrameData, FrameOffset, Length),
   DataFieldFrameLength = frameOffset + Length,
   PayloadStart (
-  NetworkDirection, //direction 
-  0, // id 
-  0, // sequence token 
-  0, // next sequence token 
-  Length, // total payload length 
-  !Property.TCPContinuation, // is first  
-  (TCP.Flags.Push || TCP.Flags.Fin || TCP.Flags.Urgent),//is last 
+  NetworkDirection, //direction
+  0, // id
+  0, // sequence token
+  0, // next sequence token
+  Length, // total payload length
+  !Property.TCPContinuation, // is first
+  (TCP.Flags.Push || TCP.Flags.Fin || TCP.Flags.Urgent),//is last
   RssmblyIndStartBit + RssmblyIndEndBit // Properties...   )]*/
 
-  [HeaderOffset = FrameOffset] 				
+  [HeaderOffset = FrameOffset]
   TVs tvs;
   status = "%s (%d)", YMSGTypes(Type),Type,YMSGHEADStatus(Status),Status)]
   switch{
-    case (FrameLength - FrameOffset - 1 > 0) && (HeaderOffset <= FrameOffset):      
-      [MultiYMSG = "YES"] 
+    case (FrameLength - FrameOffset - 1 > 0) && (HeaderOffset <= FrameOffset):
+      [MultiYMSG = "YES"]
       StringTerm(0, "YMSG", 1, 0, 0 ) blank0 = FormatString("Optional stuffing between multiple YMSG messages", ymsg);
       YMSG ymsg;
     case (FrameLength - FrameOffset > 0) && (HeaderOffset <= FrameOffset):
       BLOB(FrameLength - FrameOffset) blank1 = FormatString("Optional terminator of YMSG message", this);
-  }	
-}	
+  }
+}
 \end{lstlisting}
 
 \newpage
@@ -87,7 +87,7 @@ Ukazka XML vstupu \dots, \autoref{xmlLogIM}.
         <dst version="IPv4" port="5190">205.188.10.251</dst>
         <conversationPart type="statusChange" timeStamp="2013-08-08T02:06:19.518767"
         frameNumber="86" flowDirection="up" statusType="online" />
-        <conversationPart type="contactList" timeStamp="2013-08-08T02:06:39.318927" 
+        <conversationPart type="contactList" timeStamp="2013-08-08T02:06:39.318927"
         frameNumber="113" flowDirection="down">
           <group id="0" name="">
             <contact id="3" firstName="277264821"
@@ -103,20 +103,20 @@ Ukazka XML vstupu \dots, \autoref{xmlLogIM}.
               nick="Contact4" />
           </group>
         </conversationPart>
-        <conversationPart type="message" 
+        <conversationPart type="message"
         timeStamp="2013-08-08T02:11:18.357794" frameNumber="791" flowDirection="up">
           <![CDATA[<HTML><BODY dir="ltr"><FONT size="2">test</FONT></BODY></HTML>]]>
           <receiver>310451170</receiver>
         </conversationPart>
-        <conversationPart type="contactListChange" 
+        <conversationPart type="contactListChange"
         timeStamp="2013-08-08T02:32:11.914733" frameNumber="1528" flowDirection="up"
         contactListChangeAction="add">
           <contact id="31432670" />
         </conversationPart>
-        <conversationPart type="authorizationReply" 
+        <conversationPart type="authorizationReply"
         timeStamp="2013-08-08T02:32:55.885157"
-          frameNumber="1543" flowDirection="down" sender="310451170" 
-          authorizationStatus="permit" />   
+          frameNumber="1543" flowDirection="down" sender="310451170"
+          authorizationStatus="permit" />
     </protocol>
   </user>
 </log>
