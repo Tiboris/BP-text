@@ -53,7 +53,7 @@ Here is an example where we bind {\tt /dev/vda2} using the Tang ping:
 }
 Upon successful completion of this binding process, the disk can be unlocked using one of the provided unlockers.
 
-\subsection{Dracut}
+\subsection{Dracut}\label{dracut}
 The Dracut unlocker attempts to automatically unlock volumes during early boot. This permits automated root volume encryption. Enabling the Dracut unlocker is easy. Just rebuild your initramfs after installing Clevis:
 
 {\tt \begin{verbatim} $ sudo dracut -f\end{verbatim}
@@ -61,7 +61,7 @@ The Dracut unlocker attempts to automatically unlock volumes during early boot. 
 
 Upon reboot, you will be prompted to unlock the volume using a password. In the background, Clevis will attempt to unlock the volume automatically. If it succeeds, the password prompt will be cancelled and boot will continue.
 
-\subsection{UDisks2}
+\subsection{UDisks2}\label{udisk2}
 Our UDisks2 unlocker runs in your desktop session.
 You should not need to manually enable it; just install the Clevis UDisks2 unlocker and restart your desktop session.
 The unlocker should be started automatically.
