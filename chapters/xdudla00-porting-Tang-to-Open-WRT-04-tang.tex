@@ -1,4 +1,7 @@
 \documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
+
+
+
 \begin{document}
 
 \chapter{Tang}\label{tang}
@@ -19,7 +22,7 @@ So the Tang server never knew the value of the key and literraly nothing about i
 
 \begin{figure}[h]
     \centering
-    %\includegraphics{../figures/placeholder.pdf}
+    %\includegraphics[scale=0.7]{../figures/TangModel.pdf}
     \caption{Tang model}
     \label{fig:tangmodel}
 \end{figure}
@@ -27,22 +30,34 @@ So the Tang server never knew the value of the key and literraly nothing about i
 On Figure \ref{fig:tangmodel} you can see the Tang model.
 It is very similar to Escrow model \ref{fig:escrowmodel} but there are some thing missing.
 In fact, there is no longer a need for TLS channel to secure comunication between the client and the server,
- and that is the reason why Tang implements the McCallum-Relyea exchange \ref{fig:mrexchange} as described below.
+ and that is the reason why Tang implements the McCallum-Relyea exchange \ref{mrexchange} as described below.
 
 \section{Binding with Tang}
 
-A client performs an ECDH \cite{ecdh} key exchange in order to generate the binding key.
+A client performs an ECDH \cite{ecdh} key exchange using the McCallum-Relyea algorithm \ref{mrexchange} in order to generate the binding key.
 Then the client discards its own private key so that the Tang server is the only party that can reconstitute the binding key.
 To blind the client's public key and the binding key Tang uses a third, ephemeral key \cite{epkey}.
 Ephemeral key is generated for each execution of a key establishment process.
 Now only the client can unblind his public key and binding key.
 
-\begin{figure}[h]
-    \centering
-    %\includegraphics[scale=0.7]{../figures/TangModel.pdf}
-    \caption{Tang model}
-    \label{fig:tangmodel}
-\end{figure}
+\begin{table}[h]
+\centering
+\label{mrexchange}
+\begin{tabular}{c|c|c|c}
+\hline
+\multicolumn{2}{c|}{Provisionong} & \multicolumn{2}{c|}{Recovery} \\ \hline  used
+client's side & server's side & client's side & server's side \\ \hline
+ & $ S \epsilon _{R} [1, p-1]$ & $E \epsilon _{R} [1, p-1]$ &  \\
+ & $s = gS$ &$ x = c + gE$ &  \\
+ & $<-$ s &  x $->$ &  \\
+$C \epsilon _{R} [1, p-1]$ &  &  & $y = zS $\\
+$e = gC $&  &  & $<-$ y \\
+$K = gSC = sC$ &  & $K = y - sE $&  \\
+Discard: K, C &  &  &  \\
+Retain s, c &  &  &  \\ \hline
+\end{tabular}
+\caption{McCallum-Relyea exchange}
+\end{table}
 
 \section{Provisioning}
 The client selects one of the Tang server's exchange keys (we will call it sJWK; identified by the use of deriveKey in the sJWK's key\_ops attribute).
@@ -54,12 +69,10 @@ Afterwards, it discards dJWK and the private key from cJWK.
 The client then stores cJWK for later use in the recovery step.
 Generally speaking, the client may also store other data, such as the URL \cite{url} of the Tang server or the trusted advertisement signing keys.
 
-Mathematically (capital is private key; g stands for generate) server's operation:
 \begin{equation}
     s = g * S
 \end{equation}
 
-Mathematically (capital is private key; g stands for generate) client's operation:
 \begin{equation}
     c = g * C
 \end{equation}
@@ -86,12 +99,10 @@ Mathematically (capital is private key; g stands for generate) client's operatio
     x = c + e
 \end{equation}
 
-Expressed mathematically (capital is private key) server's operation:
 \begin{equation}
     y = x * S
 \end{equation}
 
-Expressed mathematically (capital is private key) client's operation:
 \begin{equation}
     z = s * E
 \end{equation}
@@ -239,6 +250,6 @@ Second, generate a signing key and an exchange key.
         -o /var/db/tang/exc.jwk\end{verbatim}
 }
 
-Now we are up and running using sig.jwk as \todo{asdf}
+Now we are up and running. Server is ready to send advertisment on demand.
 
 \end{document}
