@@ -1,28 +1,29 @@
 \documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
 \begin{document}
 
-\chapter{Escrow}\label{escrow}
-Before Tang, automated decryption was usually handled by Key Escrow \cite{escrow} (also known as a “fair” cryptosystem).
+\chapter{Key escrow server}\label{escrow}
+Before Tang, automated decryption was usually handled by Key Escrow server (also known as a “fair” cryptosystem).
 A client using Key Escrow usually generates a key, encrypts data with it and then stores the key encryption key on a remote server.
-However, it is not as simple as it sounds.
+However, it is not as simple as it sounds.\todo{couple of concerns}
+
+\section{Escrow security}
 
 To deliver these keys we want to store on Escrow server, we have to encrypt the channel on which we distribute the key.
-When transmitting keys over not secure network without encrypted link, anyone listening to the network traffic could immadiately fetch the key.
-This should signal security risks, and, of course, we do not want any third party to acces our secret data.
-Usually we encrypt a channel with TLS \cite{tls}(Transport Layer Security) or GSSAPI \cite{gssapi}
- (Generic Security Services Application Program Interface) as you can see on a Figure \ref{fig:escrowmodel} below.
+When transmitting keys over non secure network without encrypted link, anyone listening to the network traffic could immadiately fetch the key.
+This should signal security risks, and, of course, we do not want any third party to access our secret data.
+Usually we encrypt a channel with TLS(Transport Layer Security) or GSSAPI (Generic Security Services Application Program Interface) as shown on a Figure \ref{fig:escrowmodel} below.
 Unfortunatelly, this is not enough to call the communication secure.
 
-We cannot just start sending these keys to a server, if we do not know whether this server is the one it acts to be.
-This server has to have its own identity to trust, and we have to authenticate to this server too.
-Increasing amount of keys implicates a need for Certification Authority server (CA)\cite{ca} or Key Distribution Center (KDC) \cite{kdc} to manage all of them.
-With all these keys, and at this point only, server can verify if the person is permitted to get their key, and the client is able to identify trusted server.
+We cannot just start sending these keys to the escrow server, if we do not know whether this server is the one it acts to be.
+This server has to have its own identity to be verified, and the client have to authenticate to this server too.
+Increasing amount of keys implicates a need for Certification Authority server (CA) or Key Distribution Center (KDC) to manage all of them.
+With all these keys, and at this point only, server can verify if the client is permitted to get their key, and the client is able to identify trusted server.
 This is a fully stateful process.
 To sum up, an authorized third party may gain access to keys stored on Escrow server under certain circumstances only.
 
 \begin{figure}[h]
     \centering
-    %\includegraphics[scale=0.7]{../figures/EscrowModel.pdf}
+    \includegraphics[scale=0.7]{figures/EscrowModel.pdf}
     \caption{Escrow model}
     \label{fig:escrowmodel}
 \end{figure}

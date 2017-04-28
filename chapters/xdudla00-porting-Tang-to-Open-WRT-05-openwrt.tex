@@ -1,0 +1,34 @@
+\documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
+\begin{document}
+
+\chapter{OpenWrt system}\label{owrt}
+OpenWrt is a Linux distribution for embedded devices especially for wireless routers.
+It was originally developed in January 2004 for the Linksys WRT54G with buildroot from the uClibc project.
+Now it supports many more models of routers. 
+Installing OpenWrt system means replacing your router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management. 
+This means that we are not bound to applications provided by the vendor.
+Router (the embedded device) with this distribution can be used for anything that an embedded Linux system can be used for, from using its SSH Server for SSH Tunneling, to running lightweight server software (e.g. IRC server) on it. 
+In fact it allows us to customize the device through the use of packages to suit any application.
+
+Today (May 2017) the stable 15.05.1 release of OpenWrt (code-named "Chaos Calmer") released in March 2016 using Linux kernel version 3.18.23 runs on many routers.
+
+\section{OPKG Package manager}
+
+The opkg utility (Open Package Management System) is a lightweight package manager used to download and install OpenWrt packages.
+The opkg is fork of an ipkg (Itsy Package Management System).
+These packages could be stored somewhere on device's filesystem or the package manager will download them from local package repositories or ones located on the Internet mirrors. 
+Users already familiar with GNU/Linux package managers like apt/apt-get, pacman, yum, dnf, emerge etc. will definitely recognize the similarities.
+It also has similarities with NSLU2's Optware, also made for embedded devices.
+Fact that OPKG is also a full package manager for the root file system, instead of just a way to add software to a seperate directory (e.g. /opt) includes the possibility to add kernel modules and drivers.
+OPKG is sometimes called Entware, but this is mainly to refer to the Entware repository for embedded devices.
+
+Opkg attempts to resolve dependencies with packages in the repositories - if this fails, it will report an error, and abort the installation of that package.
+
+Missing dependencies with third-party packages are probably available from the source of the package.
+
+\subsection{OPKG Makefile}
+
+
+
+
+\end{document}

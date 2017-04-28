@@ -1,0 +1,22 @@
+\documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
+\begin{document}
+
+
+\chapter{Conclusion}\label{conlusion}
+
+The Tang \ref{tang} server is a very lightweight program.
+It provides secure and anonymous data binding using McCallum-Relyea exchange \ref{mrexchange} algorythm.
+
+Clevis \ref{clevis} is a client software with full support for Tang.
+It has minimal dependencies and it is possible to use with HTTP, Escrow \ref{escrow}, and it implements Shamir Secret Sharing.
+Clevis has GNOME integration so it is not only a command line tool.
+Clevis also supports early boot integration with dracut or even removable devices unocking using UDisks2.
+
+To port Tang to OpenWrt system it will be necesarry to port all its dependencies first.
+The OpenWrt system has already package openssl, zlib, and jansson but only version 2.7 which is too old.
+So there will be a need for porting jansson. José will require porting and http-parser too.
+The systemd would be huge effort but tang's requirements are minimal and we should be able to
+work with xinetd. Finally, some work will be required to port Tang itself.
+\todo{LEDE}
+
+\end{document}
