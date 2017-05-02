@@ -70,9 +70,54 @@ This might be the reason why most of us do not use encryption, even when we know
 Tang \ref{tang} server is solution for this, since we want to automatize things.
 
 \subsection{LUKS}
-\todo{LUKS HEADER IMAGE}
 
+LUKS (Linux Unified Key Setup) is a platform-independent disk encryption specification. 
+It was created by Clemens Fruhwirth in 2004 and originally intended for Linux distributions.
 
-\subsection{Bit Locker}
+Referential implementation of LUKS, which was originally meant for Linux, is using a dm-crypt subsystem for bulk data encryption.
+This subsystem is not particularly bound to LUKS.
+Alongside Linux implementation exists LibreCrypt, the Windows implementation based on original FreeOTFE project by Sarah Dean \cite{LUKS}.
+
+A LUKS partition can have as many user passwords as there are available key slots, and to access the partition, the user has to provide only one of these passwords.
+
+Hard drive with a LUKS partition has notable structure, see Figure \ref{fig:luksvol}.
+The entire partition start with the LUKS partition header containing the key material. 
+After header is section with bulk data, which are encrypted with the master key.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.7]{figures/LUKSdrive.pdf}
+    \caption{LUKS volume structure}
+    \label{fig:luksvol}
+\end{figure}
+
+Header, also marked as {\it phdr}, contains information about the used cipher, cipher mode, the key length, a uuid and a master key checksum.
+Also, the {\it phdr} contains information about the key slots. 
+Every key slot is associated with a key material section after the {\it phdr}.  
+When a key slot is active, the key slot stores an encrypted copy of the master key in its key material section.
+This encrypted copy is locked by a user password.
+Structure of key slot is on Figure \ref{fig:luksslot}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/LUKSkeyslot.pdf}
+    \caption{LUKS Key Slot}
+    \label{fig:luksslot}
+\end{figure}
+
+\subsection{Encrypting with LUKS}
+
+Creating a LUKS volume might be quite tough process. 
+Hard drive partition must contain the LUKS header just before the encrypted data.
+Lets sum up the easier way first.
+
+In case we have not installed our Linux operation system yet, we could simply select an option in time of installation.
+Then the installation wizard will most likely asks for pass phrase - the key encryption key.
+To demonstrate this, screen shots with Fedora 25 system installation can be found on appendix \ref{luksinstall}.
+
+Unless we have already system installed with lots of data on partition, process will probably last longer and the procedure will be more complex. 
+There is no way you can encrypt whole system disk with LUKS without unmounting partition to encrypt.
+For this purpose was developed {\it luksipc}, the LUKS In-Place Conversion Tool \cite{luksipc}.
+Steps to encrypt disk using {\it luksipc} are on appendix \ref{luksipc}.
 
 \end{document}
