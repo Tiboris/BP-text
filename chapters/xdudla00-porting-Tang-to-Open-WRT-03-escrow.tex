@@ -4,11 +4,11 @@
 \chapter{Key escrow server}\label{escrow}
 Before Tang, automated decryption was usually handled by Key Escrow server (also known as a “fair” cryptosystem).
 A client using Key Escrow usually generates a key, encrypts data with it and then stores the key encryption key on a remote server.
-However, it is not as simple as it sounds.\todo{couple of concerns}
+However, it is not as simple as it sounds and there are couple of security concerns.
 
 \section{Escrow security}
 
-To deliver these keys we want to store on Escrow server, we have to encrypt the channel on which we distribute the key.
+To deliver these keys we want to store on Escrow server, we have to encrypt the channel on which we distribute them.
 When transmitting keys over non secure network without encrypted link, anyone listening to the network traffic could immadiately fetch the key.
 This should signal security risks, and, of course, we do not want any third party to access our secret data.
 Usually we encrypt a channel with TLS(Transport Layer Security) or GSSAPI (Generic Security Services Application Program Interface) as shown on a Figure \ref{fig:escrowmodel} below.
@@ -30,5 +30,5 @@ To sum up, an authorized third party may gain access to keys stored on Escrow se
 
 Complexity of this system increases the attack surface and for this complex system it would be unimaginable not to have backups.
 Escrow server may store lots of keys from lots of different places and basically we can not afford to lose them.
-
+\todo{refactor chapter; add more info}
 \end{document}
