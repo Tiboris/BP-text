@@ -1,31 +1,26 @@
 % ----------------------------------------------------------------------------
 % FIT thesis
 % ----------------------------------------------------------------------------
-% (C) 2007 Zdenek Vasicek, 2008 Michal Bidlo
-% ----------------------------------------------------------------------------
-% Šablonu upravil / edited by: Ing. Jaroslav Dytrych, dytrych@fit.vutbr.cz
+% Autoři / Authors: 2007 Zdeněk Vašíček, 2008 Michal Bidlo, 2016 Jaroslav Dytrych
 % ----------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{fitthesis}[2007/04/13 Sablona pro BP/DP]
+\ProvidesClass{fitthesis}[2017/11/07 Sablona pro BP/DP]
 
 %Vychozi hodnoty parametru / Default values for parameters
 \newif\ifczech \let\ifczech\iftrue
 \newif\ifslovak \let\ifslovak\iffalse
+\newif\ifenslovak \let\ifenslovak\iffalse
 \newif\ifczechslovak \let\ifczechslovak\iftrue
 \newif\ifcover \let\ifcover\iffalse
 \newif\ifCOPEN \let\ifCOPEN\iffalse
 \newif\ifCBOPEN \let\ifCBOPEN\iffalse
+\newif\ifODSAZ \let\ifODSAZ\iffalse
 
 \newif\ifPrint \let\ifPrint\iffalse
+\newif\ifBarLogo \let\ifBarLogo\iffalse
 \newif\ifWis   \let\ifWis\iftrue
 \newif\ifzadani   \let\ifzadani\iffalse
 \newif\iftwoside   \let\iftwoside\iffalse
-
-\newif\ifListFigures   \let\ifListFigures\iffalse
-\newif\ifListTables   \let\ifListTables\iffalse
-\newif\ifListAppendices   \let\ifListAppendices\iffalse
-
-\newif\ifUifs \let\ifUifs\iffalse
 
 
 %-----------------------------------------------------------------------------
@@ -34,17 +29,15 @@
 %-----------------------------------------------------------------------------
 \DeclareOption{english}{\let\ifczech\iffalse\let\ifczechslovak\iffalse}
 \DeclareOption{slovak}{\let\ifslovak\iftrue\let\ifczech\iffalse}
+\DeclareOption{enslovak}{\let\ifenslovak\iftrue}
 \DeclareOption{cover}{\let\ifcover\iftrue}
 \DeclareOption{print}{\let\ifWis\iffalse \let\ifPrint\iftrue}
+\DeclareOption{cprint}{\let\ifWis\iffalse \let\ifPrint\iftrue \let\ifBarLogo\iftrue}
 \DeclareOption{zadani}{\let\ifzadani\iftrue}
 \DeclareOption{twoside}{\let\iftwoside\iftrue}
 %\DeclareOption{COPEN}{\let\ifCOPEN\iftrue}
 %\DeclareOption{CBOPEN}{\let\ifCBOPEN\iftrue}
-\DeclareOption{listFigures}{\let\ifListFigures\iftrue}
-\DeclareOption{listTables}{\let\ifListTables\iftrue}
-\DeclareOption{listAppendices}{\let\ifListAppendices\iftrue}
-
-\DeclareOption{uifs}{\let\ifUifs\iftrue}
+\DeclareOption{odsaz}{\let\ifODSAZ\iftrue}
 
 \DeclareOption*{}
 \ProcessOptions\relax
@@ -103,6 +96,20 @@
   \toggletrue{slovak_used}
 \fi
 
+\newtoggle{enslovak_used}
+\togglefalse{enslovak_used}
+
+\ifenslovak
+  \toggletrue{enslovak_used}
+\fi
+
+\newtoggle{czech_used}
+\togglefalse{czech_used}
+
+\ifczech
+  \toggletrue{czech_used}
+\fi
+
 \newtoggle{czechslovak}
 \togglefalse{czechslovak}
 \ifczech
@@ -111,6 +118,20 @@
 \ifslovak
   \toggletrue{czechslovak}
 \fi
+
+\newtoggle{zadaniTwop}
+\togglefalse{zadaniTwop}
+\iftwoside
+  \toggletrue{zadaniTwop}
+\fi
+\iftoggle{zadaniTwop}{
+  \ifzadani
+    \toggletrue{zadaniTwop}
+  \else
+    \togglefalse{zadaniTwop}
+  \fi
+}{}
+
 
 %-----------------------------------------------------------------------------
 % Sazebni obrazec / Page layout
@@ -126,25 +147,30 @@
   \setlength{\textwidth}{15.2cm}
 \fi
 
+
+\ifODSAZ
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0.5\bigskipamount}
+\else
+  \setlength\parindent{17\p@}
+  \setlength{\parskip}{0pt}
+\fi
+
+
 %-----------------------------------------------------------------------------
 % Texty / Texts
 %-----------------------------------------------------------------------------
 \def\@vut@CS{Vysoké učení technické v~Brně}
 \def\@vut@SK{Vysoké učení technické v~Brně}
 \def\@vut@EN{Brno University of Technology}
-\def\@fit@CS{Fakulta informačních technologií}
-\def\@fit@SK{Fakulta informačních technologií}
-\def\@fit@EN{Faculty of Information Technology}
 \def\@author@CS{Autor práce}
 \def\@author@SK{Autor práce}
 \def\@author@EN{Author}
-\def\@dep@CS{Ústav}
-\def\@dep@SK{Ústav}
-\def\@dep@EN{Department of}
 \def\@abstract@CS{Abstrakt}
 \def\@abstract@SK{Abstrakt}
 \def\@abstract@EN{Abstract}
-\def\@extendedabstract{Rozšířený abstrakt}
+\def\@extendedabstract@CS{Rozšířený abstrakt}
+\def\@extendedabstract@SK{Rozšírený abstrakt}
 \def\@keywords@CS{Klíčová slova}
 \def\@keywords@SK{Kľúčové slová}
 \def\@keywords@EN{Keywords}
@@ -204,32 +230,78 @@
  \fi
 }
 
-%Vyber ustavu / department selection
-\newcommand{\set@department}[1]{%
+%Vyber fakulty / faculty selection
+\newcommand{\set@faculty}[3]{%
  \naselfalse
- \ifEqString{#1}{UIFS}{informačních systémů}{\@department@CS}%
- \ifEqString{#1}{UIFS}{informačních systémů}{\@department@SK}%
- \ifEqString{#1}{UIFS}{Information Systems}{\@department@EN}%
- \ifEqString{#1}{UPSY}{počítačových systémů}{\@department@CS}%
- \ifEqString{#1}{UPSY}{počítačových systémů}{\@department@SK}%
- \ifEqString{#1}{UPSY}{Computer Systems}{\@department@EN}%
- \ifEqString{#1}{UITS}{inteligentních systémů}{\@department@CS}%
- \ifEqString{#1}{UITS}{inteligentních systémů}{\@department@SK}%
- \ifEqString{#1}{UITS}{Intelligent Systems}{\@department@EN}%
- \ifEqString{#1}{UPGM}{počítačové grafiky a multimédií}{\@department@CS}%
- \ifEqString{#1}{UPGM}{počítačové grafiky a multimédií}{\@department@SK}%
- \ifEqString{#1}{UPGM}{Computer Graphics and~Multimedia}{\@department@EN}%
+ \ifEqString{#1}{FIT}{Fakulta informačních technologií}{\@fit@CS}%
+ \ifEqString{#1}{FIT}{Fakulta informačních technologií}{\@fit@SK}%
+ \ifEqString{#1}{FIT}{Faculty of Information Technology}{\@fit@EN}%
+ \ifEqString{#1}{FEKT}{Fakulta elektrotechniky 
+a komunikačních technologií}{\@fit@CS}%
+ \ifEqString{#1}{FEKT}{Fakulta elektrotechniky 
+a komunikačních technologií}{\@fit@SK}%
+ \ifEqString{#1}{FEKT}{Faculty of Electrical Engineering 
+and Communication}{\@fit@EN}%
+ \ifEqString{#1}{FSI}{Fakulta strojního inženýrství}{\@fit@CS}%
+ \ifEqString{#1}{FSI}{Fakulta strojního inženýrství}{\@fit@SK}%
+ \ifEqString{#1}{FSI}{Faculty of Mechanical 
+Engineering}{\@fit@EN}%
+ \ifEqString{#1}{FA}{Fakulta architektury}{\@fit@CS}%
+ \ifEqString{#1}{FA}{Fakulta architektury}{\@fit@SK}%
+ \ifEqString{#1}{FA}{Faculty of Architecture}{\@fit@EN}%
+ \ifEqString{#1}{FCH}{Fakulta chemická}{\@fit@CS}%
+ \ifEqString{#1}{FCH}{Fakulta chemická}{\@fit@SK}%
+ \ifEqString{#1}{FCH}{Faculty of Chemistry}{\@fit@EN}%
+ \ifEqString{#1}{FP}{Fakulta podnikatelská}{\@fit@CS}%
+ \ifEqString{#1}{FP}{Fakulta podnikatelská}{\@fit@SK}%
+ \ifEqString{#1}{FP}{Faculty of Business and 
+Management}{\@fit@EN}%
+ \ifEqString{#1}{FAST}{Fakulta stavební}{\@fit@CS}%
+ \ifEqString{#1}{FAST}{Fakulta stavební}{\@fit@SK}%
+ \ifEqString{#1}{FAST}{Faculty of Civil Engineering}{\@fit@EN}%
+ \ifEqString{#1}{FAVU}{Fakulta výtvarných umění}{\@fit@CS}%
+ \ifEqString{#1}{FAVU}{Fakulta výtvarných umění}{\@fit@SK}%
+ \ifEqString{#1}{FAVU}{Faculty of Fine Arts}{\@fit@EN}%
+ \ifEqString{#1}{USI}{Ústav soudního inženýrství}{\@fit@CS}%
+ \ifEqString{#1}{USI}{Ústav soudního inženýrství}{\@fit@SK}%
+ \ifEqString{#1}{USI}{Institute of Forensic Engineering}{\@fit@EN}%
+ \ifEqString{#1}{DEF}{#2}{\@fit@CS}%
+ \ifEqString{#1}{DEF}{#2}{\@fit@SK}%
+ \ifEqString{#1}{DEF}{#3}{\@fit@EN}%
  \ifnasel
  \else
-   \typeout{Spatny ustav! Moznosti: UPSY, UIFS, UITS, UPGM}\set@department{UIFS}
+   \typeout{Spatna fakulta! Moznosti: FIT, FEKT, FSI, FA, FCH, FP, FAST, FAVU, USI}\set@faculty{FIT}
  \fi
 }
 
+%Vyber ustavu / department selection
+\newcommand{\set@department}[3]{%
+ \naselfalse
+ \ifEqString{#1}{UIFS}{Ústav informačních systémů}{\@department@CS}%
+ \ifEqString{#1}{UIFS}{Ústav informačních systémů}{\@department@SK}%
+ \ifEqString{#1}{UIFS}{Department of Information Systems}{\@department@EN}%
+ \ifEqString{#1}{UPSY}{Ústav počítačových systémů}{\@department@CS}%
+ \ifEqString{#1}{UPSY}{Ústav počítačových systémů}{\@department@SK}%
+ \ifEqString{#1}{UPSY}{Department of Computer Systems}{\@department@EN}%
+ \ifEqString{#1}{UITS}{Ústav inteligentních systémů}{\@department@CS}%
+ \ifEqString{#1}{UITS}{Ústav inteligentních systémů}{\@department@SK}%
+ \ifEqString{#1}{UITS}{Department of Intelligent Systems}{\@department@EN}%
+ \ifEqString{#1}{UPGM}{Ústav počítačové grafiky a multimédií}{\@department@CS}%
+ \ifEqString{#1}{UPGM}{Ústav počítačové grafiky a multimédií}{\@department@SK}%
+ \ifEqString{#1}{UPGM}{Department of Computer Graphics and~Multimedia}{\@department@EN}%
+ \ifEqString{#1}{DEF}{#2}{\@department@CS}%
+ \ifEqString{#1}{DEF}{#2}{\@department@SK}%
+ \ifEqString{#1}{DEF}{#3}{\@department@EN}%
+ \ifnasel
+ \else
+   \typeout{Spatny ustav! Moznosti: UPSY, UIFS, UITS, UPGM, DEF}\set@department{UIFS}
+ \fi
+}
 
 %Nazev ustavu (CS, SK, EN) / name of the department
-\def\@departmentname@CS{\@dep@CS\ \@department@CS}
-\def\@departmentname@SK{\@dep@SK\ \@department@SK}
-\def\@departmentname@EN{\@dep@EN\ \@department@EN}
+\def\@departmentname@CS{\@department@CS}
+\def\@departmentname@SK{\@department@SK}
+\def\@departmentname@EN{\@department@EN}
 
 %Nazev prace (v jazyce prace) / thesis title (in the language of the thesis)
 \iftoggle{slovak_used}{
@@ -253,16 +325,20 @@
 %Parametry 
 \define@key{projinfo}{title.cs}{\global\def\@title@CS{#1}}
 \define@key{projinfo}{title.en}{\global\def\@title@EN{#1}}
-\define@key{projinfo}{department}{\set@department{#1}}
+\define@key{projinfo}{faculty.cs}{\def\@faculty@CS{#1}}
+\define@key{projinfo}{faculty.en}{\def\@faculty@EN{#1}}
+\define@key{projinfo}{faculty}{\set@faculty{#1}{\@faculty@CS}{\@faculty@EN}}
+\define@key{projinfo}{department.cs}{\def\@departmentn@CS{#1}}
+\define@key{projinfo}{department.en}{\def\@departmentn@EN{#1}}
+\define@key{projinfo}{department}{\set@department{#1}{\@departmentn@CS}{\@departmentn@EN}}
 \define@key{projinfo}{project}{\set@project{#1}}
 \define@key{projinfo}{year}{\def\@year{#1}}
 \define@key{projinfo}{date}{\def\@date{#1}}
-\define@key{projinfo}{author}{\def\@author{#1}}
+%\define@key{projinfo}{author}{\def\@author{#1}}
 \define@key{projinfo}{author.name}{\def\@author@n{#1}}
 \define@key{projinfo}{author.surname}{\def\@author@s{#1}}
 \define@key{projinfo}{author.title.a}{\def\@author@ta{#1}}
 \define@key{projinfo}{author.title.p}{\def\@author@tp{#1}}
-\define@key{projinfo}{supervisor}{\def\@supervisor{#1}}
 \define@key{projinfo}{supervisor.name}{\def\@supervisor@n{#1}}
 \define@key{projinfo}{supervisor.surname}{\def\@supervisor@s{#1}}
 \define@key{projinfo}{supervisor.title.a}{\def\@supervisor@ta{#1}}
@@ -271,21 +347,26 @@
 \define@key{projinfo}{keywords.en}{\def\@tkeywords@EN{#1}}
 \define@key{projinfo}{abstract.cs}{\def\@tabstract@CS{#1}}
 \define@key{projinfo}{abstract.en}{\def\@tabstract@EN{#1}}
-%\define@key{projinfo}{extendedabstract}{\def\@textendedabstract{#1}}
+\define@key{projinfo}{extendedabstract}{\def\@textendedabstract{#1}}
 \define@key{projinfo}{declaration}{\def\@declaration{#1}}
 \define@key{projinfo}{acknowledgment}{\def\@acknowledgment{#1}}
+\define@key{projinfo}{title.length}{\def\@titlelen{#1}}
 
 %Vychozi hodnoty / Default values
 \setkeys{projinfo}{
   title.cs={Název práce (česky)},title.en={Název práce(anglicky)}, 
-  date=\today, project=BP, department=UIFS, declaration=, 
+  date=\today, project=BP, department=DEF, declaration=, 
   abstract.cs=, abstract.en=, keywords.cs=, keywords.en=,
-  author=Jmeno Prijmeni, supervisor=Jmeno Prijmeni,
-  author.name=, author.surname=, supervisor.name=, 
-  supervisor.surname=
+  author.name=Jméno, author.surname=Příjmení, supervisor.name=Jméno, 
+  supervisor.surname=Příjmení, extendedabstract=, 
+  department.cs=,department.en=,title.length=,faculty.cs=,
+  faculty.en=,faculty=FIT
 }%
 
 \def\projectinfo{\setkeys{projinfo}}
+
+\def\@author{\@author@n\ \@author@s}
+\def\@supervisor{\@supervisor@n\ \@supervisor@s}
 
 %Prohlaseni / Declaration
 \newcommand{\declaration}[1]{\def\@declaration{#1}}
@@ -308,9 +389,14 @@
 }
 
 %Rozsireny abstrakt / Extended abstract
-%\newcommand{\extendedabstract}[1]{%
-% \def\@textendedabstract{#1}%
-%}
+\newcommand{\extendedabstract}[1]{%
+ \def\@textendedabstract{#1}%
+}
+
+%Délka titulku / Title length
+\newcommand{\titlelength}[1]{%
+ \def\@titlelen{#1}%
+}
 
 \newlength{\mkspc}
 \setlength{\mkspc}{2pt}
@@ -325,6 +411,8 @@
 %všechna velká / uppercase
 \newcommand{\mkuctxt}[2]{\vbox{\setfontsize{#1}\noindent\MakeUppercase{#2}}\vspace\mkspc}
 \newcommand{\mkuctxtt}[2]{\vbox{\setfontsize{#1}\fosfamily\bfseries\noindent\MakeUppercase{#2}}\vspace\mkspc}
+% Pro název práce na 2 řádky / For the 2-line thesis title
+\newcommand{\mkuctxttl}[3]{\vbox to 1.0cm{\noindent\parbox{#2}{\setfontsize{#1}\fosfamily\bfseries\noindent\MakeUppercase{#3}}}\vspace\mkspc}
 \newcommand{\mkuctxtc}[2]{\vbox{\setfontsize{#1}\ifCOPEN\fosfamily\fi\ifCBOPEN\fosfamily\bfseries\fi\noindent\MakeUppercase{#2}}\vspace\mkspc}
 %bold
 \newcommand{\mktxt@b}[2]{\vbox{\setfontsize{#1}\noindent\bf#2}\vspace\mkspc}
@@ -336,6 +424,9 @@
 %-----------------------------------------------------------------------------
 \newcommand\makecover{
 \thispagestyle{empty}\null%
+
+\setlength\parindent{17\p@}
+\setlength{\parskip}{0pt}
 
 \fontfamily{qhv}\selectfont%
 %  
@@ -384,6 +475,14 @@
 
 \noindent\mktxtc{16}{\hspace{-52.0pt}Brno, \@year \hfill \getlc@author \hspace{5.0pt}~}
 
+\ifODSAZ
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0.5\bigskipamount}
+\else
+  \setlength\parindent{17\p@}
+  \setlength{\parskip}{0pt}
+\fi
+
 \end{center}
 
 %===================================================
@@ -411,15 +510,19 @@
 
 \vfill
 
-\ifczech
+\iftoggle{czech_used}{
 \mktxt@b{16}{\@abstract@EN}\noindent\@tabstract@EN
-\else
+}{
   \ifslovak
-      \mktxt@b{16}{\@abstract@EN}\noindent\@tabstract@EN
+    \mktxt@b{16}{\@abstract@EN}\noindent\@tabstract@EN
+  \else
+    \ifenslovak
+      \mktxt@b{16}{\@abstract@SK}\noindent\@tabstract@CS
     \else
       \mktxt@b{16}{\@abstract@CS}\noindent\@tabstract@CS
     \fi
-\fi
+  \fi
+}
 
 \vfill
 
@@ -435,32 +538,42 @@
 
 \vfill
 
-\ifczech
+\iftoggle{czech_used}{
 \mktxt@b{16}{\@keywords@EN}\noindent\@tkeywords@EN
-\else
+}{
   \ifslovak
     \mktxt@b{16}{\@keywords@EN}\noindent\@tkeywords@EN
   \else
-    \mktxt@b{16}{\@keywords@CS}\noindent\@tkeywords@CS
+    \ifenslovak
+      \mktxt@b{16}{\@keywords@SK}\noindent\@tkeywords@CS
+    \else
+      \mktxt@b{16}{\@keywords@CS}\noindent\@tkeywords@CS
+    \fi
   \fi
-\fi
+}
 
 \vfill
 
 \mktxt@b{16}{\ifslovak\@cite@SK\else\ifczech\@cite@CS\else\@cite@EN\fi\fi}
 \iftoggle{slovak_used}{
-  \noindent\MakeUppercase{\@author@s}, \@author@n. \it\@title\rm. Brno, \@year. \@projecttype@SK. \@vut@SK, \@fit@SK. {\@supervisor@SK} {\@supervisor@s} {\@supervisor@n}. 
+  \noindent\MakeUppercase{\@author@s}, \@author@n. \it\@title\rm. Brno, \@year. \@projecttype@SK. \@vut@SK, \@fit@SK. {\@supervisor@SK} {\@supervisor@tp} {\@supervisor@n} {\@supervisor@s}{\ifx\undefined\@supervisor@ta\else,~\@supervisor@ta\fi}
 }{
-  \noindent\MakeUppercase{\@author@s}, \@author@n. \it\@title\rm. Brno, \@year. \ifczech\@projecttype@CS\else\@projecttype@EN\fi. \ifczech\@vut@CS\else\@vut@EN\fi, \ifczech\@fit@CS\else\@fit@EN\fi. {\ifczech\@supervisor@CS\else\@supervisor@EN\fi} {\@supervisor@s} {\@supervisor@n}. 
+  \noindent\MakeUppercase{\@author@s}, \@author@n. \it\@title\rm. Brno, \@year. \ifczech\@projecttype@CS\else\@projecttype@EN\fi. \ifczech\@vut@CS\else\@vut@EN\fi, \ifczech\@fit@CS\else\@fit@EN\fi. {\ifczech\@supervisor@CS\else\@supervisor@EN\fi} {\@supervisor@tp} {\@supervisor@n} {\@supervisor@s}{\ifx\undefined\@supervisor@ta\else,~\@supervisor@ta\fi}
 }
 %===================================================
 \newpage
 
-%Rozsireny abstrakt / Extended abstract
-%\thispagestyle{empty}%
-%\mktxt@b{16}{\@extendedabstract}\noindent\@textendedabstract
-%\newpage
+}
 
+%Rozsireny abstrakt / Extended abstract
+\newcommand\makeextendedabstract{%
+  \thispagestyle{empty}%
+  \ifenslovak
+    \mktxt@b{16}{\@extendedabstract@SK}\noindent\@textendedabstract
+  \else
+    \mktxt@b{16}{\@extendedabstract@CS}\noindent\@textendedabstract
+  \fi
+  \newpage
 }
 
 %-----------------------------------------------------------------------------
@@ -513,41 +626,24 @@
 \iftwoside
   \pagestyle{empty}\null%
 \fi
+
+\setlength\parindent{17\p@}
+\setlength{\parskip}{0pt}
+
 %=====================================================
 \fontfamily{qhv}\selectfont%
 %\newsavebox{\@obrlogo}\newsavebox{\@rtext}\newlength{\@vyskartext}\newlength{\@vyskaobr}%
 \newsavebox{\@obrlogo}\newsavebox{\@rtext}\newlength{\@vyskartext}\newlength{\@sirkartext}\newlength{\@vyskaobr}\newlength{\@sirkaobr}%
 
 
-
-\ifUifs
-  \ifPrint
-   \ifczechslovak
-     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_CB_CMYK_CZ}}
-   \else
-     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_bw_CMYK_EN}}
-   \fi
+\ifPrint
+  \ifBarLogo
+    \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=4.1cm,keepaspectratio,trim={1.2cm 1.2cm 1.2cm 1.2cm},clip]{template-fig/VUT_symbol_barevne_CMYK_CZ}}%symbol VUT
   \else
-    \ifczechslovak
-      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_color_PANTONE_CZ}}
-    \else
-      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 0cm 1.3cm},clip]{template-fig/UIFS_color_PANTONE_EN}}
-    \fi
+    \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=4.1cm,keepaspectratio,trim={1.2cm 1.2cm 1.2cm 1.2cm},clip]{template-fig/VUT_symbol_cernobile_CZ}}%symbol VUT
   \fi
 \else
-  \ifPrint
-   \ifczechslovak
-     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_cernobile_CZ}}
-   \else
-     \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_black_white_EN}}
-   \fi
-  \else
-    \ifczechslovak
-      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_barevne_PANTONE_CZ}}
-    \else
-      \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=13.5cm,keepaspectratio,trim={1.5cm 1.4cm 1.4cm 1.5cm},clip]{template-fig/FIT_color_PANTONE_EN}}
-    \fi
-  \fi
+  \savebox{\@obrlogo}{\hspace*{-0.6cm}\includegraphics[width=4.1cm,keepaspectratio,trim={1.2cm 1.2cm 1.2cm 1.2cm},clip]{template-fig/VUT_symbol_barevne_CMYK_CZ}}%symbol VUT
 \fi
 
 \savebox{\@rtext}{\vbox{\mkuctxt{18}{\ifslovak\@vut@SK\else\ifczech\@vut@CS\else\@vut@EN\fi\fi}\mkuctxt{11}{\ifczech\@vut@EN\else\ifslovak\@vut@EN\else\@vut@CS\fi\fi}}}%text VUT
@@ -570,8 +666,13 @@
   \mkuctxtt{18}{\@vut@SK}
   \mkuctxtt{11}{\@vut@EN}
 }{
-  \mkuctxtt{18}{\ifczech\@vut@CS\else\@vut@EN\fi}
-  \mkuctxtt{11}{\ifczech\@vut@EN\else\@vut@CS\fi}
+  \iftoggle{enslovak_used}{
+    \mkuctxtt{18}{\@vut@EN}
+    \mkuctxtt{11}{\@vut@SK}
+  }{
+    \mkuctxtt{18}{\ifczech\@vut@CS\else\@vut@EN\fi}
+    \mkuctxtt{11}{\ifczech\@vut@EN\else\@vut@CS\fi}
+  }
 }
 
 \vspace{5mm}
@@ -580,8 +681,13 @@
   \mkuctxtt{14}{\@fit@SK}
   \mkuctxtt{11}{\@fit@EN}
 }{
-  \mkuctxtt{14}{\ifczech\@fit@CS\else\@fit@EN\fi}
-  \mkuctxtt{11}{\ifczech\@fit@EN\else\@fit@CS\fi}
+  \iftoggle{enslovak_used}{
+    \mkuctxtt{14}{\@fit@EN}
+    \mkuctxtt{11}{\@fit@SK}
+  }{
+    \mkuctxtt{14}{\ifczech\@fit@CS\else\@fit@EN\fi}
+    \mkuctxtt{11}{\ifczech\@fit@EN\else\@fit@CS\fi}
+  }
 }
 
 \vspace{5mm}
@@ -590,32 +696,62 @@
   \mkuctxtt{14}{\@departmentname@SK}
   \mkuctxtt{11}{\@departmentname@EN}
 }{
-  \mkuctxtt{14}{\ifczech\@departmentname@CS\else\@departmentname@EN\fi}
-  \mkuctxtt{11}{\ifczech\@departmentname@EN\else\@departmentname@CS\fi}
+  \iftoggle{enslovak_used}{
+    \mkuctxtt{14}{\@departmentname@EN}
+    \mkuctxtt{11}{\@departmentname@SK}
+  }{
+    \mkuctxtt{14}{\ifczech\@departmentname@CS\else\@departmentname@EN\fi}
+    \mkuctxtt{11}{\ifczech\@departmentname@EN\else\@departmentname@CS\fi}
+  }
 }
 
 \vspace{5mm}
 
 \vfill
 
-\mkuctxtt{18}{\ifslovak\@title@CS\else\ifczech\@title@CS\else\@title@EN\fi\fi}
-\mkuctxtt{10}{\ifslovak\@title@EN\else\ifczech\@title@EN\else\@title@CS\fi\fi}
+% Pro název práce na 2 řádky / For the 2-line thesis title
+\newtoggle{long_title}
+\togglefalse{long_title}
 
+\ifx\@titlelen\@empty
+\else
+  \toggletrue{long_title}
+\fi
+
+% Název práce / Thesis title
+\iftoggle{long_title}{
+  \mkuctxttl{18}{\@titlelen}{\ifslovak\@title@CS\else\ifczech\@title@CS\else\@title@EN\fi\fi}
+  \mkuctxtt{10}{\ifslovak\@title@EN\else\ifczech\@title@EN\else\@title@CS\fi\fi}
+}{
+  \mkuctxtt{18}{\ifslovak\@title@CS\else\ifczech\@title@CS\else\@title@EN\fi\fi}
+  \mkuctxtt{10}{\ifslovak\@title@EN\else\ifczech\@title@EN\else\@title@CS\fi\fi}
+}
 \vfill
 
 \mkuctxtt{14}{\ifslovak\@projecttype@SK\else\ifczech\@projecttype@CS\else\@projecttype@EN\fi\fi}
-\mkuctxtt{10}{\ifslovak\@projecttype@EN\else\ifczech\@projecttype@EN\else\@projecttype@CS\fi\fi}
+\iftoggle{slovak_used}{
+\mkuctxtt{10}{\@projecttype@EN}
+}{
+\mkuctxtt{10}{\ifenslovak\@projecttype@SK\else\ifczech\@projecttype@EN\else\@projecttype@CS\fi\fi}
+}
 
 \vspace{5mm}
 
 \mktxtt{14}{\MakeUppercase{\ifslovak\@author@SK\else\ifczech\@author@CS\else\@author@EN\fi\fi} \hfill \get@author}
-\mkuctxtt{10}{\ifslovak\@author@EN\else\ifczech\@author@EN\else\@author@CS\fi\fi}
-
+\iftoggle{slovak_used}{
+\mkuctxtt{10}{\@author@EN}
+}{
+\mkuctxtt{10}{\ifenslovak\@author@SK\else\ifczech\@author@EN\else\@author@CS\fi\fi}
+}
 
 \vspace{5mm}
 
 \mktxtt{14}{\MakeUppercase{\ifslovak\@supervisor@SK\else\ifczech\@supervisor@CS\else\@supervisor@EN\fi\fi} \hfill \get@supervisor}
-\mkuctxtt{10}{\ifslovak\@supervisor@EN\else\ifczech\@supervisor@EN\else\@supervisor@CS\fi\fi}
+\iftoggle{slovak_used}{
+\mkuctxtt{10}{\@supervisor@EN}
+}{
+\mkuctxtt{10}{\ifenslovak\@supervisor@SK\else\ifczech\@supervisor@EN\else\@supervisor@CS\fi\fi}
+}
 
 \vspace{10mm}
 
@@ -626,8 +762,25 @@
 \fi
 
 %zadani / assignment
-\ifzadani\includepdf[pages=-,offset=0.6cm -1.7cm]{zadani.pdf}\fi
-%\ifzadani\includepdf[pages=-,offset=0.6cm -1.7cm]{assignment.pdf}\fi
+\iftoggle{zadaniTwop}{
+  \cleardoublepage
+  \includepdf[pages=-,offset=0.6cm -1.7cm]{zadani.pdf}
+  %\ifzadani\includepdf[pages=-,offset=0.6cm -1.7cm]{assignment.pdf}\fi
+}{
+  \ifzadani
+    \includepdf[pages=-,offset=0.6cm -1.7cm]{zadani.pdf}
+    %\ifzadani\includepdf[pages=-,offset=0.6cm -1.7cm]{assignment.pdf}\fi
+  \fi
+}
+
+
+\ifODSAZ
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0.5\bigskipamount}
+\else
+  \setlength\parindent{17\p@}
+  \setlength{\parskip}{0pt}
+\fi
 
 \iftwoside
   \cleardoublepage
@@ -638,7 +791,12 @@
 \fontfamily{\familydefault}\selectfont%
 
 %=================================================================================
-\makeabstract\makedeclaration
+\makeabstract
+\ifx\@textendedabstract\@empty
+\else
+  \makeextendedabstract
+\fi
+\makedeclaration
 \clearpage
 \setcounter{tocdepth}{2}\setcounter{page}{1}
 }
@@ -801,6 +959,7 @@
 \usepackage{multirow}
 \usepackage{tabularx}
 \usepackage{ragged2e}
+\usepackage{graphicx}
 \usepackage{url}
 \DeclareUrlCommand\url{\def\UrlLeft{<}\def\UrlRight{>} \urlstyle{tt}}
 \def\UrlBreaks{\do\/\do-}
@@ -819,26 +978,20 @@
 % http://tex.stackexchange.com/questions/111999/slovak-and-czech-babel-gives-problems-with-cmidrule-and-cline
 %--------------------------------------------------------
 \usepackage{regexpatch}
-\ifczechslovak
+%\ifczechslovak
   \makeatletter
   % Change the `-` delimiter to an active character
   \xpatchparametertext\@@@cmidrule{-}{\cA-}{}{}
   \xpatchparametertext\@cline{-}{\cA-}{}{}
   \makeatother
+%\fi
+
+\ifczechslovak
+  \renewcommand{\lstlistingname}{Výpis} %Výpis místo Listing
 \fi
 
-% Příkazy pro TODO
-% commands for TODO
-%\newcommand{\todo}[1]{\textcolor{red}{\textbf{[[#1]]}}}
-\newcommand{\phony}[1]{\textcolor{gray}{#1}}
-\newcommand{\blind}[1]{\textcolor{gray}{\Blindtext[#1]}}
 
-
-% Sloupec zarovnaný vlevo s pevnou šířkou
-% Left aligned column with a fixed width
-\newcolumntype{L}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
-
-% BEGIN ipluskal modifikace
+% BEGIN Jan Pluskal (ipluskal) listings
 
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
@@ -880,7 +1033,7 @@
   stringstyle=\color{black},
   identifierstyle=\color{darkblue},
   keywordstyle=\color{cyan},
-  morekeywords={xmlns,version,type}% list your attributes here
+  morekeywords={xmlns,version,type} % list your attributes here
 }
 
 \lstdefinestyle{npl}{language=c,
@@ -918,11 +1071,23 @@
   morekeywords={UINT8, UINT16, UINT32, INT8, INT16, INT32, Post, Properties, Protocol, AsciiString, String, StringTerm, BLOB, FormatString, this},
 }
 
-%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny, disable]{todonotes}
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-\usepackage{subfiles} 
+%END Jan Pluskal (ipluskal) listings
 
-%END ipluskal modifikace
+
+% Příkazy pro TODO (3 alternativy - lze zvolit preferovanou)
+% commands for TODO (3 alternatives - preferred one can be selected)
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[[#1]]}}}
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny, disable]{todonotes}
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\newcommand{\phony}[1]{\textcolor{gray}{#1}}
+\newcommand{\blind}[1]{\textcolor{gray}{\Blindtext[#1]}}
+
+
+% Sloupec zarovnaný vlevo s pevnou šířkou
+% Left aligned column with a fixed width
+\newcolumntype{L}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
+
 
 \endinput
 %%

@@ -1,11 +1,11 @@
 %==============================================================================
 % tento soubor pouzijte jako zaklad
 % this file should be used as a base for the thesis
-% (c) 2008 Michal Bidlo
-% E-mail: bidlom AT fit vutbr cz
-% Šablonu upravil / template edited by: Ing. Jaroslav Dytrych, dytrych@fit.vutbr.cz
+% Autoři / Authors: 2008 Michal Bidlo, 2016 Jaroslav Dytrych
+% Kontakt pro dotazy a připomínky: dytrych@fit.vutbr.cz
+% Contact for questions and comments: dytrych@fit.vutbr.cz
 %==============================================================================
-% kodovaní: UTF-8 (zmena prikazem iconv, recode nebo cstocs)
+% kodovani: UTF-8 (zmena prikazem iconv, recode nebo cstocs)
 % encoding: UTF-8 (you can change it by command iconv, recode or cstocs)
 %------------------------------------------------------------------------------
 % zpracování / processing: make, make pdf, make clean
@@ -15,32 +15,43 @@
 %   projekt-01-kapitoly-chapters.tex - obsah práce / the thesis content
 %   projekt-30-prilohy-appendices.tex - přílohy / appendices
 %==============================================================================
-%\documentclass{fitthesis} % bez zadání - pro začátek práce, aby nebyl problém s překladem
-\documentclass[english]{fitthesis} % without assignment - for the work start to avoid compilation problem
+%\documentclass[]{fitthesis} % bez zadání - pro začátek práce, aby nebyl problém s překladem
+%\documentclass[english]{fitthesis} % without assignment - for the work start to avoid compilation problem
 %\documentclass[zadani]{fitthesis} % odevzdani do wisu - odkazy jsou barevné
 %\documentclass[english,zadani]{fitthesis} % for submission to the IS FIT - links are color
 %\documentclass[zadani,print]{fitthesis} % pro tisk - odkazy jsou černé
-%\documentclass[english,zadani,print]{fitthesis} % for the print - links are black
-%\documentclass[listFigures,listTables,listAppendices]{fitthesis} % s listem obrazku, tabulek a priloh
-%\documentclass[uifs]{fitthesis} % ustavni logo
-% * Je-li prace psana v anglickem jazyce, je zapotrebi u tridy pouzit 
-%   parametr english nasledovne:
+%\documentclass[zadani,cprint]{fitthesis} % pro barevný tisk - odkazy jsou černé, znak VUT barevný
+%\documentclass[english,zadani,print]{fitthesis} % for the color print - links are black
+%\documentclass[english,zadani,cprint]{fitthesis} % for the print - links are black, logo is color
+% * Je-li práce psaná v anglickém jazyce, je zapotřebí u třídy použít
+%   parametr english následovně:
 %   If thesis is written in english, it is necessary to use 
 %   parameter english as follows:
 %      \documentclass[english]{fitthesis}
-% * Je-li prace psana ve slovenskem jazyce, je zapotrebi u tridy pouzit 
-%   parametr slovak nasledovne:
+% * Je-li práce psaná ve slovenském jazyce, je zapotřebí u třídy použít
+%   parametr slovak následovně:
+%   If the work is written in the Slovak language, it is necessary
+%   to use parameter slovak as follows:
 %      \documentclass[slovak]{fitthesis}
+% * Je-li práce psaná v anglickém jazyce se slovenským abstraktem apod.,
+%   je zapotřebí u třídy použít parametry english a enslovak následovně:
+%   If the work is written in English with the Slovak abstract, etc.,
+%   it is necessary to use parameters english and enslovak as follows:
+      \documentclass[english,enslovak]{fitthesis}
 
 % Základní balíčky jsou dole v souboru šablony fitthesis.cls
 % Basic packages are at the bottom of template file fitthesis.cls
-%zde muzeme vlozit vlastni balicky / you can place own packages here
-
-% BEGIN ipluskal modifikace
+% zde můžeme vložit vlastní balíčky / you can place own packages here
 \usepackage{epigraph}
 \usepackage{graphicx}
-\graphicspath{{obrazky-figures/}{../figures/}}
-%END ipluskal modifikace
+% Kompilace po částech (rychlejší, ale v náhledu nemusí být vše aktuální)
+% Compilation piecewise (faster, but not all parts in preview will be up-to-date)
+\usepackage{subfiles}
+
+% Nastavení cesty k obrázkům
+% Setting of a path to the pictures
+%\graphicspath{{obrazky-figures/}{./obrazky-figures/}}
+\graphicspath{{figures/}{../figures/}}
 
 %---rm---------------
 \renewcommand{\rmdefault}{lmr}%zavede Latin Modern Roman jako rm / set Latin Modern Roman as rm
@@ -95,73 +106,66 @@
 %---------------------------------------------------------------------------
 \projectinfo{
   %Prace / Thesis
-  project=BP,            %typ prace BP/SP/DP/DR  / thesis type (SP = term project)
-  year=\the\year,             %rok odevzdání / year of submission
-  date=\today,           %datum odevzdani / submission date
+  project={BP},            %typ práce BP/SP/DP/DR  / thesis type (SP = term project)
+  year={2018},             % rok odevzdání / year of submission
+  date=\today,             % datum odevzdání / submission date
   %Nazev prace / thesis title
-  title.cs={Portovanie Tang na OpenWRT},  %nazev prace v cestine ci slovenstine (dle zadani) / thesis title in czech language (according to assignment)
-  title.en={Porting Tang to OpenWRT}, %nazev prace v anglictine / thesis title in english
+  title.cs={Portovanie Tang na OpenWRT},  % název práce v češtině či slovenštině (dle zadání) / thesis title in czech language (according to assignment)
+  title.en={Porting Tang to OpenWRT}, % název práce v angličtině / thesis title in english
+  %title.length={14.5cm}, % nastavení délky bloku s titulkem pro úpravu zalomení řádku (lze definovat zde nebo níže) / setting the length of a block with a thesis title for adjusting a line break (can be defined here or below)
   %Autor / Author
-  author={Tibor Dudlák},   %cele jmeno a prijmeni autora / full name and surname of the author
-  author.name={Tibor},   %jmeno autora (pro citaci) / author name (for reference) 
-  author.surname={Dudlák},   %prijmeni autora (pro citaci) / author surname (for reference) 
-  %author.title.p=Bc., %titul pred jmenem (nepovinne) / title before the name (optional)
-  %author.title.a=PhD, %titul za jmenem (nepovinne) / title after the name (optional)
+  author.name={Tibor},   % jméno autora / author name
+  author.surname={Dudlák},   % příjmení autora / author surname
+  %author.title.p={Bc.}, % titul před jménem (nepovinné) / title before the name (optional)
+  %author.title.a={Ph.D.}, % titul za jménem (nepovinné) / title after the name (optional)
   %Ustav / Department
-  department=UIFS, % doplnte prislusnou zkratku dle ustavu na zadani: UPSY/UIFS/UITS/UPGM
-  %                  fill in appropriate abbreviation of the department according to assignment: UPSY/UIFS/UITS/UPGM
-  %Skolitel / supervisor
-  supervisor=Ondrej Lichtner, %cele jmeno a prijmeni skolitele / full name and surname of the supervisor
-  supervisor.name={Ondrej},   %jmeno skolitele (pro citaci) / supervisor name (for reference) 
-  supervisor.surname={Lichtner},   %prijmeni skolitele (pro citaci) / supervisor surname (for reference) 
-  supervisor.title.p=Ing.,   %titul pred jmenem (nepovinne) / title before the name (optional)
-  %supervisor.title.a={Ph.D.},    %titul za jmenem (nepovinne) / title after the name (optional)
-  %Klicova slova, abstrakty, prohlaseni a podekovani je mozne definovat 
-  %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
-  %Keywords, abstracts, declaration and acknowledgement can be defined by following 
-  %parameters or using dedicated macros (see below)
-  %===========================================================================
-  %Klicova slova / keywords
-  %keywords.cs={Klíčová slova v českém jazyce.}, %klicova slova v ceskem ci slovenskem jazyce
-  %                                              keywords in czech or slovak language
-  %keywords.en={Klíčová slova v anglickém jazyce.}, %klicova slova v anglickem jazyce / keywords in english
-  %Abstract
-  %abstract.cs={Výtah (abstrakt) práce v českém jazyce.}, % abstrakt v ceskem ci slovenskem jazyce
-  %                                                         abstract in czech or slovak language
-  %abstract.en={Výtah (abstrakt) práce v anglickém jazyce.}, % abstrakt v anglickem jazyce / abstract in english
-  %Prohlaseni / Declaration
-  %declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením pana ...},
-  %Podekovani (nepovinne) / Acknowledgement (optional)
-  %acknowledgment={Zde je možné uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc.} % nepovinne
-  %acknowledgment={Here it is possible to express thanks to the supervisor and to the people which provided professional help.} % optional
+  department={UPGM}, % doplňte příslušnou zkratku dle ústavu na zadání: UPSY/UIFS/UITS/UPGM / fill in appropriate abbreviation of the department according to assignment: UPSY/UIFS/UITS/UPGM
+  % Školitel / supervisor
+  supervisor.name={Ondrej},   % jméno školitele / supervisor name
+  supervisor.surname={Lichtner},   % příjmení školitele / supervisor surname
+  supervisor.title.p={Ing.},   %titul před jménem (nepovinné) / title before the name (optional)
+  %supervisor.title.a={Ph.D.},    %titul za jménem (nepovinné) / title after the name (optional)
+  % Klíčová slova / keywords
+  %keywords.cs={Sem budou zapsána jednotlivá klíčová slova v českém (slovenském) jazyce, oddělená čárkami.}, % klíčová slova v českém či slovenském jazyce / keywords in czech or slovak language
+  keywords.cs={portovanie, Tang, server, OpenWrt, operačný systém, vstavaný, Clevis, klient, Escrow, šifrovanie, LUKS,
+ pevný disk, diskový oddiel, šifrovací kľúč, automatizácia, cross-kompilácia, balíkový systém }
+  keywords.en={Sem budou zapsána jednotlivá klíčová slova v anglickém jazyce, oddělená čárkami.}, % klíčová slova v anglickém jazyce / keywords in english
+  % Abstrakt / Abstract
+  %abstract.cs={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}, % abstrakt v českém či slovenském jazyce / abstract in czech or slovak language
+  %abstract.en={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v anglickém jazyce.}, % abstrakt v anglickém jazyce / abstract in english
+  abstract.cs={Hlavným cieľom tejto práce je sprístupnenie serveru Tang na vstavané zariadenia typu WiFi smerovač s plne modulárnym operačným systémom OpenWrt. Tým dosiahneme anonymnú správu šifrovacích kľúčov pre domáce siete a siete malých firiem. Preto táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie pevného disku počítača. Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie na operačných systémoch typu Linux. Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera, ktorý vstupuje do procesu ako tretia strana. Sú v nej popísané princípy serverov Key Escrow a Tang. Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a cross-kompilácie na platforme Linux.  Práca obsahuje zdokumentovaný postup prispievania zmien a novo vytvorených balíkov pre OpenWrt do príslušných Open Source projektov.}
+abstract.en={This thesis describes the encryption and its application to secure the computer's hard drive. It describes the structure of the encrypted disk's partition according to the LUKS specification on Linux operating systems. The thesis focus on describing possibilities of automating the disk decryption process using an external server that enters the process as a third party. It describes the principles of Key Escrow and Tang server. Steps required to compile and configure the Tang server are described too. Also described is Tang server's client -- Clevis. The main objective of this work was to port and document the process of porting the Tang server and its dependencies to OpenWrt system, described in this thesis too, which is designed for embedded devices such as WiFi routers. The thesis also includes a documented process of contributing changes and newly created OpenWrt packages to relevant Open Source projects.}
+  % Prohlášení (u anglicky psané práce anglicky, u slovensky psané práce slovensky) / Declaration (for thesis in english should be in english)
+  declaration={Hereby I declare that this term project was prepared as an original author’s work under the supervision of Ing. Ondrej Lichtner.
+  The supplementary information was provided by Jan Pazdziora, Ph. D.
+  All the relevant information sources, which were used during preparation of this thesis, are properly cited and included in the list of references.
+  }
+%declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením pana X...
+%Další informace mi poskytli...
+%Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.},
+  %declaration={Hereby I declare that this bachelor's thesis was prepared as an original author’s work under the supervision of Mr. X
+% The supplementary information was provided by Mr. Y
+% All the relevant information sources, which were used during preparation of this thesis, are properly cited and included in the list of references.},
+  % Poděkování (nepovinné, nejlépe v jazyce práce) / Acknowledgement (optional, ideally in the language of the thesis)
+  acknowledgment={V této sekci je možno uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc
+(externí zadavatel, konzultant, apod.).},
+  %acknowledgment={Here it is possible to express thanks to the supervisor and to the people which provided professional help
+%(external submitter, consultant, etc.).},
+  % Rozšířený abstrakt (cca 3 normostrany) - lze definovat zde nebo níže / Extended abstract (approximately 3 standard pages) - can be defined here or below
+  %extendedabstract={Do tohoto odstavce bude zapsán rozšířený výtah (abstrakt) práce v českém (slovenském) jazyce.},
+  %faculty={FIT}, % FIT/FEKT/FSI/FA/FCH/FP/FAST/FAVU/USI/DEF
+  faculty.cs={Fakulta informačních technologií}, % Fakulta v češtině - pro využití této položky výše zvolte fakultu DEF / Faculty in Czech - for use of this entry select DEF above
+  faculty.en={Faculty of Information Technology}, % Fakulta v angličtině - pro využití této položky výše zvolte fakultu DEF / Faculty in English - for use of this entry select DEF above
+  department.cs={Ústav matematiky}, % Ústav v češtině - pro využití této položky výše zvolte ústav DEF nebo jej zakomentujte / Department in Czech - for use of this entry select DEF above or comment it out
+  department.en={Institute of Mathematics} % Ústav v angličtině - pro využití této položky výše zvolte ústav DEF nebo jej zakomentujte / Department in English - for use of this entry select DEF above or comment it out
 }
 
-%Abstrakt (cesky, slovensky ci anglicky) / Abstract (in czech, slovak or english)
-\abstract[cs]{Hlavným cieľom tejto práce je sprístupnenie serveru Tang na vstavané zariadenia typu WiFi smerovač s plne modulárnym operačným systémom OpenWrt. Tým dosiahneme anonymnú správu šifrovacích kľúčov pre domáce siete a siete malých firiem. Preto táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie pevného disku počítača. Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie na operačných systémoch typu Linux. Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera, ktorý vstupuje do procesu ako tretia strana. Sú v nej popísané princípy serverov Key Escrow a Tang. Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a cross-kompilácie na platforme Linux.  Práca obsahuje zdokumentovaný postup prispievania zmien a novo vytvorených balíkov pre OpenWrt do príslušných Open Source projektov.}
+% Rozšířený abstrakt (cca 3 normostrany) - lze definovat zde nebo výše / Extended abstract (approximately 3 standard pages) - can be defined here or above
+%\extendedabstract{Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}
 
-\abstract[en]{This thesis describes the encryption and its application to secure the computer's hard drive. It describes the structure of the encrypted disk's partition according to the LUKS specification on Linux operating systems. The thesis focus on describing possibilities of automating the disk decryption process using an external server that enters the process as a third party. It describes the principles of Key Escrow and Tang server. Steps required to compile and configure the Tang server are described too. Also described is Tang server's client -- Clevis. The main objective of this work was to port and document the process of porting the Tang server and its dependencies to OpenWrt system, described in this thesis too, which is designed for embedded devices such as WiFi routers. The thesis also includes a documented process of contributing changes and newly created OpenWrt packages to relevant Open Source projects.}
+% nastavení délky bloku s titulkem pro úpravu zalomení řádku - lze definovat zde nebo výše / setting the length of a block with a thesis title for adjusting a line break - can be defined here or above
+%\titlelength{14.5cm}
 
-%Klicova slova (cesky, slovensky ci anglicky) / Keywords (in czech, slovak or english)
-\keywords[cs]{portovanie, Tang, server, OpenWrt, operačný systém, vstavaný, Clevis, klient, Escrow, šifrovanie, LUKS, pevný disk, diskový oddiel, šifrovací kľúč, automatizácia, cross-kompilácia, balíkový systém }
-
-\keywords[en]{porting, Tang, server, OpenWrt, operating system, embedded, Clevis, client, Escrow, \\ encryption, LUKS, hard drive, partition, encryption key, automation, cross-compilation, packaging system }
-
-%Prohlaseni (u anglicky psane prace anglicky, u slovensky psane prace slovensky)
-%Declaration (for thesis in english should be in english)
-%\declaration{Prohlašuji, že jsem tuto (bakalářskou|diplomovou|disertační) práci vypracoval samostatně %pod vedením Ing.~Jméno~Příjmení,~Ph.D. 
-%Další informace mi poskytli...
-%Uvedl jsem všechny literární prameny a publikace, ze kterých jsem čerpal.}
-
-\declaration{Hereby I declare that this term project was prepared as an original author’s work under the supervision of Ing. Ondrej Lichtner.
- The supplementary information was provided by Jan Pazdziora, Ph. D.
- All the relevant information sources, which were used during preparation of this thesis, are properly cited and included in the list of references.
- }
-
-%Podekovani (nepovinne, nejlepe v jazyce prace) / Acknowledgement (optional, ideally in the language of the thesis)
-%\acknowledgment{V této sekci je možno uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc
-%(externí zadavatel, konzultant, apod.).}
-\acknowledgment{Here it is possible to express thanks to the supervisor and to the people which provided professional help
-(external submitter, consultant, etc.).}
 
 % řeší první/poslední řádek odstavce na předchozí/následující stránce
 % solves first/last row of the paragraph on the previous/next page
@@ -174,32 +178,33 @@
   \maketitle
   % Obsah
   % ----------------------------------------------
-  \tableofcontents
+  \setlength{\parskip}{0pt}
+
+  {\hypersetup{hidelinks}\tableofcontents}
   
   % Seznam obrazku a tabulek (pokud prace obsahuje velke mnozstvi obrazku, tak se to hodi)
   % List of figures and list of tables (if the thesis contains a lot of pictures, it is good)
-\ifczech
-  \renewcommand\listfigurename{Seznam obrázků}
-\fi
-\ifslovak
-  \renewcommand\listfigurename{Zoznam obrázkov}
-\fi
+  \ifczech
+    \renewcommand\listfigurename{Seznam obrázků}
+  \fi
+  \ifslovak
+    \renewcommand\listfigurename{Zoznam obrázkov}
+  \fi
+  % \listoffigures
 
-\ifListFigures
-  \listoffigures
-\fi
+  \ifczech
+    \renewcommand\listtablename{Seznam tabulek}
+  \fi
+  \ifslovak
+    \renewcommand\listtablename{Zoznam tabuliek}
+  \fi
+  % \listoftables
 
-\ifczech
-  \renewcommand\listtablename{Seznam tabulek}
-\fi
-\ifslovak
-  \renewcommand\listtablename{Zoznam tabuliek}
-\fi
-
-\ifListTables
-   \listoftables 
-\fi
- 
+  \ifODSAZ
+    \setlength{\parskip}{0.5\bigskipamount}
+  \else
+    \setlength{\parskip}{0pt}
+  \fi
 
   % vynechani stranky v oboustrannem rezimu
   % Skip the page in the two-sided mode
@@ -209,6 +214,19 @@
 
   % Text prace / Thesis text
   % ----------------------------------------------
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-01-introduction}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-02-encryption}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-03-escrow}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-04-tang}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-05-openwrt}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-06-porting}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-07-contributing}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-08-conclusion}
+
+  % Kompilace po částech (viz výše, nutno odkomentovat)
+  % Compilation piecewise (see above, it is necessary to uncomment it)
+  %\subfile{projekt-01-uvod-introduction}
+  % ...
   \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-01-introduction}
   \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-02-encryption}
   \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-03-escrow}
@@ -240,7 +258,7 @@
   \fi
 \fi
   \begin{flushleft}
-   \bibliography{bibl/xdudla00-porting-Tang-to-Open-WRT-20-bibliography,bibl/bibl_rfc_1-3826} 
+  \bibliography{bibl/xdudla00-porting-Tang-to-Open-WRT-20-bibliography,bibl/bibl_rfc_1-3826}
   \end{flushleft}
 
   % vynechani stranky v oboustrannem rezimu
@@ -262,41 +280,53 @@
   \renewcommand{\appendixtocname}{Prílohy}
   \renewcommand{\appendixname}{Príloha}
 \fi
-  \appendixpage
+%  \appendixpage
 
 % vynechani stranky v oboustrannem rezimu
 % Skip the page in the two-sided mode
-% \iftwoside
-%   \cleardoublepage
-% \fi
-  
-\ifListAppendices  
-  \ifslovak
-    \section*{Zoznam príloh}
-    \addcontentsline{toc}{section}{Zoznam príloh}
+%\iftwoside
+%  \cleardoublepage
+%\fi
+
+\ifslovak
+%  \section*{Zoznam príloh}
+%  \addcontentsline{toc}{section}{Zoznam príloh}
+\else
+  \ifczech
+%    \section*{Seznam příloh}
+%    \addcontentsline{toc}{section}{Seznam příloh}
   \else
-    \ifczech
-      \section*{Seznam příloh}
-      \addcontentsline{toc}{section}{Seznam příloh}
-    \else
-      \section*{List of Appendices}
-      \addcontentsline{toc}{section}{List of Appendices}
-    \fi
+%    \section*{List of Appendices}
+%    \addcontentsline{toc}{section}{List of Appendices}
   \fi
-    \startcontents[chapters]
-    % seznam příloh / list of appendices
-    \printcontents[chapters]{l}{0}{\setcounter{tocdepth}{2}}  
-\fi  
+\fi
+  \startcontents[chapters]
+  \setlength{\parskip}{0pt}
+  % seznam příloh / list of appendices
+  % \printcontents[chapters]{l}{0}{\setcounter{tocdepth}{2}}
+  
+  \ifODSAZ
+    \setlength{\parskip}{0.5\bigskipamount}
+  \else
+    \setlength{\parskip}{0pt}
+  \fi
 
-% vynechani stranky v oboustrannem rezimu
-% \iftwoside
-%   \cleardoublepage
-% \fi
+  % vynechani stranky v oboustrannem rezimu
+  \iftwoside
+    \cleardoublepage
+  \fi
 
-% Prilohy / Appendices
-% ----------------------------------------------
-\subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-30-appendix-A}
-\subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-31-appendix-B}
-\subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-32-appendix-C}
-% ----------------------------------------------
+  % Přílohy / Appendices
+  % ----------------------------------------------
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-30-appendix-A}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-31-appendix-B}
+  \input{chapters/xdudla00-porting-Tang-to-Open-WRT-32-appendix-C}
+  % ----------------------------------------------
+
+  % kompilace po částech (viz výše, nutno odkomentovat)
+  % compilation piecewise (see above, it is necessary to uncomment it)
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-30-appendix-A}
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-31-appendix-B}
+  \subfile{chapters/xdudla00-porting-Tang-to-Open-WRT-32-appendix-C}
+
 \end{document}
