@@ -1,6 +1,3 @@
-%\documentclass[../xdudla00-porting-Tang-to-Open-WRT.tex]{subfiles}
-%\begin{document}
-
 \chapter{LUKS In Place Encryption}
 \label{luksipc}
 It takes 4 steps to perform an in place encryption with {\it luksipc} :
@@ -75,6 +72,3 @@ luksipc will have created a key file /root/initial\_keyfile.bin that you can use
 DO NOT FORGET to add key to LUKS volume:
 
 {\tt \# cryptsetup luksAddKey --key-file /root/initial\_keyfile.bin /dev/vda2}
-
-
-%\end{document}
