@@ -1,100 +1,53 @@
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
-\contentsline {chapter}{\numberline {2}Hard drive encryption}{5}{chapter.2}
-\contentsline {section}{\numberline {2.1}Security and encryption}{5}{section.2.1}
-\contentsline {section}{\numberline {2.2}Hard drive encryption}{6}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}LUKS}{7}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Encrypting with LUKS}{8}{subsection.2.2.2}
-\contentsline {chapter}{\numberline {3}Key escrow server}{9}{chapter.3}
-\contentsline {section}{\numberline {3.1}Escrow security}{9}{section.3.1}
-\contentsline {chapter}{\numberline {4}Tang server}{11}{chapter.4}
-\contentsline {section}{\numberline {4.1}Tang - binding daemon}{11}{section.4.1}
-\contentsline {section}{\numberline {4.2}Binding with Tang}{12}{section.4.2}
-\contentsline {section}{\numberline {4.3}Provisioning}{12}{section.4.3}
-\contentsline {section}{\numberline {4.4}Recovery}{13}{section.4.4}
-\contentsline {section}{\numberline {4.5}Security}{13}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Man-in-the-Middle attack}{13}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Compromise the client to gain access to cJWK}{14}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Compromise the server to gain access to sJWK's private key}{14}{subsection.4.5.3}
-\contentsline {section}{\numberline {4.6}Building Tang}{14}{section.4.6}
-\contentsline {subsection}{\numberline {4.6.1}http-parser}{14}{subsection.4.6.1}
-\contentsline {subsection}{\numberline {4.6.2}systemd / xinetd}{14}{subsection.4.6.2}
-\contentsline {subsection}{\numberline {4.6.3}Jos\IeC {\'e}}{15}{subsection.4.6.3}
-\contentsline {subsection}{\numberline {4.6.4}jansson}{15}{subsection.4.6.4}
-\contentsline {subsection}{\numberline {4.6.5}OpenSSL}{15}{subsection.4.6.5}
-\contentsline {subsection}{\numberline {4.6.6}zlib}{15}{subsection.4.6.6}
-\contentsline {section}{\numberline {4.7}Server enablement}{16}{section.4.7}
-\contentsline {section}{\numberline {4.8}Clevis client}{16}{section.4.8}
-\contentsline {subsection}{\numberline {4.8.1}PIN: Tang}{16}{subsection.4.8.1}
-\contentsline {subsection}{\numberline {4.8.2}PIN: HTTP}{17}{subsection.4.8.2}
-\contentsline {subsection}{\numberline {4.8.3}PIN: SSS - Shamir Secret Sharing}{17}{subsection.4.8.3}
-\contentsline {subsection}{\numberline {4.8.4}Binding LUKS volumes}{17}{subsection.4.8.4}
-\contentsline {subsection}{\numberline {4.8.5}Dracut}{17}{subsection.4.8.5}
-\contentsline {subsection}{\numberline {4.8.6}UDisks2}{17}{subsection.4.8.6}
-\contentsline {chapter}{\numberline {5}OpenWrt system}{18}{chapter.5}
-\contentsline {section}{\numberline {5.1}OPKG Package manager}{18}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{18}{subsection.5.1.1}
-\contentsline {chapter}{\numberline {6}Porting procedure}{19}{chapter.6}
-\contentsline {chapter}{\numberline {7}Contributing}{20}{chapter.7}
-\contentsline {chapter}{\numberline {8}Conclusion}{21}{chapter.8}
-\contentsline {chapter}{\numberline {9}Introduction}{22}{chapter.9}
-\contentsline {chapter}{\numberline {10}Hard drive encryption}{23}{chapter.10}
-\contentsline {section}{\numberline {10.1}Security and encryption}{23}{section.10.1}
-\contentsline {section}{\numberline {10.2}Hard drive encryption}{24}{section.10.2}
-\contentsline {subsection}{\numberline {10.2.1}LUKS}{25}{subsection.10.2.1}
-\contentsline {subsection}{\numberline {10.2.2}Encrypting with LUKS}{26}{subsection.10.2.2}
-\contentsline {chapter}{\numberline {11}Key escrow server}{27}{chapter.11}
-\contentsline {section}{\numberline {11.1}Escrow security}{27}{section.11.1}
-\contentsline {chapter}{\numberline {12}Tang server}{29}{chapter.12}
-\contentsline {section}{\numberline {12.1}Tang - binding daemon}{29}{section.12.1}
-\contentsline {section}{\numberline {12.2}Binding with Tang}{30}{section.12.2}
-\contentsline {section}{\numberline {12.3}Provisioning}{30}{section.12.3}
-\contentsline {section}{\numberline {12.4}Recovery}{31}{section.12.4}
-\contentsline {section}{\numberline {12.5}Security}{31}{section.12.5}
-\contentsline {subsection}{\numberline {12.5.1}Man-in-the-Middle attack}{31}{subsection.12.5.1}
-\contentsline {subsection}{\numberline {12.5.2}Compromise the client to gain access to cJWK}{32}{subsection.12.5.2}
-\contentsline {subsection}{\numberline {12.5.3}Compromise the server to gain access to sJWK's private key}{32}{subsection.12.5.3}
-\contentsline {section}{\numberline {12.6}Building Tang}{32}{section.12.6}
-\contentsline {subsection}{\numberline {12.6.1}http-parser}{32}{subsection.12.6.1}
-\contentsline {subsection}{\numberline {12.6.2}systemd / xinetd}{32}{subsection.12.6.2}
-\contentsline {subsection}{\numberline {12.6.3}Jos\IeC {\'e}}{33}{subsection.12.6.3}
-\contentsline {subsection}{\numberline {12.6.4}jansson}{33}{subsection.12.6.4}
-\contentsline {subsection}{\numberline {12.6.5}OpenSSL}{33}{subsection.12.6.5}
-\contentsline {subsection}{\numberline {12.6.6}zlib}{33}{subsection.12.6.6}
-\contentsline {section}{\numberline {12.7}Server enablement}{34}{section.12.7}
-\contentsline {section}{\numberline {12.8}Clevis client}{34}{section.12.8}
-\contentsline {subsection}{\numberline {12.8.1}PIN: Tang}{34}{subsection.12.8.1}
-\contentsline {subsection}{\numberline {12.8.2}PIN: HTTP}{35}{subsection.12.8.2}
-\contentsline {subsection}{\numberline {12.8.3}PIN: SSS - Shamir Secret Sharing}{35}{subsection.12.8.3}
-\contentsline {subsection}{\numberline {12.8.4}Binding LUKS volumes}{35}{subsection.12.8.4}
-\contentsline {subsection}{\numberline {12.8.5}Dracut}{35}{subsection.12.8.5}
-\contentsline {subsection}{\numberline {12.8.6}UDisks2}{35}{subsection.12.8.6}
-\contentsline {chapter}{\numberline {13}OpenWrt system}{36}{chapter.13}
-\contentsline {section}{\numberline {13.1}OPKG Package manager}{36}{section.13.1}
-\contentsline {subsection}{\numberline {13.1.1}OPKG Makefile}{36}{subsection.13.1.1}
-\contentsline {chapter}{\numberline {14}Porting procedure}{37}{chapter.14}
-\contentsline {chapter}{\numberline {15}Contributing}{38}{chapter.15}
-\contentsline {chapter}{\numberline {16}Conclusion}{39}{chapter.16}
-\contentsline {chapter}{Bibliography}{40}{chapter*.2}
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
+\contentsline {chapter}{\numberline {2}Hard drive encryption}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Security and encryption}{4}{section.2.1}
+\contentsline {section}{\numberline {2.2}Hard drive encryption}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}LUKS}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Encrypting with LUKS}{7}{subsection.2.2.2}
+\contentsline {chapter}{\numberline {3}Key escrow server}{8}{chapter.3}
+\contentsline {section}{\numberline {3.1}Escrow security}{8}{section.3.1}
+\contentsline {chapter}{\numberline {4}Tang server}{10}{chapter.4}
+\contentsline {section}{\numberline {4.1}Tang - binding daemon}{10}{section.4.1}
+\contentsline {section}{\numberline {4.2}Binding with Tang}{11}{section.4.2}
+\contentsline {section}{\numberline {4.3}Provisioning}{11}{section.4.3}
+\contentsline {section}{\numberline {4.4}Recovery}{12}{section.4.4}
+\contentsline {section}{\numberline {4.5}Security}{12}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Man-in-the-Middle attack}{12}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Compromise the client to gain access to cJWK}{13}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Compromise the server to gain access to sJWK's private key}{13}{subsection.4.5.3}
+\contentsline {section}{\numberline {4.6}Building Tang}{13}{section.4.6}
+\contentsline {subsection}{\numberline {4.6.1}http-parser}{13}{subsection.4.6.1}
+\contentsline {subsection}{\numberline {4.6.2}systemd / xinetd}{13}{subsection.4.6.2}
+\contentsline {subsection}{\numberline {4.6.3}Jos\IeC {\'e}}{14}{subsection.4.6.3}
+\contentsline {subsection}{\numberline {4.6.4}jansson}{14}{subsection.4.6.4}
+\contentsline {subsection}{\numberline {4.6.5}OpenSSL}{14}{subsection.4.6.5}
+\contentsline {subsection}{\numberline {4.6.6}zlib}{14}{subsection.4.6.6}
+\contentsline {section}{\numberline {4.7}Server enablement}{15}{section.4.7}
+\contentsline {section}{\numberline {4.8}Clevis client}{15}{section.4.8}
+\contentsline {subsection}{\numberline {4.8.1}PIN: Tang}{15}{subsection.4.8.1}
+\contentsline {subsection}{\numberline {4.8.2}PIN: HTTP}{16}{subsection.4.8.2}
+\contentsline {subsection}{\numberline {4.8.3}PIN: SSS - Shamir Secret Sharing}{16}{subsection.4.8.3}
+\contentsline {subsection}{\numberline {4.8.4}Binding LUKS volumes}{16}{subsection.4.8.4}
+\contentsline {subsection}{\numberline {4.8.5}Dracut}{16}{subsection.4.8.5}
+\contentsline {subsection}{\numberline {4.8.6}UDisks2}{16}{subsection.4.8.6}
+\contentsline {chapter}{\numberline {5}OpenWrt system}{17}{chapter.5}
+\contentsline {section}{\numberline {5.1}OPKG Package manager}{17}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{17}{subsection.5.1.1}
+\contentsline {chapter}{\numberline {6}Porting procedure}{18}{chapter.6}
+\contentsline {chapter}{\numberline {7}Contributing}{19}{chapter.7}
+\contentsline {chapter}{\numberline {8}Conclusion}{20}{chapter.8}
+\contentsline {chapter}{Bibliography}{21}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Disk content}{42}{appendix.A}
-\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{43}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{43}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{44}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{45}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{45}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{45}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{46}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{46}{section.C.4}
-\contentsline {chapter}{\numberline {D}Disk content}{47}{appendix.D}
-\contentsline {chapter}{\numberline {E}Hard Disk Encryption With LUKS}{48}{appendix.E}
-\contentsline {section}{\numberline {E.1}Fedora 25 - disc encryption option selecting }{48}{section.E.1}
-\contentsline {section}{\numberline {E.2}Fedora 25 - determination key encryption key }{49}{section.E.2}
-\contentsline {chapter}{\numberline {F}LUKS In Place Encryption}{50}{appendix.F}
-\contentsline {section}{\numberline {F.1}Step 1 - unmounting}{50}{section.F.1}
-\contentsline {section}{\numberline {F.2}Step 2 - resizing}{50}{section.F.2}
-\contentsline {section}{\numberline {F.3}Step 3 - encrypting}{51}{section.F.3}
-\contentsline {section}{\numberline {F.4}Step 4 - adding key}{51}{section.F.4}
+\contentsline {chapter}{\numberline {A}Disk content}{23}{appendix.A}
+\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{24}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{24}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{25}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{26}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{26}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{26}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{27}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{27}{section.C.4}
 \contentsfinish 
