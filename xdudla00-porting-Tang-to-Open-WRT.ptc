@@ -35,7 +35,7 @@
 \contentsline {section}{\numberline {5.1}OPKG Package manager}{17}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{17}{subsection.5.1.1}
 \contentsline {chapter}{\numberline {6}Software portability}{18}{chapter.6}
-\contentsline {section}{\numberline {6.1}Porting to OpenWrt}{18}{section.6.1}
+\contentsline {section}{\numberline {6.1}Porting to OpenWrt}{19}{section.6.1}
 \contentsline {chapter}{\numberline {7}Tang with xinetd}{20}{chapter.7}
 \contentsline {chapter}{\numberline {8}Contributing}{21}{chapter.8}
 \contentsline {chapter}{\numberline {9}Conclusion}{22}{chapter.9}
