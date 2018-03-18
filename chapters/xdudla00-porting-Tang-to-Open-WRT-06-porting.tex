@@ -1,13 +1,32 @@
-\chapter{Porting procedure}\label{porting}
+\chapter{Software portability}\label{porting}
 
-\todo{TODO chapter}
+Ideally, any software would be usable on any operating system, platform, and any processor architecture.
+Existence of term "porting", derived from the Latin portāre which means "to~carry", proves that this ideal situation does not occurs that often, and acctual process of "carrying" software to system with different environment is most probably required.
+Porting is also used to describe procces of converting computer games to became platform independent.
 
-llll
+Software porting procces might be hard to distinguish with building software.
+The reason might be that in many cases building software on desired platform is enough, when software application does not work "out of the box".
+This kind of behavior, an application that works immediately after or even without any special installation and without need for any configuration or modification, is ideal.
+It often happens when we copy application from one desktop computer to another one, not realizing that they have processors with same instructions set and same or very simmilar operating system.
+But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design and of course application's source code.
+
+Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
+If software is considered as not portable it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
+Effort spent porting some software product to work on desired platform must be little, such as copying already installed files on usb flash drive and run it on another computer.
+This procedure
+
+Despite dominance of the x86 architecture there is usually a need to recompile software running on different operating systems.
+On the other hand having multiple computers with same operating system may
+Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past
+
+
+To simplify portability, modern compilers translate to a machine-independent intermediate code.
+But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue.
+
+\section{Porting to OpenWrt}
 
 \todo{Architecture}
 
-mips
+\todo{Buildroot, SDK, upstream directory}
 
 \todo{Makefiles}
-
-spec

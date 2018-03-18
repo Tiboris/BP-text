@@ -10,15 +10,15 @@ An unauthorized party might be able to access secured data but will not be able 
 The most important thing is keeping the encryption key a secret.
 
 With an increasing number of encryption keys to store and protect, there might be necessary to consider using Key management server.
-This server should provide a secure and persistent service to its clients. 
-One of the possible solutions for persistent Key management is to deploy {\it Key Escrow} server described in chapter \ref{escrow}. 
-Another solution is server {\it Tang}, which principles are mentioned in chapter \ref{tang}. 
-Tang is completely anonymous key recovery service. 
+This server should provide a secure and persistent service to its clients.
+One of the possible solutions for persistent Key management is to deploy {\it Key Escrow} server described in chapter \ref{escrow}.
+Another solution is server {\it Tang}, which principles are mentioned in chapter \ref{tang}.
+Tang is completely anonymous key recovery service.
 In contrast to Key Escrow server, Tang does not know any key.
-It only provides mathematical operation for its clients to recover them. 
+It only provides mathematical operation for its clients to recover them.
 
 The goal of this bachelor thesis is to port the {\it Tang} server, and its dependencies listed in section \ref{dependencies} to {\it OpenWrt} system for {\it embedded} devices mentioned in chapter \ref{owrt}.
 With accomplishing this, we will be able to automatize process of unlocking encrypted drives on our private home or small office network, therefore securing our data stored on personal computer's hard drive and/or NAS (Network-attached storage) server if it is stolen.
 There will be no need for any decryption or even Key Escrow server but the {\it OpenWrt} device running the {\it Tang} server itself only.
 
-To achieve this goal \dots 
+To achieve this goal \dots

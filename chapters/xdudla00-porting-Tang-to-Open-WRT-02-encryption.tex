@@ -2,16 +2,16 @@
 
 
 We may not realize this, but we use encryption every day.
-The purpose of encryption is to keep us safe when we are browsing the internet or just storing our sensitive information on digital media. 
+The purpose of encryption is to keep us safe when we are browsing the internet or just storing our sensitive information on digital media.
 In general encryption is used to secure our data, whether transmitted around the internet or stored on our hard drives, from being compromised.
 Encryption protects us from many threats.
 
-It protects us from identity theft. 
+It protects us from identity theft.
 Our personal information stored all over governmental authorities should be secured with it.
 Encryption takes care for not revealing sensitive information about ourselves, to protect our financial details, passwords along with others, mainly when we bank online from being defraud.
 
-It looks after our conversation privacy. 
-To be more specific, our cell phone conversations from eavesdroppers and our online chatting with acquaintances or colleagues. 
+It looks after our conversation privacy.
+To be more specific, our cell phone conversations from eavesdroppers and our online chatting with acquaintances or colleagues.
 It also allows attorneys to communicate privately with their clients and it aims to secure communication between investigation bureaus to exchange sensitive information about lawbreakers.
 
 If we encrypt our laptop or desktop computer's hard drive encryption protects our data in case the computer or hard drive is stolen.
@@ -21,18 +21,18 @@ If we encrypt our laptop or desktop computer's hard drive encryption protects ou
 Security is not binary; it is a sliding scale of risk management \cite{devconf}.
 People are used to mark things, for example good and bad, expensive, and cheap.
 But we know that people may differ on image/sense.
-For example, there is no such thing as line or sign which tells us, this part of town is secure, and this is not. 
-The way we reason about security is that we study environment entering or observing it, and we begin to decide whether it is secure or not. 
-Especially at enterprise sector. 
+For example, there is no such thing as line or sign which tells us, this part of town is secure, and this is not.
+The way we reason about security is that we study environment entering or observing it, and we begin to decide whether it is secure or not.
+Especially at enterprise sector.
 
 Encryption, on its own, might not be enough to make our data or infrastructure secure.
-Companies define their own security strategies which may include encryption or not at all. 
+Companies define their own security strategies which may include encryption or not at all.
 It all relies on company's needs or will to take risks in conclusion of getting high gain from them.
 In any case, encryption is definitely a critical element of security.
 
 According to 2016 Global Encryption Trends Study, independently conducted by the Ponemon Institute, the enterprise-wide encryption in 5 years increased from 15 to 38 percent.
-Also the ratio of companies with no encryption strategy at all decreased from 37 to 15 percent. 
-More than 50 percent companies are using extensively deployed encryption technologies to encrypt mostly databases, infrastructure and laptop hard drives \cite{Thales}. 
+Also the ratio of companies with no encryption strategy at all decreased from 37 to 15 percent.
+More than 50 percent companies are using extensively deployed encryption technologies to encrypt mostly databases, infrastructure and laptop hard drives \cite{Thales}.
 
 \section{Hard drive encryption}
 
@@ -42,13 +42,13 @@ Let us take a look on how is encryption typically done.
 
 To protect secret data we usually encrypt this data by using an encryption key - see Figure \ref{fig:encdata}.
 However, this secret data might grow in size, and it is time and resource consuming to decrypt and encrypt all our data every time the encryption key changes or it is changed.
-Because of that, we wrap the encryption key in the key encryption key. 
+Because of that, we wrap the encryption key in the key encryption key.
 This key might be actually user typed pass phrase which system prompts from user when booting or simply when it wants to access encrypted hard drive partition.
 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.7]{figures/HowWeEncryptData.pdf} 
+    \includegraphics[scale=0.7]{figures/HowWeEncryptData.pdf}
     \caption{How we encrypt data}
     \label{fig:encdata}
 \end{figure}
@@ -56,13 +56,13 @@ This key might be actually user typed pass phrase which system prompts from user
 Changing the key encryption key does not affect encrypted data.
 It can be changed whenever user desire to, and redistributed the new key to all users or services who are supposed to access this data.
 
-Passwords are the most common authentication for accessing computer systems, files, data, and networks. 
-It is important to keep changing them in reasonable time. 
-One way or another, we still keep them seeing them on monitors or desktop written on sticky notes, and this is absolutely not secure. 
+Passwords are the most common authentication for accessing computer systems, files, data, and networks.
+It is important to keep changing them in reasonable time.
+One way or another, we still keep them seeing them on monitors or desktop written on sticky notes, and this is absolutely not secure.
 In fact, users are the most vulnerable part of securing our systems.
 To aid their memory, users often include part of a phone number, family name, Social Security number, or birth date in their passwords \cite{pwdsec}.
 They choose cryptographicaly weak passwords, dictionary words, which are easy to remember but also easy to guess or to break with brute-force attacks in short period of time.
-According to Splash Data \cite{splashdata}, a supplier of security applications, the most common user selected password in the year 2016 was "123456". 
+According to Splash Data \cite{splashdata}, a supplier of security applications, the most common user selected password in the year 2016 was "123456".
 They claim that people continue to put themselves at risk for hacking and identity theft by using weak, easily guessable passwords.
 To create strong password you can follow any trustworthy guide\footnote{https://www.centos.org/docs/4/html/rhel-sg-en-4/s1-wstation-pass.html\#S2-WSTATION-PASS-CREATE} on the Internet.
 
@@ -77,7 +77,7 @@ This might be the reason why most of us do not use encryption, even when we know
 
 \subsection{LUKS}\todo{master key}
 
-LUKS (Linux Unified Key Setup) is a platform-independent disk encryption specification. 
+LUKS (Linux Unified Key Setup) is a platform-independent disk encryption specification.
 It was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions.
 
 Referential implementation of LUKS, which was originally meant for Linux, is using a dm-crypt subsystem for bulk data encryption.
@@ -87,7 +87,7 @@ Alongside Linux implementation exists LibreCrypt, the Windows implementation bas
 A LUKS partition can have as many user passwords as there are available key slots, and to access the partition, the user has to provide only one of these passwords \cite{LUKS}.
 
 Hard drive with a LUKS partition has notable structure, see Figure \ref{fig:luksvol}.
-The entire partition start with the LUKS partition header containing the key material. 
+The entire partition start with the LUKS partition header containing the key material.
 After header there is section with bulk data, which are encrypted with the master key.
 
 \begin{figure}[h]
@@ -98,8 +98,8 @@ After header there is section with bulk data, which are encrypted with the maste
 \end{figure}
 
 Header, also marked as {\it phdr}, contains information about the used cipher, cipher mode, the key length, a uuid and a master key checksum.
-Also, the {\it phdr} contains information about the key slots. 
-Every key slot is associated with a key material section after the {\it phdr}.  
+Also, the {\it phdr} contains information about the key slots.
+Every key slot is associated with a key material section after the {\it phdr}.
 When a key slot is active, the key slot stores an encrypted copy of the master key in its key material section.
 This encrypted copy is locked by a user password.
 Structure of key slot is on Figure \ref{fig:luksslot}.
@@ -111,17 +111,19 @@ Structure of key slot is on Figure \ref{fig:luksslot}.
     \label{fig:luksslot}
 \end{figure}
 
-\subsection{Encrypting with LUKS} 
+\subsection{Encrypting with LUKS}
 
-Creating a LUKS volume might be quite tough process. 
+Creating a LUKS volume might be quite tough process.
 Hard drive partition must contain the LUKS header just before the encrypted data.
 Lets sum up the easier way first.
+
+
 
 In case we have not installed our Linux operation system yet, we could simply select an option in time of installation.
 Then the installation wizard will most likely asks for pass phrase - the key encryption key.
 To demonstrate this, screen shots with Fedora 25 system installation can be found on appendix \ref{luksinstall}.
 
-If we have already system installed with lots of data on partition, process will probably last longer and the procedure will be more complex. 
+If we have already system installed with lots of data on partition, process will probably last longer and the procedure will be more complex.
 There is no way you can encrypt whole system disk with LUKS without unmounting partition to encrypt.
 For this purpose was developed {\it luksipc}, the LUKS In-Place Conversion Tool \cite{luksipc}.
 Steps to encrypt disk using {\it luksipc} are on appendix \ref{luksipc}.

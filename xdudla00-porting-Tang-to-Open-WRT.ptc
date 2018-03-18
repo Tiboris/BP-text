@@ -34,20 +34,22 @@
 \contentsline {chapter}{\numberline {5}OpenWrt system}{17}{chapter.5}
 \contentsline {section}{\numberline {5.1}OPKG Package manager}{17}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{17}{subsection.5.1.1}
-\contentsline {chapter}{\numberline {6}Porting procedure}{18}{chapter.6}
-\contentsline {chapter}{\numberline {7}Contributing}{19}{chapter.7}
-\contentsline {chapter}{\numberline {8}Conclusion}{20}{chapter.8}
-\contentsline {chapter}{Bibliography}{21}{chapter*.2}
+\contentsline {chapter}{\numberline {6}Software portability}{18}{chapter.6}
+\contentsline {section}{\numberline {6.1}Porting to OpenWrt}{18}{section.6.1}
+\contentsline {chapter}{\numberline {7}Tang with xinetd}{20}{chapter.7}
+\contentsline {chapter}{\numberline {8}Contributing}{21}{chapter.8}
+\contentsline {chapter}{\numberline {9}Conclusion}{22}{chapter.9}
+\contentsline {chapter}{Bibliography}{23}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Disk content}{23}{appendix.A}
-\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{24}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{24}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{25}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{26}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{26}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{26}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{27}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{27}{section.C.4}
+\contentsline {chapter}{\numberline {A}Disk content}{25}{appendix.A}
+\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{26}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{26}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{27}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{28}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{28}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{28}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{29}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{29}{section.C.4}
 \contentsfinish 
