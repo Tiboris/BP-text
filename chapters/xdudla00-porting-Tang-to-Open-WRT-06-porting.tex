@@ -10,7 +10,10 @@ This kind of behavior, an application that works immediately after or even witho
 It often happens when we copy application from one desktop computer to another one, not realizing that they have processors with same instructions set and same or very simmilar operating system.
 But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design, how application is meant to be deployed and of course application's source code.
 
-Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.\todo{Architectures}
+Porting is process not documented and required if we want to run thing on another platform \cite{porting_software}
+
+Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past. \todo{Architectures}
+Embeded ARM MIPS  RISC CISC x8664
 
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If software is considered as not portable, it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
@@ -23,8 +26,54 @@ But still, in the embedded system market, where OpenWrt belongs to, porting rema
 
 \section{Porting to OpenWrt}
 
+Porting to openwrt means crosscompiling software on our computer because OpenWrt was not meant to be built on.
+There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution
+problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
 
+\subsection{upstream buildroot}
 
-\todo{Buildroot, SDK, upstream directory}
+Upstream Buildroot of OpenWrt is on github back then patches could been submitted by mailing list
+it contains openwrt root, packages root, we will see how they are connected and how to use them.
+But first we need to install all the dependencies that we need for this buildroot to be functional and ready to produce packages for our desired architecture on OpenWrt platform
+Dependencies can be found on openwrt forum but i will list used depences on my system fedora 27
 
-\todo{Makefiles}
+list dependencies and their versions
+
+version of upstream buildroot is as mentioned important i have been working with upstream and all changes on upstream may affect your buildroot and maybe need to update dependency for buildroots
+latest working upsream master commit that we were working with is ADD
+
+we can clone build root from upstream with git Worflow should be to fork, clone forked copy to ourselves set upstream origin then when creating or wanting to edit any package we should create branch for this changes and then commit patches to this branch
+when branch is ready create pull request and hope for the best that it wont be automatically revoked and just minor changes will be required.
+after comunication with upstream and resolving all the possible issues our patch is ready to push to upstream.
+
+where upstream changes are? how i can download ltest packages and what should i do to have them on my system?
+
+\subsection{working with buildroot}
+
+describe buildroot topology and descibe what every single thing is what for
+make will trigger making all packages not like in sdk
+difference working with sdk and buildroot that sdk build only packages and buildroot can buld only package but it is designed to build entire image
+for specified architecture respectively device from list
+do not know how to add there new device but may provide link
+configured with make menuconfig shown here firstly select architecture and configuration will be generated into .config :
+in sdk .config is pre generated and make menuconfig (need to find out if possible)
+
+on sdk make will trigger only buildinf packages in directory package and it has to be done right way
+it is also possible to do this with build root but is better to have upstream or own packages there in right directory
+
+screen
+
+make menuconfig is to select all packages which we want to build  todo findout if it is neccessary to buld base packages for selected
+
+make
+
+feeds install -a
+
+tm tmp is needed if package directory has been edited to regenerate metadata of what (todo find out)
+
+it is better to know what we are installig with feeds install and to choose only required packages for one newly choosed package to build
+
+\subsection{subsection name}
+{Makefiles}
+
+This is very important part of creating new packages therefore porting them to openwrt this file is similar to specfiles on fedora and
