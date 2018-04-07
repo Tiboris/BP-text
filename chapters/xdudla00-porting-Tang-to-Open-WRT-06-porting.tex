@@ -24,10 +24,10 @@ Despite dominance of the x86 architecture there is usually a need to recompile s
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
 But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue.
 
-\section{Porting to OpenWrt}
+\section{Porting to OpenWrt} %http://www.lemis.com/grog/Documentation/PUS/porting_unix_software-complete.pdf
 
 Porting to openwrt means crosscompiling software on our computer because OpenWrt was not meant to be built on.
-There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution
+There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
 problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
 
 \subsection{upstream buildroot}
@@ -73,7 +73,6 @@ tm tmp is needed if package directory has been edited to regenerate metadata of 
 
 it is better to know what we are installig with feeds install and to choose only required packages for one newly choosed package to build
 
-\subsection{subsection name}
-{Makefiles}
+\subsection{Makefiles}
 
 This is very important part of creating new packages therefore porting them to openwrt this file is similar to specfiles on fedora and

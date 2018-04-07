@@ -25,7 +25,7 @@
 %\documentclass[english,zadani,cprint]{fitthesis} % for the print - links are black, logo is color
 % * Je-li práce psaná v anglickém jazyce, je zapotřebí u třídy použít
 %   parametr english následovně:
-%   If thesis is written in english, it is necessary to use 
+%   If thesis is written in english, it is necessary to use
 %   parameter english as follows:
 %      \documentclass[english]{fitthesis}
 % * Je-li práce psaná ve slovenském jazyce, je zapotřebí u třídy použít
@@ -71,7 +71,7 @@
 % problém je, že balíček hyperref musí být uveden jako poslední, takže nemůže
 % být v šabloně
 % "hyperref" package create clickable links in pdf if you are using pdflatex.
-% Problem is that this package have to be introduced as the last one so it 
+% Problem is that this package have to be introduced as the last one so it
 % can not be placed in the template file.
 \ifWis
 \ifx\pdfoutput\undefined % nejedeme pod pdflatexem / we are not using pdflatex
@@ -127,14 +127,47 @@
   %supervisor.title.a={Ph.D.},    %titul za jménem (nepovinné) / title after the name (optional)
   % Klíčová slova / keywords
   %keywords.cs={Sem budou zapsána jednotlivá klíčová slova v českém (slovenském) jazyce, oddělená čárkami.}, % klíčová slova v českém či slovenském jazyce / keywords in czech or slovak language
-  keywords.cs={portovanie, Tang, server, OpenWrt, operačný systém, vstavaný, Clevis, klient, Escrow, šifrovanie, LUKS,
- pevný disk, diskový oddiel, šifrovací kľúč, automatizácia, cross-kompilácia, balíkový systém }
-  keywords.en={Sem budou zapsána jednotlivá klíčová slova v anglickém jazyce, oddělená čárkami.}, % klíčová slova v anglickém jazyce / keywords in english
+  keywords.cs={
+    portovanie,
+    Tang,
+    server,
+    Clevis,
+    klient,
+    Escrow,
+    OpenWrt,
+    operačný systém,
+    vstavané zariadenie,
+    šifrovanie,
+    LUKS,
+    pevný disk,
+    diskový oddiel,
+    šifrovací kľúč,
+    automatizácia,
+    cross-kompilácia,
+    balíkový systém },
+  keywords.en={
+    porting,
+    Tang,
+    server,
+    Clevis,
+    client,
+    Escrow,
+    OpenWrt,
+    operating system,
+    embedded device,
+    encryption,
+    LUKS,
+    hard drive,
+    disk partition,
+    encryption key,
+    automation,
+    cross-compiling,
+    package system },
   % Abstrakt / Abstract
   %abstract.cs={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}, % abstrakt v českém či slovenském jazyce / abstract in czech or slovak language
   %abstract.en={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v anglickém jazyce.}, % abstrakt v anglickém jazyce / abstract in english
   abstract.cs={Hlavným cieľom tejto práce je sprístupnenie serveru Tang na vstavané zariadenia typu WiFi smerovač s plne modulárnym operačným systémom OpenWrt. Tým dosiahneme anonymnú správu šifrovacích kľúčov pre domáce siete a siete malých firiem. Preto táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie pevného disku počítača. Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie na operačných systémoch typu Linux. Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera, ktorý vstupuje do procesu ako tretia strana. Sú v nej popísané princípy serverov Key Escrow a Tang. Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a cross-kompilácie na platforme Linux.  Práca obsahuje zdokumentovaný postup prispievania zmien a novo vytvorených balíkov pre OpenWrt do príslušných Open Source projektov.}
-abstract.en={This thesis describes the encryption and its application to secure the computer's hard drive. It describes the structure of the encrypted disk's partition according to the LUKS specification on Linux operating systems. The thesis focus on describing possibilities of automating the disk decryption process using an external server that enters the process as a third party. It describes the principles of Key Escrow and Tang server. Steps required to compile and configure the Tang server are described too. Also described is Tang server's client -- Clevis. The main objective of this work was to port and document the process of porting the Tang server and its dependencies to OpenWrt system, described in this thesis too, which is designed for embedded devices such as WiFi routers. The thesis also includes a documented process of contributing changes and newly created OpenWrt packages to relevant Open Source projects.}
+  abstract.en={This thesis describes the encryption and its application to secure the computer's hard drive. It describes the structure of the encrypted disk's partition according to the LUKS specification on Linux operating systems. The thesis focus on describing possibilities of automating the disk decryption process using an external server that enters the process as a third party. It describes the principles of Key Escrow and Tang server. Steps required to compile and configure the Tang server are described too. Also described is Tang server's client -- Clevis. The main objective of this work was to port and document the process of porting the Tang server and its dependencies to OpenWrt system, described in this thesis too, which is designed for embedded devices such as WiFi routers. The thesis also includes a documented process of contributing changes and newly created OpenWrt packages to relevant Open Source projects.}
   % Prohlášení (u anglicky psané práce anglicky, u slovensky psané práce slovensky) / Declaration (for thesis in english should be in english)
   declaration={Hereby I declare that this term project was prepared as an original author’s work under the supervision of Ing. Ondrej Lichtner.
   The supplementary information was provided by Jan Pazdziora, Ph. D.
@@ -181,7 +214,7 @@ abstract.en={This thesis describes the encryption and its application to secure 
   \setlength{\parskip}{0pt}
 
   {\hypersetup{hidelinks}\tableofcontents}
-  
+
   % Seznam obrazku a tabulek (pokud prace obsahuje velke mnozstvi obrazku, tak se to hodi)
   % List of figures and list of tables (if the thesis contains a lot of pictures, it is good)
   \ifczech
@@ -247,7 +280,7 @@ abstract.en={This thesis describes the encryption and its application to secure 
     \def\@openbib@code{\addcontentsline{toc}{chapter}{Literatura}}
     \makeatother
     \bibliographystyle{bib-styles/czechiso}
-  \else 
+  \else
     \makeatletter
     \def\@openbib@code{\addcontentsline{toc}{chapter}{Bibliography}}
     \makeatother
@@ -302,7 +335,7 @@ abstract.en={This thesis describes the encryption and its application to secure 
   \setlength{\parskip}{0pt}
   % seznam příloh / list of appendices
   % \printcontents[chapters]{l}{0}{\setcounter{tocdepth}{2}}
-  
+
   \ifODSAZ
     \setlength{\parskip}{0.5\bigskipamount}
   \else
