@@ -2,18 +2,17 @@
 
 Ideally, any software would be usable on any operating system, platform, and any processor architecture.
 Existence of term "porting", derived from the Latin portāre which means "to~carry", proves that this ideal situation does not occurs that often, and acctual process of "carrying" software to system with different environment is most probably required.
+Porting is process not documented and required if we want to run thing on another platform \cite{porting_software}.
 Porting is also used to describe procces of converting computer games to became platform independent.
 
 Software porting procces might be hard to distinguish with building software.
 The reason might be that in many cases building software on desired platform is enough, when software application does not work "out of the box".
 This kind of behavior, an application that works immediately after or even without any special installation and without need for any configuration or modification, is ideal.
-It often happens when we copy application from one desktop computer to another one, not realizing that they have processors with same instructions set and same or very simmilar operating system.
+It often happens when we copy application from one computer to another, not realizing that they have processors with same instructions set and same or very simmilar operating system therefore envoroment.
 But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design, how application is meant to be deployed and of course application's source code.
 
-Porting is process not documented and required if we want to run thing on another platform \cite{porting_software}
-
-Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past. \todo{Architectures}
-Embeded ARM MIPS  RISC CISC x8664
+Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.
+Embeded ARM MIPS  RISC CISC x8664.
 
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If software is considered as not portable, it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
@@ -24,11 +23,73 @@ Despite dominance of the x86 architecture there is usually a need to recompile s
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
 But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue.
 
-\section{Porting to OpenWrt} %http://www.lemis.com/grog/Documentation/PUS/porting_unix_software-complete.pdf
+\section{OpenWrt's toolchain} %http://www.lemis.com/grog/Documentation/PUS/porting_unix_software-complete.pdf
 
-Porting to openwrt means crosscompiling software on our computer because OpenWrt was not meant to be built on.
+Embeded devices are not meant for building on them because they does not have enough memory nor computation resorces as ordinary personal computers do.
+Building on such device would be time consuming and may result to overheating, which could cause hardware to fail.
+For this particular reason package building is done with cross-compiler which contains:
+
+\begin{itemize}
+    \item compiler
+    \item linker
+    \item a C standard library
+\end{itemize}
+
+Cross-compilation is done on  on another system in correspondent enviroment called toolchain.
+For porting to OpenWrt system we need to have set up an enviroment for cross-compilation first.
+This enviroment is called toolchain
+On "host" system we have to generate this cross-compilation toolchain.
+
+The OpenWrt buildroot is a set of Makefiles and patches that allows users to do so.
+
+The OpenWrt build system can generate also a root filesystem for embedded systems.
+
+
+
+The cross-compilation toolchain uses musl, a tiny C standard library.
+
+
+
+\subsection{Compiler}
+
+In a nutshell compilers translate the high level programming language source code into lower level language such as machine understandable assembly instructions.
+To do so compiler is performing many operations starting with preprocessing.
+
+Preprocessing is
+
+Lexical analysis,
+
+Parsing,
+
+Semantic analysis (syntax-directed translation),
+
+Conversion of input programs to an intermediate representation,
+
+Code optimization
+
+Code generation
+
+They can create binary executable files and object files.
+
+Cross-compiler is programming tool capable of creating executable code that is supposed to run on a "target" architecture, in a similar or completely different enviroment, while working on a different "host" architecture.
+Reason for using cross-compiling might be to separate the build environment from target environment as well.
+OpenWrt toolchain uses gcc compiler, and it is one of the most important parts of toolchain.
+
+\subsection{Linker}
+
+bla ble bli
+
+\subsection{C standard library}
+
+
+bla ble bli
+
+
 There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
 problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
+
+
+
 
 \subsection{upstream buildroot}
 
@@ -58,16 +119,16 @@ do not know how to add there new device but may provide link
 configured with make menuconfig shown here firstly select architecture and configuration will be generated into .config :
 in sdk .config is pre generated and make menuconfig (need to find out if possible)
 
-on sdk make will trigger only buildinf packages in directory package and it has to be done right way
+on sdk make will trigger only building packages in directory package and it has to be done right way
 it is also possible to do this with build root but is better to have upstream or own packages there in right directory
 
 screen
 
 make menuconfig is to select all packages which we want to build  todo findout if it is neccessary to buld base packages for selected
 
-make
+{\tt \$ make}
 
-feeds install -a
+{\tt \$ feeds install -a}
 
 tm tmp is needed if package directory has been edited to regenerate metadata of what (todo find out)
 
@@ -76,3 +137,14 @@ it is better to know what we are installig with feeds install and to choose only
 \subsection{Makefiles}
 
 This is very important part of creating new packages therefore porting them to openwrt this file is similar to specfiles on fedora and
+
+\begin{lstlisting}[language=c,basicstyle=\ttfamily\footnotesize,label=c,caption=Basic C code.]
+    #include<stdio.h>
+    #include<iostream>
+    int main(void)
+    {
+        printf("Hello World\n");
+        // comment
+        return 0;
+    }
+\end{lstlisting}
