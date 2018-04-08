@@ -27,7 +27,9 @@ But still, in the embedded system market, where OpenWrt belongs to, porting rema
 
 Embeded devices are not meant for building on them because they does not have enough memory nor computation resorces as ordinary personal computers do.
 Building on such device would be time consuming and may result to overheating, which could cause hardware to fail.
-For this particular reason package building is done with cross-compiler which contains:
+For this particular reason package building is done with cross-compiler.
+
+Cross-compilation is done by set of tools called toolchain and it consists of:
 
 \begin{itemize}
     \item compiler
@@ -35,19 +37,15 @@ For this particular reason package building is done with cross-compiler which co
     \item a C standard library
 \end{itemize}
 
-Cross-compilation is done on  on another system in correspondent enviroment called toolchain.
-For porting to OpenWrt system we need to have set up an enviroment for cross-compilation first.
-This enviroment is called toolchain
-On "host" system we have to generate this cross-compilation toolchain.
+For porting to "target" (OpenWrt) system this toolchain has to be generated on "host" system.
+The toolchain can be achieved in many different ways.
+The easiest way is undoubtedly to find a .rpm (or .deb) package and have it installed on our "host" system.
+If a binary package with desired toolchain is not available for your system or is not available at all, there might be need to compile a custom toolchain from scratch.% underline If this this case, tools like crosstool-ng may help.
+In OpenWrt case we have available build system (buildroot) which is a set of Makefiles and patches capable of generating toolchain for devices that are supported by OpenWrt.
+The OpenWrt's build system can also generate a root filesystem tightly bounded to target's enviroment.
 
-The OpenWrt buildroot is a set of Makefiles and patches that allows users to do so.
-
-The OpenWrt build system can generate also a root filesystem for embedded systems.
-
-
-
-The cross-compilation toolchain uses musl, a tiny C standard library.
-
+There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
+problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
 
 
 \subsection{Compiler}
@@ -81,17 +79,27 @@ bla ble bli
 
 \subsection{C standard library}
 
+The OpenWrt's cross-compilation toolchain uses musl, a tiny C standard library.
 
-bla ble bli
+\section{OpenWrt's Buildroot}
+
+The sysroot is a mere copy of the file system of your target platform.
+Actually, you do not need to copy the entire file system on your host: the folders /usr and /lib would suffice.
+
+It is a good idea to keep all these things gathered in a single place.
+I suggest you create a folder (e.g. x-compile) and store the tool-chain and the sysroot in there.
+Be tidy, because things can easily become a painful mess!
 
 
-There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
-problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
+\subsection{Satisfy the dependencies}
 
+When you start porting a code to a specific target platform, it is likely that the first problem you will face is to satisfy a few (many?) missing dependencies. This problem is easy to solve in principle, but can easily mess things up to a level you wouldn’t imagine.
 
+If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow. Dependencies can be satisfied in two ways: with static libraries or with shared libraries. If you are lucky, you could find a binary package providing what you need (i.e. the library files AND the header files), but most often you will have to cross-compile the source code on your own. Either ways, you end up with one or more binary files and a bunch of header files. Where to put them? Well, that depends. There are a few different situations that can happen, but basically everything reduces to two cases:
 
+In the sysroot. If you are satisfying the dependencies with shared libraries (.so files) this is probably the most common solution (and maybe, the best solution). Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform. So there is a natural answer to the question above: install them in the target sysroot, for example in /usr/lib (the binary shared files) and /usr/include (the header files). Or in any other path that allow the loader to find those libraries when the program executes. AND, install them in the file system of the actual target machine, in the same places, in order to make everything work as expected. Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when you cross-compile a program.
 
-\subsection{upstream buildroot}
+In a different folder. This could be an interesting solution to keep the libraries that you cross-compiled on your own separated from the other libraries (for example, the system libraries). You can do that if you want (I often do that!) but if you do, you must remember to provide to compiler and linker programs with the paths where header files and binary files can be found. With static libraries, this information are only needed at compile and linking time, but if you are using shared libraries, this won’t suffice. You also must specify where these libraries can be found at run time.
 
 Upstream Buildroot of OpenWrt is on github back then patches could been submitted by mailing list
 it contains openwrt root, packages root, we will see how they are connected and how to use them.
@@ -109,7 +117,7 @@ after comunication with upstream and resolving all the possible issues our patch
 
 where upstream changes are? how i can download ltest packages and what should i do to have them on my system?
 
-\subsection{working with buildroot}
+\subsection{Working with buildroot}
 
 describe buildroot topology and descibe what every single thing is what for
 make will trigger making all packages not like in sdk
@@ -143,7 +151,7 @@ This is very important part of creating new packages therefore porting them to o
     #include<iostream>
     int main(void)
     {
-        printf("Hello World\n");
+        printf("Chello World\n");
         // comment
         return 0;
     }
