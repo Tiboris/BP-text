@@ -35,28 +35,30 @@
 \contentsline {section}{\numberline {5.1}OPKG Package manager}{17}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{17}{subsection.5.1.1}
 \contentsline {chapter}{\numberline {6}Software portability}{18}{chapter.6}
-\contentsline {section}{\numberline {6.1}OpenWrt's toolchain}{19}{section.6.1}
+\contentsline {section}{\numberline {6.1}OpenWrt's toolchain }{19}{section.6.1}
 \contentsline {subsection}{\numberline {6.1.1}Compiler}{19}{subsection.6.1.1}
 \contentsline {subsection}{\numberline {6.1.2}Linker}{19}{subsection.6.1.2}
-\contentsline {subsection}{\numberline {6.1.3}C standard library}{20}{subsection.6.1.3}
-\contentsline {section}{\numberline {6.2}OpenWrt's Buildroot}{20}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Satisfy the dependencies}{20}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Working with buildroot}{21}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}Makefiles}{21}{subsection.6.2.3}
-\contentsline {chapter}{\numberline {7}Tang with xinetd}{22}{chapter.7}
-\contentsline {chapter}{\numberline {8}Contributing}{23}{chapter.8}
-\contentsline {chapter}{\numberline {9}Conclusion}{24}{chapter.9}
-\contentsline {chapter}{Bibliography}{25}{chapter*.2}
+\contentsline {subsection}{\numberline {6.1.3}C standard library}{19}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}OpenWrt's buildroot}{20}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Getting buildroot}{20}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Buildroot prerequisites}{20}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Satisfy the dependencies}{21}{subsection.6.2.3}
+\contentsline {section}{\numberline {6.3}Working with buildroot}{22}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Makefiles}{23}{subsection.6.3.1}
+\contentsline {chapter}{\numberline {7}Tang with xinetd}{24}{chapter.7}
+\contentsline {chapter}{\numberline {8}Contributing}{25}{chapter.8}
+\contentsline {chapter}{\numberline {9}Conclusion}{26}{chapter.9}
+\contentsline {chapter}{Bibliography}{27}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Disk content}{27}{appendix.A}
-\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{28}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{28}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{29}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{30}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{30}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{30}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{31}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{31}{section.C.4}
+\contentsline {chapter}{\numberline {A}Disk content}{29}{appendix.A}
+\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{30}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{30}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{31}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{32}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{32}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{32}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{33}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{33}{section.C.4}
 \contentsfinish 

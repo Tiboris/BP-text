@@ -23,9 +23,9 @@ Despite dominance of the x86 architecture there is usually a need to recompile s
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
 But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue.
 
-\section{OpenWrt's toolchain} %http://www.lemis.com/grog/Documentation/PUS/porting_unix_software-complete.pdf
+\section{OpenWrt's toolchain } %http://www.lemis.com/grog/Documentation/PUS/porting_unix_software-complete.pdf
 
-Embeded devices are not meant for building on them because they does not have enough memory nor computation resorces as ordinary personal computers do.
+Embeded devices are not meant for building on them because they does not have enough memory nor computation resorces as ordinary personal computers do(see Table \ref{routerspec}).
 Building on such device would be time consuming and may result to overheating, which could cause hardware to fail.
 For this particular reason package building is done with cross-compiler.
 
@@ -37,20 +37,16 @@ Cross-compilation is done by set of tools called toolchain and it consists of:
     \item a C standard library
 \end{itemize}
 
-For porting to "target" (OpenWrt) system this toolchain has to be generated on "host" system.
+For porting to "target"  system (OpenWrt) this toolchain has to be generated on "host" system.
 The toolchain can be achieved in many different ways.
 The easiest way is undoubtedly to find a .rpm (or .deb) package and have it installed on our "host" system.
 If a binary package with desired toolchain is not available for your system or is not available at all, there might be need to compile a custom toolchain from scratch.% underline If this this case, tools like crosstool-ng may help.
-In OpenWrt case we have available build system (buildroot) which is a set of Makefiles and patches capable of generating toolchain for devices that are supported by OpenWrt.
-The OpenWrt's build system can also generate a root filesystem tightly bounded to target's enviroment.
 
-There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
-problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
-
+In case of OpenWrt we have available a set of Makefiles and patches called buildroot which is capable of generating toolchain.
 
 \subsection{Compiler}
 
-In a nutshell compilers translate the high level programming language source code into lower level language such as machine understandable assembly instructions.
+In a nutshell compilers translate the high level programming language source code into lower level language such as machine understandable assembler instructions.
 To do so compiler is performing many operations starting with preprocessing.
 
 Preprocessing is
@@ -81,43 +77,118 @@ bla ble bli
 
 The OpenWrt's cross-compilation toolchain uses musl, a tiny C standard library.
 
-\section{OpenWrt's Buildroot}
+\section{OpenWrt's buildroot}
 
-The sysroot is a mere copy of the file system of your target platform.
-Actually, you do not need to copy the entire file system on your host: the folders /usr and /lib would suffice.
+OpenWrt's buildroot is a build system capable of generating toolchain, and also a root filesystem (also called sysroot), enviroment tightly bound to target.
+Build system can be configured for any device that is supported by OpenWrt.
 
-It is a good idea to keep all these things gathered in a single place.
-I suggest you create a folder (e.g. x-compile) and store the tool-chain and the sysroot in there.
-Be tidy, because things can easily become a painful mess!
+The root filesystem in general is a mere copy of the file system of target's platform.
+In many cases just having the folders /usr and /lib would be sufficient, therefore we do not need to copy nor create the entire target file system on our host .
 
+It is a good idea to store all these things, the toolchain and the root filesystem in a single place.
+With using OpenWrt's buildroot we will have this covered.
+Be tidy and pedantic, because cross-compiling can easily become a painful mess!
+
+\subsection{Getting buildroot}
+
+There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
+problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
+we can clone buildroot from upstream with git Worflow should be to fork, clone forked copy to ourselves
+
+\subsection{Buildroot prerequisites}
+
+To generate an installable OpenWrt firmware image file with a size of e.g. 8MB, we will need at least:
+
+\begin{itemize}
+\item ca. 200 MB for OpenWrt build system
+\item ca. 300 MB for OpenWrt build system with OpenWrt Feeds
+\item ca. 2.1 GB for source packages downloaded during build from the Feeds
+\item ca. 3-4 GB to build (i.e. cross-compile) OpenWrt and generate the firmware file
+\item ca. 1-4 GB of RAM to build Openwrt.(build x86's img need 4GB RAM)
+\end{itemize}
+
+To demonstrate what are minimum requirements of space and size of RAM (Random Access Memory) for building packages to Openwrt using its buildroot let us have a look on hardware specifications of regular wireless router.
+These are specifications of embedded device TL-WR842Nv3 manufactured by TP-LINK which was used to test all packages related to Tang server porting effort:
+
+\begin{table}[h]
+\centering
+\label{routerspec}
+\begin{tabular}{c|c}
+\hline
+Model           &   TL-WR842N(EU)                   \\ \hline
+Version         &   v3                              \\ \hline
+Architecture:   &   MIPS 24Kc                       \\ \hline
+Manufacturer:   &   Qualcomm Atheros                \\ \hline
+Bootloader:     &   U-Boot                          \\ \hline
+System-On-Chip: &   Qualcomm Atheros QCA9531-BL3A   \\ \hline
+CPU Speed:      &   650 MHz                         \\ \hline
+Flash chip:     &   Winbond 25Q128CS16              \\ \hline
+Flash size:     &   16 MiB                          \\ \hline
+RAM chip:       &   Zentel A3R12E40CBF-8E           \\ \hline
+RAM size:       &   64 MiB                          \\ \hline
+Wireless:       &   Qualcomm Atheros QCA9531        \\ \hline
+Antenae(s):     &   2 non-removable                 \\ \hline
+Ethernet:       &   4 LAN, 1 WAN 10/100             \\ \hline
+USB:            &   1 x 2.0                         \\ \hline
+Serial:         &   ?                               \\ \hline
+\end{tabular}
+\caption{TL-WR842Nv3 specifications}
+\end{table}
+
+The actual sum of space required only for buildroot to work correctly which is about 6.4 GB compared to available storage space on wireless router should be demonstrative why is building for embedded devices done with cross-compiling.
+The another reasons, not to just compare internal storage which might be extended (as shown on apendix TODOapendix), are device's minimalistic RAM size and not that "powerfull" CPU.\todo{add more about CPU}
+
+To be able to work with OpenWrt's bildroot we will need lots of buildroot dependencies.
+But first we need to install all the dependencies that we need for this buildroot to be functional and ready to produce packages for our desired architecture on OpenWrt platform
+This is how we install buildroot prerequisites on Fedora 27 system:
+
+\begin{lstlisting}[language=bash,basicstyle=\ttfamily\footnotesize,label=fedora-install,caption=Prerequisites installation on Fedora 27]
+    dnf install -y subversion binutils bzip2 gcc gcc-c++ \
+    gawk gettext git-core flex ncurses-devel ncurses-compat-libs \
+    zlib-devel zlib-static make patch unzip perl-ExtUtils-MakeMaker \
+    perl-Thread-Queue  glibc glibc-devel glibc-static quilt sed \
+    sdcc intltool sharutils bison wget openssl-devel
+\end{lstlisting}
+
+Please not that this command has to be run with root privileges do it with sudo or as a root user.
 
 \subsection{Satisfy the dependencies}
 
-When you start porting a code to a specific target platform, it is likely that the first problem you will face is to satisfy a few (many?) missing dependencies. This problem is easy to solve in principle, but can easily mess things up to a level you wouldn’t imagine.
+When you start porting a code to a specific target platform, it is likely that the first problem you will face is to satisfy a few (many?) missing dependencies.
+This problem is easy to solve in principle, but can easily mess things up to a level you wouldn’t imagine.
 
-If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow. Dependencies can be satisfied in two ways: with static libraries or with shared libraries. If you are lucky, you could find a binary package providing what you need (i.e. the library files AND the header files), but most often you will have to cross-compile the source code on your own. Either ways, you end up with one or more binary files and a bunch of header files. Where to put them? Well, that depends. There are a few different situations that can happen, but basically everything reduces to two cases:
+If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow.
+Dependencies can be satisfied in two ways: with static libraries or with shared libraries.
+If you are lucky, you could find a binary package providing what you need (i.e. the library files AND the header files), but most often you will have to cross-compile the source code on your own.
+Either ways, you end up with one or more binary files and a bunch of header files.
+Where to put them? Well, that depends.
+There are a few different situations that can happen, but basically everything reduces to two cases:
 
-In the sysroot. If you are satisfying the dependencies with shared libraries (.so files) this is probably the most common solution (and maybe, the best solution). Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform. So there is a natural answer to the question above: install them in the target sysroot, for example in /usr/lib (the binary shared files) and /usr/include (the header files). Or in any other path that allow the loader to find those libraries when the program executes. AND, install them in the file system of the actual target machine, in the same places, in order to make everything work as expected. Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when you cross-compile a program.
+In the sysroot.
+If you are satisfying the dependencies with shared libraries (.so files) this is probably the most common solution (and maybe, the best solution).
+Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
+So there is a natural answer to the question above: install them in the target sysroot, for example in /usr/lib (the binary shared files) and /usr/include (the header files). Or in any other path that allow the loader to find those libraries when the program executes.
+AND, install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
+Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when you cross-compile a program.
 
-In a different folder. This could be an interesting solution to keep the libraries that you cross-compiled on your own separated from the other libraries (for example, the system libraries). You can do that if you want (I often do that!) but if you do, you must remember to provide to compiler and linker programs with the paths where header files and binary files can be found. With static libraries, this information are only needed at compile and linking time, but if you are using shared libraries, this won’t suffice. You also must specify where these libraries can be found at run time.
+In a different folder.
+This could be an interesting solution to keep the libraries that you cross-compiled on your own separated from the other libraries (for example, the system libraries).
+You can do that if you want (I often do that!) but if you do, you must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
+With static libraries, this information are only needed at compile and linking time, but if you are using shared libraries, this won’t suffice.
+You also must specify where these libraries can be found at run time.
 
-Upstream Buildroot of OpenWrt is on github back then patches could been submitted by mailing list
-it contains openwrt root, packages root, we will see how they are connected and how to use them.
-But first we need to install all the dependencies that we need for this buildroot to be functional and ready to produce packages for our desired architecture on OpenWrt platform
-Dependencies can be found on openwrt forum but i will list used depences on my system fedora 27
-
-list dependencies and their versions
-
-version of upstream buildroot is as mentioned important i have been working with upstream and all changes on upstream may affect your buildroot and maybe need to update dependency for buildroots
-latest working upsream master commit that we were working with is ADD
-
-we can clone build root from upstream with git Worflow should be to fork, clone forked copy to ourselves set upstream origin then when creating or wanting to edit any package we should create branch for this changes and then commit patches to this branch
+we can clone packages from upstream with git Worflow should be to fork, clone forked copy to ourselves set upstream origin then when creating or wanting to edit any package we should create branch for this changes and then commit patches to this branch
 when branch is ready create pull request and hope for the best that it wont be automatically revoked and just minor changes will be required.
 after comunication with upstream and resolving all the possible issues our patch is ready to push to upstream.
 
 where upstream changes are? how i can download ltest packages and what should i do to have them on my system?
 
-\subsection{Working with buildroot}
+\section{Working with buildroot}
+
+1. Do everything as non-root user!
+2. Issue all OpenWrt build system commands in the <buildsystem root> directory, e.g. ~/openwrt/trunk/
+3. Do not build in a directory that has spaces in its full path.
+4. Change ownership of the directory where you downloaded the OpenWrt to other than root user
 
 describe buildroot topology and descibe what every single thing is what for
 make will trigger making all packages not like in sdk
