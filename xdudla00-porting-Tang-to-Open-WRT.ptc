@@ -45,19 +45,29 @@
 \contentsline {section}{\numberline {6.3}Working with buildroot}{21}{section.6.3}
 \contentsline {section}{\numberline {6.4}Makefiles for OpenWrt's packages}{22}{section.6.4}
 \contentsline {chapter}{\numberline {7}Satisfy the dependencies}{23}{chapter.7}
-\contentsline {chapter}{\numberline {8}Contributing}{25}{chapter.8}
-\contentsline {chapter}{\numberline {9}Conclusion}{26}{chapter.9}
-\contentsline {chapter}{Bibliography}{27}{chapter*.2}
+\contentsline {section}{\numberline {7.1}Find the depencies}{24}{section.7.1}
+\contentsline {section}{\numberline {7.2}Update outdated packages}{24}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Update jansson}{25}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Update http-parser}{25}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}Create new packages}{25}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Create Jos\IeC {\'e}}{25}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Create Tang}{25}{subsection.7.3.2}
+\contentsline {section}{\numberline {7.4}Contribute your work}{25}{section.7.4}
+\contentsline {chapter}{\numberline {8}Contribute your work}{26}{chapter.8}
+\contentsline {section}{\numberline {8.1}Make it look easy}{26}{section.8.1}
+\contentsline {section}{\numberline {8.2}Follow contribution guide}{26}{section.8.2}
+\contentsline {chapter}{\numberline {9}Conclusion}{27}{chapter.9}
+\contentsline {chapter}{Bibliography}{28}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Disk content}{29}{appendix.A}
-\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{30}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{30}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{31}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{32}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{32}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{32}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{33}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{33}{section.C.4}
+\contentsline {chapter}{\numberline {A}Disk content}{30}{appendix.A}
+\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{31}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{31}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{32}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{33}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{33}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{33}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{34}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{34}{section.C.4}
 \contentsfinish 

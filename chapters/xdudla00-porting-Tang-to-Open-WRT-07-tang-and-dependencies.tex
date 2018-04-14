@@ -1,40 +1,81 @@
 \chapter{Satisfy the dependencies}\label{tangservice}
 
-Programs don’t run in a vacuum: they interface with the outside world. The view of this outside
-world differs from environment to environment: things like host names, system resources, and
+Programs don’t run in a vacuum but they interface with the outside world.
+The view of this outside world differs from environment to environment: things like host names, system resources, and
 local conventions will be different.
 
-When you start porting a code to a specific target platform, it is likely that the first problem you will face is to satisfy a few (many?) missing dependencies.
-This problem is easy to solve in principle, but can easily mess things up to a level you wouldn’t imagine.
+When we start porting a code to a specific target platform, in our case OpenWrt, it is likely that we will face the first problem: satisfying missing dependencies.
+This problem is easy to solve in principle, but can easily mess things up to a level we wouldn’t imagine.
 
 If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow.
 Dependencies can be satisfied in two ways: with static libraries or with shared libraries.
-If you are lucky, you could find a binary package providing what you need (i.e. the library files AND the header files), but most often you will have to cross-compile the source code on your own.
-Either ways, you end up with one or more binary files and a bunch of header files.
+If we are lucky, we could find a binary package providing what we need (i.e. the library files and the header files), but most often we will have to cross-compile the source code on our own.
+Either ways, we end up with one or more binary files and a bunch of header files.
 Where to put them? Well, that depends.
-There are a few different situations that can happen, but basically everything reduces to two cases:
+There are a few different situations that can happen, but basically everything reduces to having dependencies in buildroot's root filesystem or in a different folder.
 
-In the sysroot.
-If you are satisfying the dependencies with shared libraries (.so files) this is probably the most common solution (and maybe, the best solution).
+Having dependencies in a different folder could be an interesting solution to keep the libraries that we cross-compiled on our own separated from the other libraries (for example, the system libraries).
+We can do that if we want but if we do, we must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
+\todo{look at this when running make in buildroot}
+With static libraries, this information are only needed at compile and linking time, but if we are using shared libraries, this won’t suffice.
+We must also specify where these libraries can be found at run time.
+
+If we are satisfying the dependencies with shared libraries (.so files) having dependencies in root filesystem is probably the most common solution (and maybe, the best solution).
 Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
-So there is a natural answer to the question above: install them in the target sysroot, for example in /usr/lib (the binary shared files) and /usr/include (the header files). Or in any other path that allow the loader to find those libraries when the program executes.
-AND, install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
-Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when you cross-compile a program.
+So there is a natural answer to the question above: install them in the target's root filesystem, for example in /usr/lib (the binary shared files) and /usr/include (the header files) or in any other path that allow the loader to find those libraries when the program executes.
+Do not forget to install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
+Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program.
+In case of OpenWrt we will use this approach.
 
-In a different folder.
-This could be an interesting solution to keep the libraries that you cross-compiled on your own separated from the other libraries (for example, the system libraries).
-You can do that if you want (I often do that!) but if you do, you must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
-With static libraries, this information are only needed at compile and linking time, but if you are using shared libraries, this won’t suffice.
-You also must specify where these libraries can be found at run time.
+\section{Find the depencies}
 
+To port Tang to OpenWrt system we have have all its dependencies available and installed in buildroot.
+First thing we should do is some digging and find out if dependencies for our software, we are about to port, are available for target's platform.
+All packages available for OpenWrt can be found in its github repositories.
+Let us remember Tang's dependencies first:
 
 \begin{itemize}
 \item http-parser \ref{http-parser}
-\item systemd / xinetd \ref{systemd}
-\item jose \ref{jose}
+\item systemd's socket activation\ref{systemd}
+\item José \ref{jose}
     \begin{itemize}
     \item jansson \ref{jansson}
     \item openssl \ref{openssl}
     \item zlib \ref{zlib}
     \end{itemize}
 \end{itemize}
+
+After some digging we will find out that the OpenWrt system has already packages openssl, zlib, http-parser, and jansson.
+Packages openssl and zlib are in versions already sufficient for Tang to get things work.
+
+Package http-parser was little bit tricky.
+At first try there is a chance that we will not find this package in OpenWrt's repository.
+The reason might be that we will try to find a exactly "http-parser" string in OpenWrt's GitHub repository openwrt/openwrt only.
+First of all, we must not forget that feeds of many packages are living in repository packages nested under openwrt organization.
+Secondly after searching repository openwrt/packages for http-parser we will find out that it is named as libhttp-parser.
+This, let us say naming convention, is really common in Linux and could be predictable as the http-parser is in fact only a library.
+
+Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José.
+We shall not forget that there is a need for updating jansson package for OpenWrt platform.
+
+Packages José Tang and systemd are not listed in OpenWrt's packages.
+Porting of the systemd would be huge effort but tang's requirements are minimal and we should be able to work with xinetd's socket activation.
+Finally, as José and Tang are not listed in packages they will require to add them into package feeds to port Tang itself.
+
+\section{Update outdated packages}
+
+Finding that some of dependencies are already available on our desired target platform will definitelly make us satisfied.
+
+\subsection{Update jansson}
+
+\subsection{Update http-parser}
+
+
+
+\section{Create new packages}
+
+\subsection{Create José}
+
+\subsection{Create Tang}
+
+\section{Contribute your work}
