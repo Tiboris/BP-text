@@ -1,5 +1,4 @@
-\chapter{Hard drive encryption}\label{encryption}
-
+\chapter{Encryption and how we use it}\label{encryption}
 
 We may not realize this, but we use encryption every day.
 The purpose of encryption is to keep us safe when we are browsing the internet or just storing our sensitive information on digital media.
@@ -35,6 +34,8 @@ Also the ratio of companies with no encryption strategy at all decreased from 37
 More than 50 percent companies are using extensively deployed encryption technologies to encrypt mostly databases, infrastructure and laptop hard drives \cite{Thales}.
 
 \section{Hard drive encryption}
+
+In this thesis we will talk about hard drive encryption... \todo{bla ble bli}
 
 It all starts, as mentioned, with desire to keep our data to ourselves and as a secret to others.
 More often than not, these secrets are stored on our hard drives.
@@ -75,7 +76,7 @@ But encrypting hard drive means creating another layer of computer security that
 Imagine, you come home in a mood to enjoy your time, and your system asks for password, not once, but twice just because of encrypted disk.
 This might be the reason why most of us do not use encryption, even when we know it will protect our data.
 
-\subsection{LUKS}\todo{master key}
+\subsection{LUKS}\todo{master key hmm refactor text}
 
 LUKS (Linux Unified Key Setup) is a platform-independent disk encryption specification.
 It was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions.
@@ -116,8 +117,6 @@ Structure of key slot is on Figure \ref{fig:luksslot}.
 Creating a LUKS volume might be quite tough process.
 Hard drive partition must contain the LUKS header just before the encrypted data.
 Lets sum up the easier way first.
-
-
 
 In case we have not installed our Linux operation system yet, we could simply select an option in time of installation.
 Then the installation wizard will most likely asks for pass phrase - the key encryption key.

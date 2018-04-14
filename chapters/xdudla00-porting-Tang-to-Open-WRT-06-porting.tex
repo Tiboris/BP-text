@@ -2,7 +2,7 @@
 
 Ideally, any software would be usable on any operating system, platform, and any processor architecture.
 Existence of term "porting", derived from the Latin portāre which means "to~carry", proves that this ideal situation does not occurs that often, and acctual process of "carrying" software to system with different environment is most probably required.
-Porting is process not documented and required if we want to run thing on another platform \cite{porting_software}.
+Porting is process not documented and required if we want to run thing on another platform.
 Porting is also used to describe procces of converting computer games to became platform independent.
 
 Software porting procces might be hard to distinguish with building software.
@@ -21,9 +21,9 @@ This kind of approach might most probably fail, due to not present dependencies 
 Despite dominance of the x86 architecture there is usually a need to recompile software running, not only on different operating systems, to make sure we have all the dependencies present.
 
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
-But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue.
+But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue \cite{porting_software}.
 
-\section{OpenWrt's toolchain } %http://www.lemis.com/grog/Documentation/PUS/porting_unix_software-complete.pdf
+\section{OpenWrt's toolchain}
 
 Embeded devices are not meant for building on them because they does not have enough memory nor computation resorces as ordinary personal computers do(see Table \ref{routerspec}).
 Building on such device would be time consuming and may result to overheating, which could cause hardware to fail.
@@ -40,7 +40,7 @@ Cross-compilation is done by set of tools called toolchain and it consists of:
 For porting to "target"  system (OpenWrt) this toolchain has to be generated on "host" system.
 The toolchain can be achieved in many different ways.
 The easiest way is undoubtedly to find a .rpm (or .deb) package and have it installed on our "host" system.
-If a binary package with desired toolchain is not available for your system or is not available at all, there might be need to compile a custom toolchain from scratch.% underline If this this case, tools like crosstool-ng may help.
+If a binary package with desired toolchain is not available for your system or is not available at all, there might be need to compile a custom toolchain from scratch.\footnote{tools like crosstool-ng (https://github.com/crosstool-ng/crosstool-ng) may help}
 
 In case of OpenWrt we have available a set of Makefiles and patches called buildroot which is capable of generating toolchain.
 
@@ -97,7 +97,8 @@ we can clone buildroot from upstream with git Worflow should be to fork, clone f
 
 \subsection{Buildroot prerequisites}
 
-To generate an installable OpenWrt firmware image file with a size of e.g. 8MB, we will need at least:
+Let us demonstrate what are minimum requirements of space and size of RAM (Random Access Memory) for building packages for Openwrt using its buildroot.
+For generating an installable OpenWrt firmware image file with a size of e.g. 8MB, we will need at least:
 
 \begin{itemize}
 \item ca. 200 MB for OpenWrt build system
@@ -107,8 +108,7 @@ To generate an installable OpenWrt firmware image file with a size of e.g. 8MB, 
 \item ca. 1-4 GB of RAM to build Openwrt.(build x86's img need 4GB RAM)
 \end{itemize}
 
-To demonstrate what are minimum requirements of space and size of RAM (Random Access Memory) for building packages to Openwrt using its buildroot let us have a look on hardware specifications of regular wireless router.
-These are specifications of embedded device TL-WR842Nv3 manufactured by TP-LINK which was used to test all packages related to Tang server porting effort:
+These are specifications of embedded device TL-WR842Nv3 a regular wireless router manufactured by TP-LINK which was used to test all packages related to Tang server porting effort:
 
 \begin{table}[h]
 \centering
@@ -150,32 +150,7 @@ This is how we install buildroot prerequisites on Fedora 27 system:
     sdcc intltool sharutils bison wget openssl-devel
 \end{lstlisting}
 
-Please not that this command has to be run with root privileges do it with sudo or as a root user.
-
-\subsection{Satisfy the dependencies}
-
-When you start porting a code to a specific target platform, it is likely that the first problem you will face is to satisfy a few (many?) missing dependencies.
-This problem is easy to solve in principle, but can easily mess things up to a level you wouldn’t imagine.
-
-If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow.
-Dependencies can be satisfied in two ways: with static libraries or with shared libraries.
-If you are lucky, you could find a binary package providing what you need (i.e. the library files AND the header files), but most often you will have to cross-compile the source code on your own.
-Either ways, you end up with one or more binary files and a bunch of header files.
-Where to put them? Well, that depends.
-There are a few different situations that can happen, but basically everything reduces to two cases:
-
-In the sysroot.
-If you are satisfying the dependencies with shared libraries (.so files) this is probably the most common solution (and maybe, the best solution).
-Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
-So there is a natural answer to the question above: install them in the target sysroot, for example in /usr/lib (the binary shared files) and /usr/include (the header files). Or in any other path that allow the loader to find those libraries when the program executes.
-AND, install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
-Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when you cross-compile a program.
-
-In a different folder.
-This could be an interesting solution to keep the libraries that you cross-compiled on your own separated from the other libraries (for example, the system libraries).
-You can do that if you want (I often do that!) but if you do, you must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
-With static libraries, this information are only needed at compile and linking time, but if you are using shared libraries, this won’t suffice.
-You also must specify where these libraries can be found at run time.
+Please note that this command has to be run by user with root privileges.
 
 we can clone packages from upstream with git Worflow should be to fork, clone forked copy to ourselves set upstream origin then when creating or wanting to edit any package we should create branch for this changes and then commit patches to this branch
 when branch is ready create pull request and hope for the best that it wont be automatically revoked and just minor changes will be required.
@@ -213,7 +188,7 @@ tm tmp is needed if package directory has been edited to regenerate metadata of 
 
 it is better to know what we are installig with feeds install and to choose only required packages for one newly choosed package to build
 
-\subsection{Makefiles}
+\section{Makefiles for OpenWrt's packages}
 
 This is very important part of creating new packages therefore porting them to openwrt this file is similar to specfiles on fedora and
 

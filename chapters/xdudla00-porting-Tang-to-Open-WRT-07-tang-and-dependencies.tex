@@ -1,0 +1,40 @@
+\chapter{Satisfy the dependencies}\label{tangservice}
+
+Programs don’t run in a vacuum: they interface with the outside world. The view of this outside
+world differs from environment to environment: things like host names, system resources, and
+local conventions will be different.
+
+When you start porting a code to a specific target platform, it is likely that the first problem you will face is to satisfy a few (many?) missing dependencies.
+This problem is easy to solve in principle, but can easily mess things up to a level you wouldn’t imagine.
+
+If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow.
+Dependencies can be satisfied in two ways: with static libraries or with shared libraries.
+If you are lucky, you could find a binary package providing what you need (i.e. the library files AND the header files), but most often you will have to cross-compile the source code on your own.
+Either ways, you end up with one or more binary files and a bunch of header files.
+Where to put them? Well, that depends.
+There are a few different situations that can happen, but basically everything reduces to two cases:
+
+In the sysroot.
+If you are satisfying the dependencies with shared libraries (.so files) this is probably the most common solution (and maybe, the best solution).
+Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
+So there is a natural answer to the question above: install them in the target sysroot, for example in /usr/lib (the binary shared files) and /usr/include (the header files). Or in any other path that allow the loader to find those libraries when the program executes.
+AND, install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
+Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when you cross-compile a program.
+
+In a different folder.
+This could be an interesting solution to keep the libraries that you cross-compiled on your own separated from the other libraries (for example, the system libraries).
+You can do that if you want (I often do that!) but if you do, you must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
+With static libraries, this information are only needed at compile and linking time, but if you are using shared libraries, this won’t suffice.
+You also must specify where these libraries can be found at run time.
+
+
+\begin{itemize}
+\item http-parser \ref{http-parser}
+\item systemd / xinetd \ref{systemd}
+\item jose \ref{jose}
+    \begin{itemize}
+    \item jansson \ref{jansson}
+    \item openssl \ref{openssl}
+    \item zlib \ref{zlib}
+    \end{itemize}
+\end{itemize}
