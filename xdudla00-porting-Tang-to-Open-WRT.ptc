@@ -37,43 +37,43 @@
 \contentsline {chapter}{\numberline {6}Software portability}{18}{chapter.6}
 \contentsline {section}{\numberline {6.1}OpenWrt's toolchain}{19}{section.6.1}
 \contentsline {subsection}{\numberline {6.1.1}Compiler}{19}{subsection.6.1.1}
-\contentsline {subsection}{\numberline {6.1.2}Linker}{19}{subsection.6.1.2}
-\contentsline {subsection}{\numberline {6.1.3}C standard library}{19}{subsection.6.1.3}
-\contentsline {section}{\numberline {6.2}OpenWrt's buildroot}{20}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Getting buildroot}{20}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Buildroot prerequisites}{20}{subsection.6.2.2}
-\contentsline {section}{\numberline {6.3}Working with buildroot}{21}{section.6.3}
-\contentsline {section}{\numberline {6.4}Makefiles for OpenWrt's packages}{22}{section.6.4}
-\contentsline {chapter}{\numberline {7}Satisfy the dependencies}{23}{chapter.7}
-\contentsline {section}{\numberline {7.1}Find the depencies}{24}{section.7.1}
-\contentsline {section}{\numberline {7.2}Update outdated packages}{24}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}Update jansson}{24}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}Update http-parser}{25}{subsection.7.2.2}
-\contentsline {section}{\numberline {7.3}Create new packages}{26}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Create Jos\IeC {\'e}}{27}{subsection.7.3.1}
-\contentsline {chapter}{\numberline {8}Porting Tang}{28}{chapter.8}
-\contentsline {section}{\numberline {8.1}Install dependencies}{28}{section.8.1}
-\contentsline {section}{\numberline {8.2}Socket activation with xinetd}{29}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}How }{29}{subsection.8.2.1}
-\contentsline {section}{\numberline {8.3}Cross-compile Tang}{30}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}Concealing http-parser}{31}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Mysterious Jos\IeC {\'e}}{32}{subsection.8.3.2}
-\contentsline {section}{\numberline {8.4}Configure Tang with xinetd}{33}{section.8.4}
-\contentsline {chapter}{\numberline {9}Contribute your work}{34}{chapter.9}
-\contentsline {section}{\numberline {9.1}Make it look easy}{34}{section.9.1}
-\contentsline {section}{\numberline {9.2}Follow contribution guide}{34}{section.9.2}
-\contentsline {chapter}{\numberline {10}Conclusion}{35}{chapter.10}
-\contentsline {chapter}{Bibliography}{36}{chapter*.2}
+\contentsline {subsection}{\numberline {6.1.2}Linker}{20}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}C standard library}{21}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}OpenWrt's buildroot}{21}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Getting buildroot}{21}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Buildroot prerequisites}{21}{subsection.6.2.2}
+\contentsline {section}{\numberline {6.3}Working with buildroot}{23}{section.6.3}
+\contentsline {section}{\numberline {6.4}Makefiles for OpenWrt's packages}{23}{section.6.4}
+\contentsline {chapter}{\numberline {7}Satisfy the dependencies}{24}{chapter.7}
+\contentsline {section}{\numberline {7.1}Find the depencies}{25}{section.7.1}
+\contentsline {section}{\numberline {7.2}Update outdated packages}{25}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Update jansson}{25}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Update http-parser}{26}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}Create new packages}{27}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Create Jos\IeC {\'e}}{28}{subsection.7.3.1}
+\contentsline {chapter}{\numberline {8}Porting Tang}{29}{chapter.8}
+\contentsline {section}{\numberline {8.1}Install dependencies}{29}{section.8.1}
+\contentsline {section}{\numberline {8.2}Socket activation with xinetd}{30}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}How }{30}{subsection.8.2.1}
+\contentsline {section}{\numberline {8.3}Cross-compile Tang}{31}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Concealing http-parser}{32}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Mysterious Jos\IeC {\'e}}{33}{subsection.8.3.2}
+\contentsline {section}{\numberline {8.4}Configure Tang with xinetd}{34}{section.8.4}
+\contentsline {chapter}{\numberline {9}Contribute your work}{35}{chapter.9}
+\contentsline {section}{\numberline {9.1}Make it look easy}{35}{section.9.1}
+\contentsline {section}{\numberline {9.2}Follow contribution guide}{35}{section.9.2}
+\contentsline {chapter}{\numberline {10}Conclusion}{36}{chapter.10}
+\contentsline {chapter}{Bibliography}{37}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Disk content}{38}{appendix.A}
-\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{39}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{39}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{40}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{41}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{41}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{41}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{42}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{42}{section.C.4}
+\contentsline {chapter}{\numberline {A}Disk content}{39}{appendix.A}
+\contentsline {chapter}{\numberline {B}Hard Disk Encryption With LUKS}{40}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{40}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{41}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{42}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{42}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{42}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{43}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{43}{section.C.4}
 \contentsfinish 

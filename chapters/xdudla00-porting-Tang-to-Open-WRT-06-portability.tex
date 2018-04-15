@@ -12,7 +12,7 @@ It often happens when we copy application from one computer to another, not real
 But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design, how application is meant to be deployed and of course application's source code.
 
 Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.
-Embeded ARM MIPS  RISC CISC x8664.
+However on embeded devices there are still much more various architectures available ARM MIPS  RISC CISC x8664. \todo{argh}
 
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If software is considered as not portable, it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
@@ -37,41 +37,75 @@ Cross-compilation is done by set of tools called toolchain and it consists of:
     \item a C standard library
 \end{itemize}
 
-For porting to "target"  system (OpenWrt) this toolchain has to be generated on "host" system.
+For porting to "target" system (OpenWrt) this toolchain has to be generated on "host" system.
 The toolchain can be achieved in many different ways.
 The easiest way is undoubtedly to find a .rpm (or .deb) package and have it installed on our "host" system.
 If a binary package with desired toolchain is not available for your system or is not available at all, there might be need to compile a custom toolchain from scratch.\footnote{tools like crosstool-ng (https://github.com/crosstool-ng/crosstool-ng) may help}
 
 In case of OpenWrt we have available a set of Makefiles and patches called buildroot which is capable of generating toolchain.
 
-\subsection{Compiler}
+\subsection{Compiler} \todo{rewrite section compiler}
 
 In a nutshell compilers translate the high level programming language source code into lower level language such as machine understandable assembler instructions.
 To do so compiler is performing many operations starting with preprocessing.
 
-Preprocessing is
+Preprocessing supports macro substitution and conditional compilation.
+Typically the preprocessing phase occurs before syntactic or semantic analysis.
+However, some languages such as Scheme\footnote{https://www.scheme.com/tspl4/} support macro substitutions based on syntactic forms.
 
-Lexical analysis,
+Lexical analysis, also known as lexing or tokenization, breaks the source code text into a sequence of small pieces called lexical tokens.
+Lexical analyzer does the scanning (cutting the input text into tokens and assign them a category) and the evaluating (converting tokens into a processed value).
+Common token categories may include:
+\begin{itemize}
+    \item keywords (bound to programming language)
+    \item identifiers (can not be keyword)
+    \item separators
+    \item operators
+    \item literals
+    \item comments
+\end{itemize}
+The set of token categories varies in different programming languages.
+The lexeme syntax is typically a regular language, so a finite state automaton constructed from a regular expression can be used to recognize it.
 
-Parsing,
+Syntax analysis typically builds a parse tree structure according to the rules of a formal grammar which define the language's syntax.
+The parse tree is often analyzed, augmented, and transformed by later phases in the compiler.
 
-Semantic analysis (syntax-directed translation),
+Semantic analysis checks parse tree and does type checking, object binding and definite assignment.
+Output of semantic analysis is the symbol table or it results into rejecting incorrect programs or issuing warnings.
 
-Conversion of input programs to an intermediate representation,
+Code optimization, such as dead code elimination, inline expansion, constant propagation, loop transformation and even automatic parallelization, is done after analysis and it is independent on the CPU architecture.
 
-Code optimization
+Code generation is CPU dependent and does the transformation of intermediate language into the target machine language.
+This involves resource and storage decisions, such as deciding which variables to fit into registers and memory and generating machine instructions along with their associated addressing modes.
 
-Code generation
-
-They can create binary executable files and object files.
-
-Cross-compiler is programming tool capable of creating executable code that is supposed to run on a "target" architecture, in a similar or completely different enviroment, while working on a different "host" architecture.
+Cross-compiler is programming tool capable of creating executable file that is supposed to run on a "target" architecture, in a similar or completely different enviroment, while working on a different "host" architecture.
+It can also create object files used by linker.
 Reason for using cross-compiling might be to separate the build environment from target environment as well.
 OpenWrt toolchain uses gcc compiler, and it is one of the most important parts of toolchain.
 
-\subsection{Linker}
+\subsection{Linker}\todo{refactor}
 
-bla ble bli
+With linker we are able to link compile's object files into single executable, library or object file.
+Linker can do static linking and dynamic linking.
+
+Static linking is the result of the linker copying all library routines used in the program into the executable image.
+This may require more disk space and memory than dynamic linking, but is more portable, since it does not require the presence of the library on the system where it runs.
+Static linking also prevents "DLL Hell", since each program includes exactly the versions of library routines that it requires, with no conflict with other programs. In addition, a program using just a few routines from a library does not require the entire library to be installed.
+
+Dynamic linking is the process of postponing the resolving of some undefined symbols until a program is run.
+That means that the executable code still contains undefined symbols, plus a list of objects or libraries that will provide definitions for these.
+Loading the program will load these objects/libraries as well, and perform a final linking.
+Dynamic linking needs no linker.
+
+This approach offers two advantages:
+
+Often-used libraries (for example the standard system libraries) need to be stored in only one location, not duplicated in every single binary.
+If a bug in a library function is corrected by replacing the library, all programs using it dynamically will benefit from the correction after restarting them.
+Programs that included this function by static linking would have to be re-linked first.
+There are also disadvantages:
+
+Known on the Windows platform as "DLL Hell", an incompatible updated library will break executables that depended on the behavior of the previous version of the library if the newer version is not properly backward compatible.
+A program, together with the libraries it uses, might be certified (e.g. as to correctness, documentation requirements, or performance) as a package, but not if components can be replaced. (This also argues against automatic OS updates in critical systems; in both cases, the OS and libraries form part of a qualified environment.)
 
 \subsection{C standard library}
 
@@ -158,7 +192,7 @@ after comunication with upstream and resolving all the possible issues our patch
 
 where upstream changes are? how i can download ltest packages and what should i do to have them on my system?
 
-\section{Working with buildroot} \label{working-with-buildroot}
+\section{Working with buildroot} \label{working-with-buildroot} \todo{!!!!!!!!!!!!!!!!!!!!!!!!!!}
 \begin{enumerate}
     \item Do everything as non-root user!
     \item Issue all OpenWrt build system commands in the <buildroot> directory, \\e.g. ~/openwrt/trunk/
