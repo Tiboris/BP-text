@@ -1,0 +1,44 @@
+\chapter{Porting Tang}\label{porting-tang}
+
+
+\section{Install dependencies}
+
+update feeds
+feeds install
+make menuconfig
+\newpage
+
+\section{Socket activation with xinetd}
+
+there is no systemd for OpenWrt
+need to configure socket activation because tang is not proggramed to use nor create its own sockets
+\subsection{How }
+
+to have an example created simple application in C for xinetd
+\newpage
+
+\section{Cross-compile Tang}
+
+do not forget to add xinetd in Dependencies
+\newpage
+
+\subsection{Concealing http-parser}
+
+without upstream patch not working tang
+\newpage
+
+\subsection{Mysterious José}
+
+does makefiles support shell {a,b} thing???
+\newpage
+
+\section{Configure Tang with xinetd}
+
+/etc/services
+
+xinetd configuration
+
+% root@A04-0315A:~# if [ -z "$(find /usr/share/tang/db/ -name "*.jw*" -maxdepth 1)" ]; then echo nic; else echo daco;fi
+% daco
+% root@A04-0315A:~# if [ -z "$(find /usr/share/tang/db/ -name "*.jwk" -maxdepth 1)" ]; then echo nic; else echo daco;fi
+% daco

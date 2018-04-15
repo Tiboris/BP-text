@@ -16,7 +16,6 @@ There are a few different situations that can happen, but basically everything r
 
 Having dependencies in a different folder could be an interesting solution to keep the libraries that we cross-compiled on our own separated from the other libraries (for example, the system libraries).
 We can do that if we want but if we do, we must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
-\todo{look at this when running make in buildroot}
 With static libraries, this information are only needed at compile and linking time, but if we are using shared libraries, this won’t suffice.
 We must also specify where these libraries can be found at run time.
 
@@ -52,30 +51,32 @@ Package http-parser was little bit tricky.
 At first try there is a chance that we will not find this package in OpenWrt's repository.
 The reason might be that we will try to find a exactly "http-parser" string in OpenWrt's GitHub repository openwrt/openwrt only.
 First of all, we must not forget that feeds of many packages are living in repository packages nested under openwrt organization.
-Secondly after searching repository openwrt/packages for http-parser we will find out that it is named as libhttp-parser.
+Secondly after searching repository openwrt/packages for http-parser we will find out that it is named as libhttp-parser and in version 2.2.3.
 This, let us say naming convention, is really common in Linux and could be predictable as the http-parser is in fact only a library.
+One way or another compared to fedora packages it needs to be updated.
 
-Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José.
-We shall not forget that there is a need for updating jansson package for OpenWrt platform.
+Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José because it require at least jannson version 2.9.
+We shall not forget that there is a need for updating jansson package for OpenWrt platform as well so we will do updates first.
 
-Packages José Tang and systemd are not listed in OpenWrt's packages.
+Packages José, Tang and systemd are not listed in OpenWrt's packages.
 Porting of the systemd would be huge effort but tang's requirements are minimal and we should be able to work with xinetd's socket activation.
 Finally, as José and Tang are not listed in packages they will require to add them into package feeds to port Tang itself.
 
 \section{Update outdated packages}
 
 Finding that some of dependencies are already available on our desired target platform will definitelly make us satisfied.
+We would agree that starting with something already built for OpenWrt is the best thing to do when you are approaching unknown platform.
+In following subsections we will use all things we know from section \ref{working-with-buildroot} Working with buildroot.
+Let us start with missing update of José's dependency, package jansson.
 
 \subsection{Update jansson}
+\newpage
 
 \subsection{Update http-parser}
-
-
+\newpage
 
 \section{Create new packages}
+\newpage
 
 \subsection{Create José}
-
-\subsection{Create Tang}
-
-\section{Contribute your work}
+\newpage
