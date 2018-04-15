@@ -159,11 +159,12 @@ after comunication with upstream and resolving all the possible issues our patch
 where upstream changes are? how i can download ltest packages and what should i do to have them on my system?
 
 \section{Working with buildroot}
-
-1. Do everything as non-root user!
-2. Issue all OpenWrt build system commands in the <buildsystem root> directory, e.g. ~/openwrt/trunk/
-3. Do not build in a directory that has spaces in its full path.
-4. Change ownership of the directory where you downloaded the OpenWrt to other than root user
+\begin{enumerate}
+    \item Do everything as non-root user!
+    \item Issue all OpenWrt build system commands in the <buildroot> directory, \\e.g. ~/openwrt/trunk/
+    \item Do not build in a directory that has spaces in its full path.
+    \item Change ownership of the directory where you downloaded \\the OpenWrt to other than root user
+\end{enumerate}
 
 describe buildroot topology and descibe what every single thing is what for
 make will trigger making all packages not like in sdk
