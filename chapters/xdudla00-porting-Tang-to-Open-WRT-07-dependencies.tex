@@ -1,13 +1,13 @@
-\chapter{Satisfy the dependencies}\label{tangservice}
+\chapter{Porting Tang dependencies}\label{tangservice}
 
 Programs don’t run in a vacuum but they interface with the outside world.
-The view of this outside world differs from environment to environment: things like host names, system resources, and
-local conventions will be different.
+The view of this outside world differs from environment to environment.
+Things like hostnames, system resources, and local conventions could be different.
 
 When we start porting a code to a specific target platform, in our case OpenWrt, it is likely that we will face the first problem: satisfying missing dependencies.
 This problem is easy to solve in principle, but can easily mess things up to a level we wouldn’t imagine.
 
-If the code depends on some library that is NOT in the sysroot, there’s no way out but to find them somewhere, somehow.
+If the code depends on some library that is NOT in the root filesystem, there’s no way out but to find them somewhere, somehow.
 Dependencies can be satisfied in two ways: with static libraries or with shared libraries.
 If we are lucky, we could find a binary package providing what we need (i.e. the library files and the header files), but most often we will have to cross-compile the source code on our own.
 Either ways, we end up with one or more binary files and a bunch of header files.

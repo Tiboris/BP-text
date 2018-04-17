@@ -12,7 +12,7 @@ It often happens when we copy application from one computer to another, not real
 But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design, how application is meant to be deployed and of course application's source code.
 
 Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.
-However on embeded devices there are still much more various architectures available ARM MIPS  RISC CISC x8664. \todo{argh}
+However on embeded devices there are still much more various architectures available ARM MIPS  RISC CISC x8664. \todo{TODO argh}
 
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If software is considered as not portable, it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
@@ -30,17 +30,15 @@ Building on such device would be time consuming and may result to overheating, w
 For this particular reason package building is done with cross-compiler.
 
 Cross-compilation is done by set of tools called toolchain and it consists of:
-
 \begin{itemize}
     \item compiler
     \item linker
     \item a C standard library
 \end{itemize}
-
 For porting to "target" system (OpenWrt) this toolchain has to be generated on "host" system.
 The toolchain can be achieved in many different ways.
 The easiest way is undoubtedly to find a .rpm (or .deb) package and have it installed on our "host" system.
-If a binary package with desired toolchain is not available for your system or is not available at all, there might be need to compile a custom toolchain from scratch.\footnote{tools like crosstool-ng (https://github.com/crosstool-ng/crosstool-ng) may help}
+If a binary package with desired toolchain is not available for our system or is not available at all, there might be need to compile a custom toolchain from scratch.\footnote{tools like crosstool-ng (https://github.com/crosstool-ng/crosstool-ng) may help}
 
 In case of OpenWrt we have available a set of Makefiles and patches called buildroot which is capable of generating toolchain.
 
@@ -109,7 +107,9 @@ A program, together with the libraries it uses, might be certified (e.g. as to c
 
 \subsection{C standard library}
 
-The OpenWrt's cross-compilation toolchain uses musl, a tiny C standard library.
+Most common C standard libraries are: GNU Libc, uClibc musl-libc, or dietlibc.
+They provide macros, type definitions and functions for tasks such as input/output processing (<stdio.h>), memory management (<stdlib.h), string handling (<string.h>), mathematical computations (<math.h>) and many more\footnote{https://en.wikipedia.org/wiki/C\_standard\_library\#Header\_files}.
+The OpenWrt's cross-compilation toolchain uses musl-libc.
 
 \section{OpenWrt's buildroot}
 
@@ -123,17 +123,10 @@ It is a good idea to store all these things, the toolchain and the root filesyst
 With using OpenWrt's buildroot we will have this covered.
 Be tidy and pedantic, because cross-compiling can easily become a painful mess!
 
-\subsection{Getting buildroot}
-
-There are many mirrors containg openwrt SDK buildroots but when developing upstream projet upstream build root might be best solution.
-problems with SDKs on mirrors are that they are most likely outdated and dependencies required to make it possible to build on this SDK might be not possible to get on your platform
-we can clone buildroot from upstream with git Worflow should be to fork, clone forked copy to ourselves
-
 \subsection{Buildroot prerequisites}
 
 Let us demonstrate what are minimum requirements of space and size of RAM (Random Access Memory) for building packages for Openwrt using its buildroot.
 For generating an installable OpenWrt firmware image file with a size of e.g. 8MB, we will need at least:
-
 \begin{itemize}
 \item ca. 200 MB for OpenWrt build system
 \item ca. 300 MB for OpenWrt build system with OpenWrt Feeds
@@ -172,44 +165,77 @@ Serial:         &   ?                               \\ \hline
 The actual sum of space required only for buildroot to work correctly which is about 6.4 GB compared to available storage space on wireless router should be demonstrative why is building for embedded devices done with cross-compiling.
 The another reasons, not to just compare internal storage which might be extended (as shown on apendix TODOapendix), are device's minimalistic RAM size and not that "powerfull" CPU.\todo{add more about CPU}
 
-To be able to work with OpenWrt's bildroot we will need lots of buildroot dependencies.
-But first we need to install all the dependencies that we need for this buildroot to be functional and ready to produce packages for our desired architecture on OpenWrt platform
-This is how we install buildroot prerequisites on Fedora 27 system:
+\section{Prepare the enviroment}
 
-\begin{lstlisting}[language=bash,basicstyle=\ttfamily\footnotesize,label=fedora-install,caption=Prerequisites installation on Fedora 27]
-    dnf install -y subversion binutils bzip2 gcc gcc-c++ \
+Before getting to know buildroot we have to have host enviroment ready for buildroot in a way that we will install buildroot's dependencies and then buildroot itself.
+
+\subsection{Buildroot's dependencies}
+
+To be able to work with OpenWrt's bildroot we will need lots of buildroot dependencies first.
+Please note that followning commands have to be run by user with root privileges to install buildroot dependencies on Fedora 27 system:
+
+\begin{lstlisting}[language=bash,basicstyle=\ttfamily\footnotesize,label=fedora-dep-install,caption=Buildroot dependencies installation on Fedora 27]
+    sudo dnf install binutils bzip2 gcc gcc-c++ \
     gawk gettext git-core flex ncurses-devel ncurses-compat-libs \
     zlib-devel zlib-static make patch unzip perl-ExtUtils-MakeMaker \
     perl-Thread-Queue  glibc glibc-devel glibc-static quilt sed \
     sdcc intltool sharutils bison wget openssl-devel
 \end{lstlisting}
+Some feeds might be not available over git but only via other versioning tools like subversion (svn) or mercurial.
+If we want to obtain their source-code, we need to install svn and mercurial as well:
+\begin{lstlisting}[language=bash,basicstyle=\ttfamily\footnotesize,label=fedora-ver-install,caption=Other versioning tools installation on Fedora 27]
+    sudo dnf install subversion mercurial
+\end{lstlisting}
 
-Please note that this command has to be run by user with root privileges.
+\subsection{Getting buildroot}
 
-we can clone packages from upstream with git Worflow should be to fork, clone forked copy to ourselves set upstream origin then when creating or wanting to edit any package we should create branch for this changes and then commit patches to this branch
-when branch is ready create pull request and hope for the best that it wont be automatically revoked and just minor changes will be required.
-after comunication with upstream and resolving all the possible issues our patch is ready to push to upstream.
+There are mirrors containg OpenWrt SDK(Software development kit) buildroots for every released version of OpenWrt system.
+It is good to consider using OpenWrt's SDK in order to build software application to only one specific release of target system.
+For example when we are using "stable" release of OpenWrt 15.05.1 with codename "Chaos Calmer" on TL-WR842N(EU) device, we should probably end up in in "Supplementary Files" section of the OpenWrt archives
+\footnote{https://archive.openwrt.org/chaos\_calmer/15.05.1/ar71xx/generic/} looking for SDK.
 
-where upstream changes are? how i can download ltest packages and what should i do to have them on my system?
+If we have host platform which aims to be on the bleeding edge of open-source technologies, such as OS Fedora, we will probably encounter issues with dependencies.
+These issues are apearing because an older version of the dependencies are required for this old SDK to work and might be not available for our host platform anymore.
+In this case we would have to install or even build older version of required packages to our host system.
 
-\section{Working with buildroot} \label{working-with-buildroot} \todo{!!!!!!!!!!!!!!!!!!!!!!!!!!}
+When we start with porting an upstream projet (such as Tang) for latest release of target's sytem on Fedora host system, an upstream bleeding edge buildroot should be the best solution.
+In our case we will work with latest OpenWrt release LEDE 17.01.4 on our target device, and download the OpenWrt bleeding edge (trunk version) buildroot with git.
+To download OpenWrt buildroot from upstream repository run command:
+\begin{lstlisting}[language=bash,basicstyle=\ttfamily\footnotesize,label=get-trunk,caption=Cloning upstream OpenWrt buildroot]
+    git clone https://github.com/openwrt/openwrt.git ~\buildroot-openwrt
+\end{lstlisting}
+
+\section{Working with buildroot} \label{working-with-buildroot}
+
+After we have enviroment ready to be worked on (all needed dependencies installed and buildroot downloaded on host) let us just remember these simple 4 rules to not break our enviroment in any way.
+
 \begin{enumerate}
-    \item Do everything as non-root user!
-    \item Issue all OpenWrt build system commands in the <buildroot> directory, \\e.g. ~/openwrt/trunk/
+    \item Do everything in buildroot as non-root user!
+    \item Issue all OpenWrt build system commands in the <buildroot> directory, \\e.g. \~/buildroot-openwrt/ % ~ is broken
     \item Do not build in a directory that has spaces in its full path.
-    \item Change ownership of the directory where you downloaded \\the OpenWrt to other than root user
+    \item Change ownership of the directory where we downloaded \\the OpenWrt to other than root user
 \end{enumerate}
 
+It is good to set upstream...
+
+
 describe buildroot topology and descibe what every single thing is what for
+
 make will trigger making all packages not like in sdk
+
 difference working with sdk and buildroot that sdk build only packages and buildroot can buld only package but it is designed to build entire image
+
 for specified architecture respectively device from list
+
 do not know how to add there new device but may provide link
+
 configured with make menuconfig shown here firstly select architecture and configuration will be generated into .config :
+
 in sdk .config is pre generated and make menuconfig (need to find out if possible)
 
 on sdk make will trigger only building packages in directory package and it has to be done right way
-it is also possible to do this with build root but is better to have upstream or own packages there in right directory
+
+it is also possible to do this with buildroot but is better to have upstream or own packages there in right directory
 
 screen
 
