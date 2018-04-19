@@ -1,4 +1,4 @@
-\chapter{Encryption and how we use it}\label{encryption}
+\chapter{How we use Encryption}\label{encryption}
 
 We may not realize this, but we use encryption every day.
 The purpose of encryption is to keep us safe when we are browsing the internet or just storing our sensitive information on digital media.
@@ -15,66 +15,71 @@ It also allows attorneys to communicate privately with their clients and it aims
 
 If we encrypt our laptop or desktop computer's hard drive encryption protects our data in case the computer or hard drive is stolen.
 
-\section{Security and encryption}
+\section{Encryption and security}
 
-Security is not binary; it is a sliding scale of risk management \cite{devconf}.
+Security is not binary; it is a sliding scale of risk management.
 People are used to mark things, for example good and bad, expensive, and cheap.
 But we know that people may differ on image/sense.
 For example, there is no such thing as line or sign which tells us, this part of town is secure, and this is not.
 The way we reason about security is that we study environment entering or observing it, and we begin to decide whether it is secure or not.
 Especially at enterprise sector.
+Encryption, on its own, might not be enough to make our data or infrastructure secure but is definitely a critical aspect of security.
 
-Encryption, on its own, might not be enough to make our data or infrastructure secure.
 Companies define their own security strategies which may include encryption or not at all.
-It all relies on company's needs or will to take risks in conclusion of getting high gain from them.
-In any case, encryption is definitely a critical element of security.
+Security strategies rely on company's needs or will to take risks in conclusion of getting high gain from them.
 
 According to 2016 Global Encryption Trends Study, independently conducted by the Ponemon Institute, the enterprise-wide encryption in 5 years increased from 15 to 38 percent.
 Also the ratio of companies with no encryption strategy at all decreased from 37 to 15 percent.
 More than 50 percent companies are using extensively deployed encryption technologies to encrypt mostly databases, infrastructure and laptop hard drives \cite{Thales}.
 
-\section{Hard drive encryption}
+Passwords are the most common authentication method used for accessing computer systems, files, data, and networks.
+It is important to keep changing them in reasonable time and as a secret to others.
+Still, no matter the company's security strategy, we keep seeing them on monitors or desktops written on sticky notes, and this is absolutely not secure.
+In fact, users are the most vulnerable part of securing our systems.
+To aid their memory, users often include part of a phone number, family name, Social Security number, or even birth date in their passwords \cite{pwdsec}.
+They choose cryptographicaly weak passwords, dictionary words, which are easy to remember but also easy to guess or to break with brute-force attacks in short period of time.
+According to Splash Data, a supplier of security applications, the most common user selected password in the year 2016 was "123456".
+They claim that people continue to put themselves at risk for hacking and identity theft by using weak, easily guessable passwords.
+To create strong password you can follow any trustworthy guide\footnote{https://www.centos.org/docs/4/html/rhel-sg-en-4/s1-wstation-pass.html\#S2-WSTATION-PASS-CREATE} on the Internet.
+More secure way to create passwords would be to generate cryptographically stronger cypher an use it as password.
+The only disadvantage is that it is hard to remember \cite{splashdata}.
 
-In this thesis we will talk about hard drive encryption... \todo{bla ble bli}
+\section{Hard drive encryption} \todo{rework}
 
 It all starts, as mentioned, with desire to keep our data to ourselves and as a secret to others.
 More often than not, these secrets are stored on our hard drives.
-Let us take a look on how is encryption typically done.
 
-To protect secret data we usually encrypt this data by using an encryption key - see Figure \ref{fig:encdata}.
-However, this secret data might grow in size, and it is time and resource consuming to decrypt and encrypt all our data every time the encryption key changes or it is changed.
+Hard drive encryption is a technology provided by software performing sophisticated mathematical functions or hardware that encrypts the data stored on a hard drive or a disk volume.
+This technology is used to prevent unauthorized access by unauthorized persons or service to an encrypted data storage without possesion of the appropriate key or password.
+Encrypting the hard drive means providing another layer of security against hackers and other online threats.
+
+To protect secret data we usually encrypt this data by using an "encryption key" - see Figure \ref{fig:encdata} Hard drive encryption in a nutshell.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.7]{figures/HowWeEncryptData.pdf}
+    \caption{Hard drive encryption in a nutshell}
+    \label{fig:encdata}
+\end{figure}
+However, this secret data might grow in size, and it is time and resource consuming to decrypt and encrypt all our data every time the encryption key changes or it is compromised.
 Because of that, we wrap the encryption key in the key encryption key.
 This key might be actually user typed pass phrase which system prompts from user when booting or simply when it wants to access encrypted hard drive partition.
 
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.7]{figures/HowWeEncryptData.pdf}
-    \caption{How we encrypt data}
-    \label{fig:encdata}
-\end{figure}
+
 
 Changing the key encryption key does not affect encrypted data.
-It can be changed whenever user desire to, and redistributed the new key to all users or services who are supposed to access this data.
 
-Passwords are the most common authentication for accessing computer systems, files, data, and networks.
-It is important to keep changing them in reasonable time.
-One way or another, we still keep them seeing them on monitors or desktop written on sticky notes, and this is absolutely not secure.
-In fact, users are the most vulnerable part of securing our systems.
-To aid their memory, users often include part of a phone number, family name, Social Security number, or birth date in their passwords \cite{pwdsec}.
-They choose cryptographicaly weak passwords, dictionary words, which are easy to remember but also easy to guess or to break with brute-force attacks in short period of time.
-According to Splash Data \cite{splashdata}, a supplier of security applications, the most common user selected password in the year 2016 was "123456".
-They claim that people continue to put themselves at risk for hacking and identity theft by using weak, easily guessable passwords.
-To create strong password you can follow any trustworthy guide\footnote{https://www.centos.org/docs/4/html/rhel-sg-en-4/s1-wstation-pass.html\#S2-WSTATION-PASS-CREATE} on the Internet.
+It can be changed whenever user desire to, and redistributed to all users or services who are supposed to access this data.
 
-More secure way to create key encryption key would be to generate it.cryptographically stronger key encryption key than password provided by user.
+
+that could disrupt our daily basis.
+Imagine, you come home in a mood to enjoy your time, and your system asks for password, not once, but twice just because of encrypted disk.
+This might be the reason why most of us do not use encryption, even when we know it will protect our data.
+
+Same as with the passwords ... more secure way to create key encryption key would be to generate cryptographically stronger key encryption key than password provided by user.
 Then, we store this random key on a remote system, from where we can get or change it later.
 This is basically how the Key Escrow \ref{escrow} model works.
 
-For people, is common to have a password protected system.
-But encrypting hard drive means creating another layer of computer security that could disrupt our daily basis.
-Imagine, you come home in a mood to enjoy your time, and your system asks for password, not once, but twice just because of encrypted disk.
-This might be the reason why most of us do not use encryption, even when we know it will protect our data.
 
 \subsection{LUKS}\todo{master key hmm refactor text}
 
