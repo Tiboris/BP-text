@@ -4,9 +4,10 @@
 \contentsline {section}{\numberline {2.1}Encryption and security}{5}{section.2.1}
 \contentsline {section}{\numberline {2.2}Hard drive encryption}{6}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}LUKS}{7}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Encrypting with LUKS}{7}{subsection.2.2.2}
+\contentsline {paragraph}{Encrypting with LUKS}{8}{section*.2}
+\contentsline {subsection}{\numberline {2.2.2}Encrypting with LUKS}{8}{subsection.2.2.2}
 \contentsline {chapter}{\numberline {3}Key management systems}{9}{chapter.3}
-\contentsline {section}{\numberline {3.1}Escrow security}{9}{section.3.1}
+\contentsline {section}{\numberline {3.1}Key Escrow server}{9}{section.3.1}
 \contentsline {chapter}{\numberline {4}Tang server}{11}{chapter.4}
 \contentsline {section}{\numberline {4.1}Tang - binding daemon}{11}{section.4.1}
 \contentsline {section}{\numberline {4.2}Binding with Tang}{12}{section.4.2}
@@ -65,7 +66,7 @@
 \contentsline {section}{\numberline {9.1}Make it look easy}{37}{section.9.1}
 \contentsline {section}{\numberline {9.2}Follow contribution guide}{37}{section.9.2}
 \contentsline {chapter}{\numberline {10}Conclusion}{38}{chapter.10}
-\contentsline {chapter}{Bibliography}{39}{chapter*.2}
+\contentsline {chapter}{Bibliography}{39}{chapter*.3}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
