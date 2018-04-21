@@ -7,80 +7,81 @@
 \contentsline {subsection}{\numberline {2.2.2}LibreCrypt}{7}{subsection.2.2.2}
 \contentsline {subsection}{\numberline {2.2.3}LUKS specification}{8}{subsection.2.2.3}
 \contentsline {section}{\numberline {2.3}Disk encryption with LUKS}{8}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}LUKS drive structure}{9}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Creating LUKS volume}{10}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}LUKS security}{10}{subsection.2.3.3}
-\contentsline {chapter}{\numberline {3}Key management systems}{11}{chapter.3}
-\contentsline {section}{\numberline {3.1}Key Escrow server}{11}{section.3.1}
-\contentsline {chapter}{\numberline {4}Tang server}{13}{chapter.4}
-\contentsline {section}{\numberline {4.1}Tang - binding daemon}{13}{section.4.1}
-\contentsline {section}{\numberline {4.2}Binding with Tang}{14}{section.4.2}
-\contentsline {section}{\numberline {4.3}Provisioning}{14}{section.4.3}
-\contentsline {section}{\numberline {4.4}Recovery}{15}{section.4.4}
-\contentsline {section}{\numberline {4.5}Security}{15}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Man-in-the-Middle attack}{15}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Compromise the client to gain access to cJWK}{16}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Compromise the server to gain access to sJWK's private key}{16}{subsection.4.5.3}
-\contentsline {section}{\numberline {4.6}Building Tang}{16}{section.4.6}
-\contentsline {subsection}{\numberline {4.6.1}http-parser}{16}{subsection.4.6.1}
-\contentsline {subsection}{\numberline {4.6.2}systemd}{16}{subsection.4.6.2}
-\contentsline {subsection}{\numberline {4.6.3}Jos\IeC {\'e}}{17}{subsection.4.6.3}
-\contentsline {subsection}{\numberline {4.6.4}jansson}{17}{subsection.4.6.4}
-\contentsline {subsection}{\numberline {4.6.5}OpenSSL}{17}{subsection.4.6.5}
-\contentsline {subsection}{\numberline {4.6.6}zlib}{17}{subsection.4.6.6}
-\contentsline {section}{\numberline {4.7}Server enablement}{18}{section.4.7}
-\contentsline {section}{\numberline {4.8}Clevis client}{18}{section.4.8}
-\contentsline {subsection}{\numberline {4.8.1}PIN: Tang}{18}{subsection.4.8.1}
-\contentsline {subsection}{\numberline {4.8.2}PIN: HTTP}{19}{subsection.4.8.2}
-\contentsline {subsection}{\numberline {4.8.3}PIN: SSS - Shamir Secret Sharing}{19}{subsection.4.8.3}
-\contentsline {subsection}{\numberline {4.8.4}Binding LUKS volumes}{19}{subsection.4.8.4}
-\contentsline {subsection}{\numberline {4.8.5}Dracut}{19}{subsection.4.8.5}
-\contentsline {subsection}{\numberline {4.8.6}UDisks2}{19}{subsection.4.8.6}
-\contentsline {chapter}{\numberline {5}OpenWrt system}{20}{chapter.5}
-\contentsline {section}{\numberline {5.1}OPKG Package manager}{20}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{20}{subsection.5.1.1}
-\contentsline {chapter}{\numberline {6}Software portability}{21}{chapter.6}
-\contentsline {section}{\numberline {6.1}OpenWrt's toolchain}{22}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Compiler}{22}{subsection.6.1.1}
-\contentsline {subsection}{\numberline {6.1.2}Linker}{23}{subsection.6.1.2}
-\contentsline {subsection}{\numberline {6.1.3}C standard library}{24}{subsection.6.1.3}
-\contentsline {section}{\numberline {6.2}OpenWrt's buildroot}{24}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Buildroot prerequisites}{24}{subsection.6.2.1}
-\contentsline {section}{\numberline {6.3}Prepare the enviroment}{25}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Buildroot's dependencies}{25}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}Getting buildroot}{26}{subsection.6.3.2}
-\contentsline {section}{\numberline {6.4}Working with buildroot}{26}{section.6.4}
-\contentsline {section}{\numberline {6.5}Makefiles for OpenWrt's packages}{27}{section.6.5}
-\contentsline {chapter}{\numberline {7}Porting Tang dependencies}{28}{chapter.7}
-\contentsline {section}{\numberline {7.1}Find the depencies}{29}{section.7.1}
-\contentsline {section}{\numberline {7.2}Update outdated packages}{29}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}Update jansson}{29}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}Update http-parser}{30}{subsection.7.2.2}
-\contentsline {section}{\numberline {7.3}Create new packages}{31}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Create Jos\IeC {\'e}}{32}{subsection.7.3.1}
-\contentsline {chapter}{\numberline {8}Porting Tang}{33}{chapter.8}
-\contentsline {section}{\numberline {8.1}Install dependencies}{33}{section.8.1}
-\contentsline {section}{\numberline {8.2}Socket activation with xinetd}{34}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}How }{34}{subsection.8.2.1}
-\contentsline {section}{\numberline {8.3}Cross-compile Tang}{35}{section.8.3}
-\contentsline {subsection}{\numberline {8.3.1}Concealing http-parser}{36}{subsection.8.3.1}
-\contentsline {subsection}{\numberline {8.3.2}Mysterious Jos\IeC {\'e}}{37}{subsection.8.3.2}
-\contentsline {section}{\numberline {8.4}Configure Tang with xinetd}{38}{section.8.4}
-\contentsline {chapter}{\numberline {9}Contribute your work}{39}{chapter.9}
-\contentsline {section}{\numberline {9.1}Make it look easy}{39}{section.9.1}
-\contentsline {section}{\numberline {9.2}Follow contribution guide}{39}{section.9.2}
-\contentsline {chapter}{\numberline {10}Conclusion}{40}{chapter.10}
-\contentsline {chapter}{Bibliography}{41}{chapter*.2}
+\contentsline {subsection}{\numberline {2.3.1}Creating LUKS volume}{9}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}LUKS drive structure}{10}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Managing LUKS volume}{10}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}LUKS security}{12}{subsection.2.3.4}
+\contentsline {chapter}{\numberline {3}Key management systems}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}Key Escrow server}{13}{section.3.1}
+\contentsline {chapter}{\numberline {4}Tang server}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}Tang - binding daemon}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}Binding with Tang}{16}{section.4.2}
+\contentsline {section}{\numberline {4.3}Provisioning}{16}{section.4.3}
+\contentsline {section}{\numberline {4.4}Recovery}{17}{section.4.4}
+\contentsline {section}{\numberline {4.5}Security}{17}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Man-in-the-Middle attack}{17}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Compromise the client to gain access to cJWK}{18}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Compromise the server to gain access to sJWK's private key}{18}{subsection.4.5.3}
+\contentsline {section}{\numberline {4.6}Building Tang}{18}{section.4.6}
+\contentsline {subsection}{\numberline {4.6.1}http-parser}{18}{subsection.4.6.1}
+\contentsline {subsection}{\numberline {4.6.2}systemd}{18}{subsection.4.6.2}
+\contentsline {subsection}{\numberline {4.6.3}Jos\IeC {\'e}}{19}{subsection.4.6.3}
+\contentsline {subsection}{\numberline {4.6.4}jansson}{19}{subsection.4.6.4}
+\contentsline {subsection}{\numberline {4.6.5}OpenSSL}{19}{subsection.4.6.5}
+\contentsline {subsection}{\numberline {4.6.6}zlib}{19}{subsection.4.6.6}
+\contentsline {section}{\numberline {4.7}Server enablement}{20}{section.4.7}
+\contentsline {section}{\numberline {4.8}Clevis client}{20}{section.4.8}
+\contentsline {subsection}{\numberline {4.8.1}PIN: Tang}{20}{subsection.4.8.1}
+\contentsline {subsection}{\numberline {4.8.2}PIN: HTTP}{21}{subsection.4.8.2}
+\contentsline {subsection}{\numberline {4.8.3}PIN: SSS - Shamir Secret Sharing}{21}{subsection.4.8.3}
+\contentsline {subsection}{\numberline {4.8.4}Binding LUKS volumes}{21}{subsection.4.8.4}
+\contentsline {subsection}{\numberline {4.8.5}Dracut}{21}{subsection.4.8.5}
+\contentsline {subsection}{\numberline {4.8.6}UDisks2}{21}{subsection.4.8.6}
+\contentsline {chapter}{\numberline {5}OpenWrt system}{22}{chapter.5}
+\contentsline {section}{\numberline {5.1}OPKG Package manager}{22}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}OPKG Makefile}{22}{subsection.5.1.1}
+\contentsline {chapter}{\numberline {6}Software portability}{23}{chapter.6}
+\contentsline {section}{\numberline {6.1}OpenWrt's toolchain}{24}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Compiler}{24}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Linker}{25}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}C standard library}{26}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}OpenWrt's buildroot}{26}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Buildroot prerequisites}{26}{subsection.6.2.1}
+\contentsline {section}{\numberline {6.3}Prepare the enviroment}{27}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Buildroot's dependencies}{27}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Getting buildroot}{28}{subsection.6.3.2}
+\contentsline {section}{\numberline {6.4}Working with buildroot}{28}{section.6.4}
+\contentsline {section}{\numberline {6.5}Makefiles for OpenWrt's packages}{29}{section.6.5}
+\contentsline {chapter}{\numberline {7}Porting Tang dependencies}{30}{chapter.7}
+\contentsline {section}{\numberline {7.1}Find the depencies}{31}{section.7.1}
+\contentsline {section}{\numberline {7.2}Update outdated packages}{31}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Update jansson}{31}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Update http-parser}{32}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}Create new packages}{33}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Create Jos\IeC {\'e}}{34}{subsection.7.3.1}
+\contentsline {chapter}{\numberline {8}Porting Tang}{35}{chapter.8}
+\contentsline {section}{\numberline {8.1}Install dependencies}{35}{section.8.1}
+\contentsline {section}{\numberline {8.2}Socket activation with xinetd}{36}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}How }{36}{subsection.8.2.1}
+\contentsline {section}{\numberline {8.3}Cross-compile Tang}{37}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Concealing http-parser}{38}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Mysterious Jos\IeC {\'e}}{39}{subsection.8.3.2}
+\contentsline {section}{\numberline {8.4}Configure Tang with xinetd}{40}{section.8.4}
+\contentsline {chapter}{\numberline {9}Contribute your work}{41}{chapter.9}
+\contentsline {section}{\numberline {9.1}Make it look easy}{41}{section.9.1}
+\contentsline {section}{\numberline {9.2}Follow contribution guide}{41}{section.9.2}
+\contentsline {chapter}{\numberline {10}Conclusion}{42}{chapter.10}
+\contentsline {chapter}{Bibliography}{43}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Disk content}{43}{appendix.A}
-\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{44}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{44}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{45}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In Place Encryption}{46}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{46}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{46}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{47}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{47}{section.C.4}
+\contentsline {chapter}{\numberline {A}Disk content}{45}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{46}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{46}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{47}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{48}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{48}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{48}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{49}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{49}{section.C.4}
 \contentsfinish 
