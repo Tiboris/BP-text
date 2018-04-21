@@ -82,33 +82,79 @@ There is a way to automate hard drive unlocking on early boot with a help from k
 We can get the key encryption key from some remote system, the Escrow server mentioned in section \ref{escrow} Escrow server, or recover it with Tang described in chapter \ref{tang} Tang server.
 Before that, let us have a look on most common hard drive encryption implementations.
 
-\section{LUKS specification}\todo{master key hmm refactor text add example}
+\subsection{Bit Locker}
+BitLocker is a closed source full disk data protection feature that integrates with the operating system Windows Vista and later.
+It is designed to protect data by providing encryption for entire volumes and addresses the threats of data theft or exposure from lost, stolen, or inappropriately decommissioned computers.
+By default it uses the AES encryption algorithm in cipher block chaining (CBC) or XTS mode with a 128-bit or 256-bit key.
+CBC is not used over the whole disk; it is applied to each individual sector.
 
-LUKS (Linux Unified Key Setup) is a platform-independent disk encryption specification.
-It was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions.
+BitLocker supports TPM (Trusted Platform Module).
+The TPM is a hardware component installed in many newer computers by the computer manufacturers.
+It works with BitLocker to help protect user data and to ensure that a computer has not been tampered with while the system was offline\cite{bitlocker}.
 
-Referential implementation of LUKS, which was originally meant for Linux, is using a dm-crypt subsystem for bulk data encryption.
-This subsystem is not particularly bound to LUKS.
-Alongside Linux implementation exists LibreCrypt, the Windows implementation based on original FreeOTFE \cite{FreeOTFE} project by Sarah Dean.
+\subsection{LibreCrypt}
 
-A LUKS partition can have as many user passwords as there are available key slots, and to access the partition, the user has to provide only one of these passwords \cite{LUKS}.
+LibreCrypt is a LUKS (Linux Unified Key Setup-on-disk-format) compatible open source “on-the-fly” transparent disk encryption software written mostly in Pascal programming language.
+This project is based on original FreeOTFE project by Sarah Dean renamed in version 6.2 to LibreCrypt and supports both 32 and 64 bit Windows.
+LibreCrypt is easy to use even for unexperienced user through its GUI (Graphical User Interface) with support of many languages.
 
-Hard drive with a LUKS partition has notable structure, see Figure \ref{fig:luksvol}.
-The entire partition start with the LUKS partition header containing the key material.
-After header there is section with bulk data, which are encrypted with the master key.
+LibreCrypt support many ciphers including AES (up to 256 bit), Twofish\footnote{https://en.wikipedia.org/wiki/Twofish} (up to 256 bit), Blowfish\footnote{https://en.wikipedia.org/wiki/Blowfish\_(cipher)} (up to 448 bit), Serpent\footnote{https://en.wikipedia.org/wiki/Serpent\_(cipher)} (up to 256 bit)\cite{librecrypt}.
+It can create “virtual disks” on your computer and anything written to these disks is automatically encrypted before being stored on your computer’s hard drive\cite{FreeOTFE}.
 
+Unfortunatelly this project seems to be abandoned by its developer on github.
+The source code of LibreCrypt is available on GitHub you can visit the site or clone source code using~git:
+
+{\tt \$ git clone https://github.com/t-d-k/LibreCrypt.git}
+
+\subsection{LUKS specification}
+
+LUKS (Linux Unified Key Setup-on-disk-format) is a platform-independent disk encryption specification.
+LUKS was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions only.
+It provides a standard on-disk-format for hard disk encryption, which facilitates compatibility among Linux distributions and provides secure management of multiple user passwords.
+
+Referential implementation of LUKS is using a device-mapper crypt target (dm-crypt) subsystem for bulk data encryption.
+This subsystem is not particularly bound to LUKS and can be used for plain format encryption.
+
+It is important for us to know this specification a little more due to working with Linux distribution and the implemantation of the Tang server.
+
+\section{Disk encryption with LUKS}
+
+With modern versions of cryptsetup (i.e., since ~2006), encrypted block devices can be created in two main formats, plain dm-crypt format or the extended LUKS format.
+
+Plain format is just that: It has no metadata on disk.
+When using any such encrypted device, all the necessary parameters must be passed to cryptsetup from the commandline (otherwise it uses the defaults, which will only succeed if the device was created using default settings).
+It derives (generate) the master key from the passphrase provided and then uses that to decrypt or encrypt the sectors of the device, with a direct 1:1 mapping between encrypted and decrypted sectors.
+
+In contrast to previous Linux disk encryption solutions, LUKS stores all necessary setup information in the partition header, enabling the user to more easily transport or migrate their data.
+LUKS uses the dm-crypt subsystem.
+Device-mapper is a part of the Linux kernel that provides a generic way to create virtual layers of block devices, most commonly LVM (Logical Volume Manager) logical volumes.
+The device-mapper crypt target (dm-crypt) provides transparent encryption of block devices using the kernel crypto API (Application programming interface) supporting ciphers and digest algorithms via standard kernel modules \cite{fruhwirth2005luks}.
+
+In Fedora and Red Hat Enterprise Linux, userspace interaction with dm-crypt is managed by a tool called cryptsetup, which uses the device-mapper infrastructure to setup and operate on encrypted block devices.
+
+\subsection{LUKS drive structure}
+
+Hard drive with a LUKS partition has notable structure, see Figure \ref{fig:luksvol} LUKS volume structure.
+The LUKS format uses a metadata header, also marked as {\it phdr}, and 8 key-slot areas at the the beginning of the device.
+Header contains information about the used cipher, cipher mode, the key length, a uuid and a master key checksum.
+The passphrases stored in the key-slots are used to decrypt a single master key that is stored in the anti-forensic stripes.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.7]{figures/LUKSdrive.pdf}
     \caption{LUKS volume structure}
     \label{fig:luksvol}
 \end{figure}
+The advantages of LUKS over plain dm-crypt are the higher usability: automatic configuration of non-default crypto parameters, the ability to add, change, and remove multiple passphrases.
+Additionally, LUKS offers defenses against low-entropy passphrases like salting and iterated PBKDF2\footnote{https://en.wikipedia.org/wiki/PBKDF2} (Password-Based Key Derivation Function 2) passphrase hashing.
+With LUKS, encryption keys are always generated by the kernel RNG; in contrast to plain dm-crypt where one can choose, e.g. a simple dictionary word and have an encryption key derived from that.
+One disadvantage of using LUKS over plain is that it is readily obvious there is encrypted data on disk; the other is that damage to the header or key-slots usually results in permanent data-loss.
+To mitigate this risk the Backup of the LUKS header would be best option. \cite{LUKS}.
 
-Header, also marked as {\it phdr}, contains information about the used cipher, cipher mode, the key length, a uuid and a master key checksum.
-Also, the {\it phdr} contains information about the key slots.
+After header there is section with bulk data, which are encrypted with the encryption key.
+
 Every key slot is associated with a key material section after the {\it phdr}.
 When a key slot is active, the key slot stores an encrypted copy of the master key in its key material section.
-This encrypted copy is locked by a user password.
+This encrypted copy is locked by a user password or cipher.
 Structure of key slot is on Figure \ref{fig:luksslot}.
 
 \begin{figure}[h]
@@ -118,7 +164,9 @@ Structure of key slot is on Figure \ref{fig:luksslot}.
     \label{fig:luksslot}
 \end{figure}
 
-\subsection{Encrypting with LUKS} \todo{ask for help with structure}
+\todo{show command}
+
+\subsection{Creating LUKS volume}
 
 Creating a LUKS volume might be quite tough process.
 Hard drive partition must contain the LUKS header just before the encrypted data.
@@ -126,16 +174,13 @@ Lets sum up the easier way first.
 
 In case we have not installed our Linux operation system yet, we could simply select an option in time of installation.
 Then the installation wizard will most likely asks for pass phrase - the key encryption key.
-To demonstrate this, screen shots with Fedora 25 system installation can be found on appendix \ref{luksinstall}.
+To demonstrate this, screen shots with Fedora 25 system installation can be found on appendix \ref{luksinstall} Pre-istallation enablement of hard drive encryption.
 
 If we have already system installed with lots of data on partition, process will probably last longer and the procedure will be more complex.
 There is no way you can encrypt whole system disk with LUKS without unmounting partition to encrypt.
 For this purpose was developed {\it luksipc}, the LUKS In-Place Conversion Tool \cite{luksipc}.
 Steps to encrypt disk using {\it luksipc} are on appendix \ref{luksipc}.
 
-\section{Bit Locker} \todo{brief info}
+\subsection{LUKS security}
 
-BitLocker is a full disk encryption feature included with Windows Vista and later.
-It is designed to protect data by providing encryption for entire volumes.
-By default it uses the AES encryption algorithm in cipher block chaining (CBC) or XTS mode[6] with a 128-bit or 256-bit key.
-[7][8] CBC is not used over the whole disk; it is applied to each individual sector.[9]
+\cite{team2012security}
