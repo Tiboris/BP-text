@@ -1,0 +1,15 @@
+\chapter{Tang configuration}\label{config}
+
+\section{OPKG Package manager}
+
+The opkg utility (Open Package Management System) is a lightweight package manager used to download and install OpenWrt packages.
+The opkg is fork of an ipkg (Itsy Package Management System).
+These packages could be stored somewhere on device's filesystem or the package manager will download them from local package repositories or ones located on the Internet mirrors.
+Users already familiar with GNU/Linux package managers like apt/apt-get, pacman, yum, dnf, emerge etc. will definitely recognize the similarities.
+It also has similarities with NSLU2's Optware, also made for embedded devices.
+Fact that OPKG is also a full package manager for the root file system, instead of just a way to add software to a seperate directory (e.g. /opt) includes the possibility to add kernel modules and drivers.
+OPKG is sometimes called Entware, but this is mainly to refer to the Entware repository for embedded devices.
+
+Opkg attempts to resolve dependencies with packages in the repositories - if this fails, it will report an error, and abort the installation of that package.
+
+Missing dependencies with third-party packages are probably available from the source of the package.

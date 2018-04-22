@@ -1,33 +1,50 @@
-\chapter{OpenWrt system}\label{owrt}\todo{refactor chapter; add more info}
+\chapter{OpenWrt system}\label{owrt}
 OpenWrt is is perhaps the most widely known Linux distribution for embedded devices especially for wireless routers.
 It was originally developed in January 2004 for the Linksys WRT54G with buildroot from the uClibc project.
 Now it supports many more models of routers.
+OpenWrt is a registered trademark which is held by the Software in the Public Interest (SPI) in the name of the OpenWrt project.
+
 Installing OpenWrt system means replacing your router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management.
 This means that we are not bound to applications provided by the vendor.
 Router (the embedded device) with this distribution can be used for anything that an embedded Linux system can be used for, from using its SSH Server for SSH Tunneling, to running lightweight server software (e.g. IRC server) on it.
 In fact it allows us to customize the device through the use of packages to suit any application.
 
-Today (May 2017) the stable 15.05.1 release of OpenWrt (code-named "Chaos Calmer") released in March 2016 using Linux kernel version 3.18.23 runs on many routers.
+\section{OpenWrt and LEDE}
 
-\todo{LEDE} Upstream info link...
-% https://forum.lede-project.org/t/announcing-the-openwrt-lede-merge/10217
-% https://lwn.net/Articles/686767/
-% https://en.wikipedia.org/wiki/LEDE
-% https://openwrt.org/faq/general
-% https://www.dd-wrt.com/site/index
+The LEDE Project (“Linux Embedded Development Environment”) is a Linux operating system emerged from the OpenWrt project.
+Its announcement was sent on 3th May 2016 by Jo-Philipp Wich to both the OpenWrt development list and the new LEDE development list\footnote{https://lwn.net/Articles/686180/}.
+It describes LEDE as "a reboot of the OpenWrt community" and as "a spin-off of the OpenWrt project" seeking to create an embedded-Linux development community "with a strong focus on transparency, collaboration and decentralisation"\footnote{https://www.phoronix.com/scan.php?page=news\_item\&px=OpenWRT-Forked-As-LEDE}.
 
-\section{OPKG Package manager}
+The rationale given for the reboot was that OpenWrt suffered from longstanding issues that could not be fixed from within—namely, regarding internal processes and policies.
+For instance, the announcement said, the number of developers is at an all-time low, but there is no process for on-boarding new developers and, it seems, no process for granting commit access to new developers.
 
-The opkg utility (Open Package Management System) is a lightweight package manager used to download and install OpenWrt packages.
-The opkg is fork of an ipkg (Itsy Package Management System).
-These packages could be stored somewhere on device's filesystem or the package manager will download them from local package repositories or ones located on the Internet mirrors.
-Users already familiar with GNU/Linux package managers like apt/apt-get, pacman, yum, dnf, emerge etc. will definitely recognize the similarities.
-It also has similarities with NSLU2's Optware, also made for embedded devices.
-Fact that OPKG is also a full package manager for the root file system, instead of just a way to add software to a seperate directory (e.g. /opt) includes the possibility to add kernel modules and drivers.
-OPKG is sometimes called Entware, but this is mainly to refer to the Entware repository for embedded devices.
+At the moment latest release of OpenWrt 15.05.1 (code-named "Chaos Calmer") released in March 2016.
+LEDE developers continued to work separately on their upstream release and they delivered LEDE "Reboot" with version 17.01.0 on February 22nd 2017.
 
-Opkg attempts to resolve dependencies with packages in the repositories - if this fails, it will report an error, and abort the installation of that package.
+The remerge proposal vote was passed by LEDE developers in June 2017\footnote{http://lists.infradead.org/pipermail/lede-adm/2017-June/000552.html}.
+After long and sometimes slowly moving discussions about the specifics of the re-merge, with multiple similar proposals but little subsequent action, formally announced on LEDE forum in January 2018\footnote{https://forum.lede-project.org/t/announcing-the-openwrt-lede-merge/10217}.
+OpenWrt and LEDE projects agreed upon their unification under the OpenWrt name.
+After merge OpenWrt upstream repository started to show signs of life.
 
-Missing dependencies with third-party packages are probably available from the source of the package.
+Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers.
 
-\subsection{OPKG Makefile}
+\section{Why use OpenWrt}
+
+Router is basically a full-blown computer that's always powered on, let us make some good use of it!
+OpenWrt turns our router in a fully capable GNU/Linux computer, not just a network "magic" box.
+
+OpenWrt system may be more stable than our hardware’s default firmware from vendor.
+Not even that but probably more secure login with support of key-based SSH and less security holes since OpenWrt is regularly updated.
+
+It is capable of running lightweight services like an IRC bouncer, a dyndns updater, print server, lighttpd even.
+Some routers has USB ports so samba/ftp file sharing over the network comes into mind with an external HDD connected to it.
+
+OpenWrt has an Web UI interface too so users less experienced in Linux could easily set up their network.
+With OpenWrt we can tweak all the network settings such as QoS, Per-service bandwidth throttling, wireless isolation.
+It is not bound to some "consumer-friendly" vendor-specific configuration of firewalling.
+We are able to set up firewall and port-forwarding as we wish.
+It provides load and bandwidth live graphs and we can monitor all outgoing/incoming connections.
+
+The goal of this thesis would be to port a lightweight Tang daemon described in the chapter \ref{tang} Tang server to OpenWrt system.
+Tang server will help us unlock our encrypted volumes while on safe home or office network without need for extra PC running it but having it on our tiny OpenWrt "server".
+With Tang we do not have to care about typing passphrases over and over to unlock LUKS drives in safe enviroment.
