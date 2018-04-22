@@ -401,9 +401,18 @@ Key Slot 6: DISABLED
 Key Slot 7: DISABLED
 \end{lstlisting}
 For more usecases and examples how to use cryptsetup see the man page of the tool\footnote{https://linux.die.net/man/8/cryptsetup}.
-Examples shown demonstrate basic key management for LUKS volumes and should be sufficient for following...
+Examples shown demonstrate basic key management for LUKS volumes and should be sufficient for basic understanding of cryptsetup/LUKS behavior and usability on the system with encrypted drive.
+\todo{nafuknut little bit}
 
 \subsection{LUKS security}
 
+In August 2012 Ubuntu Privacy Remix Team did a deep analysis of LUKS/cryptsetup in Ubuntu enviroment.
+Cryptsetup in version 1.4.1 used by Ubuntu 12.04 LTS has been chosen for they analysis.
+They wrote the programs luksanalyzer and hashtest for the purpose of the analysis.
 
-\cite{team2012security}
+At the end they came into conlusion that cryptsetup with LUKS is a highly secure program for encrypting whole data media or partitions thereupon.
+The encryption algorithms and other security mechanism it implements comply with the current state of the art in cryptography.
+They found no back door or security-related mistake in the published source code.
+If we use this program in a secure environment we may assume with high certainty that no one can get access to the data stored in your volumes as long as they are closed, the passwords are really good and the attacker doesn't apply highly advanced methods below the layer of the operation system, such as BIOS rootkits, hardware keyloggers or video surveillance.
+A special strong point of Cryptsetup with LUKS is its high power of resistance against dictionary attacks.
+This resisting power is adapted to the increased speed of hardware when new encrypted volumes are created on new up to date hardware\cite{team2012security}.
