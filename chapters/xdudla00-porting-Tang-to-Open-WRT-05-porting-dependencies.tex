@@ -76,6 +76,21 @@ The parser can be found on its own GitHub \cite{http-parser}.
 
 \subsection{Update http-parser}\label{http-parser}
 
+\section{Makefiles for OpenWrt's packages}
+
+This is very important part of creating new packages therefore porting them to openwrt this file is similar to specfiles on fedora...
+
+\begin{lstlisting}[language=c,basicstyle=\ttfamily\footnotesize,label=c,caption=Basic C code.]
+    #include<stdio.h>
+    #include<iostream>
+    int main(void)
+    {
+        printf("Chello World\n");
+        // comment
+        return 0;
+    }
+\end{lstlisting}
+
 \newpage
 
 \section{Create new packages}

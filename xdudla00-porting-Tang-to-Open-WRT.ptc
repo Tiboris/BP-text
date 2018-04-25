@@ -49,8 +49,9 @@
 \contentsline {section}{\numberline {5.2}Update outdated packages}{33}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Update jansson}{34}{subsection.5.2.1}
 \contentsline {subsection}{\numberline {5.2.2}Update http-parser}{35}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}Create new packages}{36}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Create Jos\IeC {\'e}}{37}{subsection.5.3.1}
+\contentsline {section}{\numberline {5.3}Makefiles for OpenWrt's packages}{35}{section.5.3}
+\contentsline {section}{\numberline {5.4}Create new packages}{36}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Create Jos\IeC {\'e}}{37}{subsection.5.4.1}
 \contentsline {chapter}{\numberline {6}Porting Tang}{38}{chapter.6}
 \contentsline {section}{\numberline {6.1}Install dependencies}{38}{section.6.1}
 \contentsline {section}{\numberline {6.2}Socket activation with xinetd}{39}{section.6.2}
