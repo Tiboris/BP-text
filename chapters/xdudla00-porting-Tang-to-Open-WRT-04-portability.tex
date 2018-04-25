@@ -255,12 +255,12 @@ When we start with porting an upstream projet (such as Tang) for latest release 
 In our case we will work with latest OpenWrt release LEDE 17.01.4 on our target device, and download the OpenWrt bleeding edge (trunk version) buildroot with git.
 To download OpenWrt buildroot from upstream repository run command:
 \begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-\$ git clone https://github.com/openwrt/openwrt.git \ %TODO there is "\$ in pdf"
+$ git clone https://github.com/openwrt/openwrt.git
 \end{lstlisting}
 
 \section{Working with buildroot}\label{working-with-buildroot}
 
-Working with Openwrt's buildroot requires some basic knowledge of the git version control system and processes of upstream project development using GitHub.
+Working with Openwrt's buildroot requires some basic knowledge of the git version control system\footnote{https://git-scm.com/docs/gittutorial} and processes of upstream project development using GitHub.
 
 To save our work progress and be able to contribute to the upstream repository we should have a own fork of it.
 A fork is a copy of a repository that we can manage.
@@ -270,7 +270,7 @@ These pull request are generated from the "devel" branch that we should have in 
 Figure \ref{fig:git-workflow} GitHub's workflow reflects this in a nutshell.
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.8]{figures/placeholder.pdf}
+    \includegraphics[scale=1]{figures/placeholder.pdf}
     \caption{GitHub's workflow}
     \label{fig:git-workflow}
 \end{figure}
@@ -280,7 +280,7 @@ Before cloning our fork it is recomended to set ut git enviroment\footnote{https
 All work related to this thesis has been done using GitHub account Tiboris\footnote{https://github.com/Tiboris/} therefore output of following commands are bound to it.
 \begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone https://github.com/Tiboris/openwrt.git \
-    ~/buildroot-openwrt
+     ~/buildroot-openwrt
 \end{lstlisting}
 Please note that this command will clone the {\it openwrt} repository of the GitHub user {\it Tiboris} to the {\it $\sim$/buildroot-openwrt} directory on our host.
 
@@ -289,7 +289,8 @@ Configured remote allows us to sync changes made in the original repository with
 Make sure you are in the buildroot directory and add remote called upstream:
 \begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ cd ~/buildroot-openwrt
-$ git git remote add upstream https://github.com/openwrt/openwrt.git
+$ git git remote add upstream \
+     https://github.com/openwrt/openwrt.git
 \end{lstlisting}
 To verify that remote is present run:
 \begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -299,15 +300,20 @@ origin	git@github.com:Tiboris/openwrt.git (push)
 upstream	https://github.com/openwrt/openwrt.git (fetch)
 upstream	https://github.com/openwrt/openwrt.git (push)
 \end{lstlisting}
-With the remote conficured correctly we can now sync with upstream repository.
-To download latest upstream changes use the "fetch" option and  the "merge" option to aply them to our fork's branch.
+With the remote conficured correctly we can now sync with
+ upstream repository.
+To download latest upstream changes use the "fetch" option
+ and  the "merge" option to aply them to our fork's branch.
 \begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git fetch upstream master
 remote: Counting objects: 4376, done.
 remote: Compressing objects: 100% (2/2), done.
-remote: Total 4376 (delta 1776), reused 1775 (delta 1775), pack-reused 2599
-Receiving objects: 100% (4376/4376), 1.27 MiB | 743.00 KiB/s, done.
-Resolving deltas: 100% (2932/2932), completed with 809 local objects.
+remote: Total 4376 (delta 1776), reused 1775 (delta 1775),
+ pack-reused 2599
+Receiving objects: 100% (4376/4376), 1.27 MiB
+ | 743.00 KiB/s, done.
+Resolving deltas: 100% (2932/2932), completed
+ with 809 local objects.
 From https://github.com/openwrt/openwrt
  * branch                  master     -> FETCH_HEAD
    36fb0697e2..d089a5d773  master     -> upstream/master
@@ -323,9 +329,8 @@ After we have enviroment ready to be worked on (all needed dependencies installe
 \end{enumerate}
 
 \begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-https://git-scm.com/docs/gittutorial
+$
 \end{lstlisting}
-
 
 describe buildroot topology and descibe what every single thing is what for
 
