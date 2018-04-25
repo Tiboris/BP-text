@@ -1,40 +1,17 @@
-\chapter{Tang server}\label{tang} \todo{re-factor entire chapter}
-Tang server is an open source project implemented in C programming language, and it binds data to network presence.
-What does binding data to network presence really mean?
-Essentially, it allows us to make some data to be available only when the system containing the data is on a particular, usually secure, network.
+\chapter{Tang}\label{tang} \todo{re-factor entire chapter}
 
-\section{Key management systems}
+Automated decryption of HDDs with Tang blablebli.
 
-With an increasing number of encryption keys to store and protect, there might be necessary to consider using key management server.
-Key management server should provide a secure and persistent service to its clients providing:
-\begin{itemize}
-    \item key generation
-    \item key exchange
-    \item key storage,
-    \item use
-    \item crypto-shredding
-    \item key replacement
-\end{itemize}
-One of the possible solutions for persistent key management is to deploy a key escrow server.
+Before Tang, automated decryption was usually handled by a Key Escrow server.
 
-With key escrow a third party gets copies of a cryptographic key.
-This third party, for example law enforcement, has the ability to decrypt encrypted data using our keys in escrow if they had the right.
-People might not be comfortable with any third party, especially the government, having this ability and that "technical" problems vex the key escrow solution.
+\section{Key Escrow}\label{escrow}
 
-Key recovery, on the other hand, lets us just backup and restore cryptographic keys without any third party possesing our key.
-
-Key recovery is necessary.
-Key escrow is not.
-Let us not confuse these two.
-
-\subsection{Key Escrow server}\label{escrow}
-
-Key Escrow server (also known as a “fair” cryptosystem) is a server providing escrow service for encryption keys.
+The Key Escrow server (also known as a “fair” cryptosystem) is providing escrow service for encryption keys.
 A client using Key Escrow usually generates a key, encrypts data with it and then stores the key encryption key on a remote server.
-However, it is not as simple as it sounds and there are couple of security concerns.
+Unfortunatelly, it is not always as simple as it sounds and there are couple of security concerns.
 
-To deliver these keys we want to store on Escrow server, we have to encrypt the channel on which we distribute them.
-When transmitting keys over non secure network without encrypted link, anyone listening to the network traffic could immadiately fetch the key.
+To transfer the encryption keys we want to store on an Escrow server, we have to encrypt the channel on which we send them.
+When transmitting keys over an insecure network without an encrypted link, anyone listening to the network traffic could immadiately fetch the key.
 This should signal security risks, and, of course, we do not want any third party to access our secret data.
 Usually we encrypt a channel with TLS(Transport Layer Security) or GSSAPI (Generic Security Services Application Program Interface) as shown on a Figure \ref{fig:escrowmodel} Escrow model.
 \begin{figure}[h]
@@ -44,18 +21,30 @@ Usually we encrypt a channel with TLS(Transport Layer Security) or GSSAPI (Gener
     \label{fig:escrowmodel}
 \end{figure}
 Unfortunatelly, this is not enough to have the communication secure.
-We can not just start sending these keys to the escrow server, if we do not know whether this server is the one it acts to be.
-This server has to have its own identity to be verified, and the client have to authenticate to this server too.
-Increasing amount of keys implicates a need for Certification Authority server (CA) or Key Distribution Center (KDC) to manage all of them.
+We can not just start sending these keys to the escrow server if we do not know whether this server is the one it acts to be.
+This server has to have its identity verified, and the client has to authenticate to this server too.
+The increasing amount of keys implicates a need for Certification Authority server (CA) or a Key Distribution Center (KDC) to manage all of them.
+
 With all these keys, and at this point only, server can verify if the client is permitted to get their key, and the client is able to identify trusted server.
 This is a fully stateful process.
-To sum up, an authorized third party may gain access to keys stored on Escrow server under certain circumstances only.
+To sum up, an authorized third party may gain access to keys stored on an Escrow server under certain circumstances only.
 
-Complexity of this system increases the attack surface and for this complex system it would be unimaginable not to have backups.
-Escrow server may store lots of keys from lots of different places and basically we can not afford to lose them.
+The complexity of this system increases the attack surface and for a such complex system it would be unimaginable not to have backups.
+Escrow server may store lots of keys from lots of different places, users and services.
 
+With key escrow a third party gets copies of a cryptographic key.
+People might not be comfortable with any third party having this ability and that "technical" problems vex the key escrow solution.
+Tang's key recovery, on the other hand, lets us just "backup" and restore cryptographic keys anonymously and without any third party possesing our key.
+
+Key recovery is necessary.
+Key escrow is not.
+Let us not confuse these two.
 
 \section{Tang - binding daemon}
+
+Tang server is an open source project implemented in C programming language, and it binds data to network presence.
+What does binding data to network presence really mean? \todo{do not ask}
+Essentially, it allows us to make some data to be available only when the system containing the data is on a particular, usually secure, network.
 
 Tang server advertises asymmetric keys and a client is able to get the list of these signing keys \ref{jose} by HTTP (Hypertext Transfer Protocol) GET request.
 The next step is the provisioning step. With the list of these public keys the process of encrypting data may start.
@@ -76,11 +65,7 @@ So the Tang server never knew the value of the key and literraly nothing about i
     \label{fig:tangmodel}
 \end{figure}
 
-On Figure \ref{fig:tangmodel} you can see the Tang model.% https://forum.lede-project.org/t/announcing-the-openwrt-lede-merge/10217
-% https://lwn.net/Articles/686767/
-% https://en.wikipedia.org/wiki/LEDE
-% https://openwrt.org/faq/general
-% https://www.dd-wrt.com/site/index
+On Figure \ref{fig:tangmodel} you can see the Tang model.
 It is very similar to Escrow model \ref{fig:escrowmodel} but there are some thing missing.
 In fact, there is no longer a need for TLS channel to secure comunication between the client and the server,
  and that is the reason why Tang implements the McCallum-Relyea exchange \ref{mrexchange} as described below.
@@ -219,89 +204,41 @@ It relies on few other software libraries:
 
 The steps to build it from source include download source from poject's GitHub or clone~it.
 Make sure you have all needed dependencies installed and then run:
-
-{\tt \$ autoreconf -if}
-
-{\tt \$ ./configure --prefix=/usr}
-
-{\tt \$ make}
-
-{\tt \$ sudo make install}
-
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ autoreconf -if
+\$ ./configure --prefix=/usr
+\$ make
+# sudo make install
+\end{lstlisting}
 Optionally to run tests:
-
-{\tt \$ make check}
-
-\subsection{http-parser}\label{http-parser}
-Tang uses this parser for both parsing HTTP requests and HTTP responses.
-The parser can be found on its own GitHub \cite{http-parser}.
-
-\subsection{systemd}\label{systemd}
-systemd is a suite of basic building blocks for a Linux system.
-It provides a system and service manager that runs as PID 1 and starts the rest of the system.
-systemd provides aggressive parallelization capabilities, uses socket and D-Bus activation for starting services,
- offers on-demand starting of daemons, keeps track of processes using Linux control groups, maintains mount and automount points,
- and implements an elaborate transactional dependency-based service control logic.
-\todo{Why is systemd needed by tang}
-
-\subsection{José}\label{jose}
-José \cite{jose_prog} is a C-language implementation of the Javascript Object Signing and Encryption standards.
-Specifically, José aims towards implementing the following standards:
-\begin{itemize}
-   \item RFC 7515 - JSON Web Signature (JWS)        \cite{RFC7515}
-   \item RFC 7516 - JSON Web Encryption (JWE)       \cite{RFC7516}
-   \item RFC 7517 - JSON Web Key (JWK)              \cite{RFC7517}
-   \item RFC 7518 - JSON Web Algorithms (JWA)       \cite{RFC7518}
-   \item RFC 7519 - JSON Web Token (JWT)            \cite{RFC7519}
-   \item RFC 7520 - Examples of ... JOSE            \cite{RFC7520}
-   \item RFC 7638 - JSON Web Key (JWK) Thumbprint   \cite{RFC7638}
-\end{itemize}
-
-JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties.
-
-Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
-
-\subsection{jansson}\label{jansson}
-Jansson \cite{jansson}(licenced under MIT licence) is a C library for encoding, decoding and manipulating JSON data. It features:
-\begin{itemize}
-    \item Simple and intuitive API and data model
-    \item Comprehensive documentation
-    \item No dependencies on other libraries
-    \item Full Unicode support (UTF-8)
-    \item Extensive test suite
-\end{itemize}
-
-\subsection{OpenSSL}\label{openssl}
-OpenSSL contains an open-source implementation of the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols.
-It is used by network applications to secure communication between two parties over network.
-
-\subsection{zlib}\label{zlib}
-Library zlib \cite{zlib} is used for data compression.
-
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ make check
+\end{lstlisting}
 \section{Server enablement}
+
 Enabling a Tang server is a two-step process.
 First, enable and start the service using systemd.
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ sudo systemctl enable tangd-update.path --now
+\end{lstlisting}
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ sudo systemctl start tangd-update.path
+\end{lstlisting}
 
-{\tt\begin{verbatim} $ sudo systemctl enable tangd-update.path\end{verbatim}
-}
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ sudo systemctl enable tangd.socket --now
+\end{lstlisting}
 
-{\tt\begin{verbatim} $ sudo systemctl start tangd-update.path\end{verbatim}
-}
-
-{\tt\begin{verbatim} $ sudo systemctl enable tangd.socket\end{verbatim}
-}
-
-{\tt\begin{verbatim} $ sudo systemctl start tangd.socket\end{verbatim}
-}
 
 Second, generate a signing key and an exchange key.
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+# jose gen -t '{"alg":"ES256"}' -o /var/db/tang/sig.jwk
+\end{lstlisting}
 
-{\tt\begin{verbatim} $ sudo jose gen -t '{"alg":"ES256"}' -o /var/db/tang/sig.jwk\end{verbatim}
-}
-
-{\tt\begin{verbatim} $ sudo jose gen -t '{"kty":"EC","crv":"P-256","key_ops":["deriveKey"]}' \
-        -o /var/db/tang/exc.jwk\end{verbatim}
-}
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+# jose gen -t '{"kty":"EC","crv":"P-256","key_ops":["deriveKey"]}' \
+        -o /var/db/tang/exc.jwk
+\end{lstlisting}
 
 Now we are up and running. Server is ready to send advertisment on demand.
 \todo{Get clevis in here?}
@@ -313,8 +250,9 @@ Clevis provides a pluggable key management framework for automated decryption.
 It can handle even automated unlocking of LUKS volumes.
 To do so, we have to encrypt some data with simple command:
 
-{\tt\begin{verbatim} $ clevis encrypt PIN CONFIG < PLAINTEXT > CIPHERTEXT.jwe\end{verbatim}
-}
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ clevis encrypt PIN CONFIG < PLAINTEXT > CIPHERTEXT.jwe
+\end{lstlisting}
 
 In clevis terminology, a {\it pin} is a plugin which implements automated decryption.
 We simply pass the name of supported pin here.
@@ -323,12 +261,13 @@ It contains all the necessary configuration to perform encryption and setup auto
 
 \subsection{PIN: Tang}
 Clevis has full support for Tang. Here is an example of how to use Clevis with Tang:
-{\tt \begin{verbatim} $ echo hi | clevis encrypt tang '{"url": "http://tangserver"}' > hi.jwe
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ echo hi | clevis encrypt tang '{"url": "http://tangserver"}' > hi.jwe
  The advertisement is signed with the following keys:
      kWwirxc5PhkFIH0yE28nc-EvjDY
 
- Do you wish to trust the advertisement? [yN] y\end{verbatim}
-}
+ Do you wish to trust the advertisement? [yN] y
+\end{lstlisting}
 In this example, we encrypt the message "hi" using the Tang pin.
 The only parameter needed in this case is the URL of the Tang server.
 During the encryption process, the Tang pin requests the key advertisement from the server and asks you to trust the keys.
@@ -352,13 +291,15 @@ Clevis can be used to bind a LUKS volume using a pin so that it can be automatic
 How this works is rather simple. We generate a new, cryptographically strong key. This key is added to LUKS as an additional passphrase. We then encrypt this key using Clevis, and store the output JWE inside the LUKS header using LUKSMeta.
 
 Here is an example where we bind {\tt /dev/vda2} using the Tang ping:
-{\tt \begin{verbatim} $ sudo clevis bind-luks /dev/sda1 tang '{"url": "http://tang.local"}'
- The advertisement is signed with the following keys:
-         kWwirxc5PhkFIH0yE28nc-EvjDY
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ sudo clevis bind-luks /dev/sda1 tang '{"url": "http://tang.local"}'
+The advertisement is signed with the following keys:
+        kWwirxc5PhkFIH0yE28nc-EvjDY
 
- Do you wish to trust the advertisement? [yN] y
- Enter existing LUKS password:\end{verbatim}
-}
+Do you wish to trust the advertisement? [yN] y
+Enter existing LUKS password:
+\end{lstlisting}
+
 Upon successful completion of this binding process, the disk can be unlocked using one of the provided unlockers.
 
 \subsection{Dracut}\label{dracut}
@@ -366,8 +307,9 @@ The Dracut unlocker attempts to automatically unlock volumes during early boot.
 This permits automated root volume encryption.
 Just rebuild your initramfs after installing Clevis:
 
-{\tt \begin{verbatim} $ sudo dracut -f\end{verbatim}
-}
+\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ sudo dracut -f
+\end{lstlisting}
 
 Upon reboot, you will be prompted to unlock the volume using a password. In the background, Clevis will attempt to unlock the volume automatically. If it succeeds, the password prompt will be cancelled and boot will continue.
 

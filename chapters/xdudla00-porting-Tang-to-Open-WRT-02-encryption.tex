@@ -107,7 +107,7 @@ The source code of LibreCrypt is available on GitHub you can visit the site or c
 git clone https://github.com/t-d-k/LibreCrypt.git
 \end{lstlisting}
 
-\subsection{LUKS specification}
+\subsection{LUKS}
 
 LUKS (Linux Unified Key Setup-on-disk-format) is a platform-independent disk encryption specification.
 LUKS was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions only.
@@ -118,7 +118,7 @@ This subsystem is not particularly bound to LUKS and can be used for plain forma
 
 It is important for us to know this specification a little more due to working with Linux distribution and the implemantation of the Tang server.
 
-\section{Disk encryption with LUKS}
+\section{Disk encryption with LUKS} \todo{merge and add motivation related to unlockers and tang}
 
 With modern versions of cryptsetup (i.e., since ~2006), encrypted block devices can be created in two main formats, plain dm-crypt format or the extended LUKS format.
 

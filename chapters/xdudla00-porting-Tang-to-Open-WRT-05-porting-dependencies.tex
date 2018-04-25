@@ -69,11 +69,12 @@ We would agree that starting with something already built for OpenWrt is the bes
 In following subsections we will use all things we know from section \ref{working-with-buildroot} Working with buildroot.
 Let us start with missing update of José's dependency, package jansson.
 
-\subsection{Update jansson}
-
+\subsection{Update jansson}\label{jansson}
+Tang uses this parser for both parsing HTTP requests and HTTP responses.
+The parser can be found on its own GitHub \cite{http-parser}.
 \newpage
 
-\subsection{Update http-parser}
+\subsection{Update http-parser}\label{http-parser}
 
 \newpage
 
@@ -81,6 +82,21 @@ Let us start with missing update of José's dependency, package jansson.
 
 \newpage
 
-\subsection{Create José}
+\subsection{Create José}\label{jose}
+José \cite{jose_prog} is a C-language implementation of the Javascript Object Signing and Encryption standards.
+Specifically, José aims towards implementing the following standards:
+\begin{itemize}
+   \item RFC 7515 - JSON Web Signature (JWS)        \cite{RFC7515}
+   \item RFC 7516 - JSON Web Encryption (JWE)       \cite{RFC7516}
+   \item RFC 7517 - JSON Web Key (JWK)              \cite{RFC7517}
+   \item RFC 7518 - JSON Web Algorithms (JWA)       \cite{RFC7518}
+   \item RFC 7519 - JSON Web Token (JWT)            \cite{RFC7519}
+   \item RFC 7520 - Examples of ... JOSE            \cite{RFC7520}
+   \item RFC 7638 - JSON Web Key (JWK) Thumbprint   \cite{RFC7638}
+\end{itemize}
+
+JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties.
+
+Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
 
 \newpage
