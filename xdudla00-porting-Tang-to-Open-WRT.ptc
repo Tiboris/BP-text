@@ -33,19 +33,17 @@
 \contentsline {chapter}{\numberline {4}Software portability}{23}{chapter.4}
 \contentsline {section}{\numberline {4.1}OpenWrt system}{24}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}OpenWrt and LEDE}{24}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}DD-WRT}{25}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Why use OpenWrt}{25}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.2}Why use OpenWrt}{25}{subsection.4.1.2}
 \contentsline {section}{\numberline {4.2}OpenWrt's toolchain}{25}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Compiler}{26}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Linker}{27}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.1}Compiler}{25}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Linker}{26}{subsection.4.2.2}
 \contentsline {subsection}{\numberline {4.2.3}C standard library}{27}{subsection.4.2.3}
 \contentsline {section}{\numberline {4.3}OpenWrt's buildroot}{27}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Buildroot prerequisites}{28}{subsection.4.3.1}
-\contentsline {section}{\numberline {4.4}Prepare the enviroment}{29}{section.4.4}
+\contentsline {section}{\numberline {4.4}Prepare the enviroment}{28}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Buildroot's dependencies}{29}{subsection.4.4.1}
 \contentsline {subsection}{\numberline {4.4.2}Getting buildroot}{29}{subsection.4.4.2}
-\contentsline {section}{\numberline {4.5}Working with buildroot}{30}{section.4.5}
-\contentsline {section}{\numberline {4.6}Makefiles for OpenWrt's packages}{30}{section.4.6}
+\contentsline {section}{\numberline {4.5}Working with buildroot}{29}{section.4.5}
 \contentsline {chapter}{\numberline {5}Porting the dependencies}{32}{chapter.5}
 \contentsline {section}{\numberline {5.1}Find the depencies}{33}{section.5.1}
 \contentsline {section}{\numberline {5.2}Update outdated packages}{33}{section.5.2}
