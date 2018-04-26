@@ -204,38 +204,38 @@ It relies on few other software libraries:
 
 The steps to build it from source include download source from poject's GitHub or clone~it.
 Make sure you have all needed dependencies installed and then run:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ autoreconf -if
 \$ ./configure --prefix=/usr
 \$ make
 # sudo make install
 \end{lstlisting}
 Optionally to run tests:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ make check
 \end{lstlisting}
 \section{Server enablement}
 
 Enabling a Tang server is a two-step process.
 First, enable and start the service using systemd.
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ sudo systemctl enable tangd-update.path --now
 \end{lstlisting}
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ sudo systemctl start tangd-update.path
 \end{lstlisting}
 
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ sudo systemctl enable tangd.socket --now
 \end{lstlisting}
 
 
 Second, generate a signing key and an exchange key.
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # jose gen -t '{"alg":"ES256"}' -o /var/db/tang/sig.jwk
 \end{lstlisting}
 
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # jose gen -t '{"kty":"EC","crv":"P-256","key_ops":["deriveKey"]}' \
         -o /var/db/tang/exc.jwk
 \end{lstlisting}
@@ -250,7 +250,7 @@ Clevis provides a pluggable key management framework for automated decryption.
 It can handle even automated unlocking of LUKS volumes.
 To do so, we have to encrypt some data with simple command:
 
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ clevis encrypt PIN CONFIG < PLAINTEXT > CIPHERTEXT.jwe
 \end{lstlisting}
 
@@ -261,7 +261,7 @@ It contains all the necessary configuration to perform encryption and setup auto
 
 \subsection{PIN: Tang}
 Clevis has full support for Tang. Here is an example of how to use Clevis with Tang:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ echo hi | clevis encrypt tang '{"url": "http://tangserver"}' > hi.jwe
  The advertisement is signed with the following keys:
      kWwirxc5PhkFIH0yE28nc-EvjDY
@@ -291,7 +291,7 @@ Clevis can be used to bind a LUKS volume using a pin so that it can be automatic
 How this works is rather simple. We generate a new, cryptographically strong key. This key is added to LUKS as an additional passphrase. We then encrypt this key using Clevis, and store the output JWE inside the LUKS header using LUKSMeta.
 
 Here is an example where we bind {\tt /dev/vda2} using the Tang ping:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ sudo clevis bind-luks /dev/sda1 tang '{"url": "http://tang.local"}'
 The advertisement is signed with the following keys:
         kWwirxc5PhkFIH0yE28nc-EvjDY
@@ -307,7 +307,7 @@ The Dracut unlocker attempts to automatically unlock volumes during early boot.
 This permits automated root volume encryption.
 Just rebuild your initramfs after installing Clevis:
 
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ sudo dracut -f
 \end{lstlisting}
 

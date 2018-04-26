@@ -16,7 +16,7 @@ Figure \ref{fig:git-workflow} GitHub's workflow reflects this in a nutshell.
 To fork OpenWrt's buildroot we should have our GitHub account set up\footnote{https://github.com/join}, visit the OpenWrt's project upstream repository\footnote{https://github.com/openwrt/openwrt}, and click on "Fork" button in the top-right corner of the page.
 Before cloning our fork it is recomended to set ut git enviroment\footnote{https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup} on host machine and upload the SSH keys\footnote{https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/} to our account to minimize pushing effort to our fork.
 All work related to this thesis has been done using GitHub account Tiboris\footnote{https://github.com/Tiboris/} therefore output of following commands are bound to it.
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone https://github.com/Tiboris/openwrt.git ~/buildroot-openwrt
 \end{lstlisting}
 Please note that this command will clone the {\it openwrt} repository of the GitHub user {\it Tiboris} to the {\it $\sim$/buildroot-openwrt} directory on our host.
@@ -24,13 +24,13 @@ Please note that this command will clone the {\it openwrt} repository of the Git
 To catch up with changes made upstream we should consider to configure a remote that points to it.
 Configured remote allows us to sync changes made in the original repository with the fork and vice versa.
 Make sure you are in the buildroot directory and add remote\footnote{https://help.github.com/articles/configuring-a-remote-for-a-fork/} called upstream:
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ cd ~/buildroot-openwrt
 $ git git remote add upstream \
      https://github.com/openwrt/openwrt.git
 \end{lstlisting}
 To verify that remote is present run:
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git remote -v
 origin	git@github.com:Tiboris/openwrt.git (fetch)
 origin	git@github.com:Tiboris/openwrt.git (push)
@@ -41,7 +41,7 @@ With the remote conficured correctly we can now sync with
  upstream repository.
 To download latest upstream changes use the "fetch" option
  and  the "merge" option to aply them to our fork's branch\footnote{https://help.github.com/articles/syncing-a-fork/}.
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git fetch upstream master
 remote: Counting objects: 4376, done.
 remote: Compressing objects: 100% (2/2), done.

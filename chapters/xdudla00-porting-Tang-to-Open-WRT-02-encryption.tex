@@ -103,7 +103,7 @@ It can create “virtual disks” on your computer and anything written to these
 
 Unfortunatelly this project seems to be abandoned by its developer on github.
 The source code of LibreCrypt is available on GitHub you can visit the site or clone source code using~git:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 git clone https://github.com/t-d-k/LibreCrypt.git
 \end{lstlisting}
 
@@ -143,13 +143,13 @@ To mitigate this risk the Backup of the LUKS header would be best option \cite{f
 
 Creating just a LUKS volume is quite easy all you need is tool called cryptsetup.
 You can install it on Fedora system using command:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install cryptsetup
 \end{lstlisting}
 Note, that this command has to be run by user with root privileges.
 After installation succeeds all we need to do is to choose partition to encrypt.
 For demonstration we will encrypt the {\it /dev/xvdc} patrtition using:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup -y -v luksFormat /dev/xvdc
 WARNING!
 ========
@@ -208,7 +208,7 @@ For this demonstration we will use tools available for Fedora 27 such as:\\
 \end{itemize}
 These tools are available through Fedora 27 upstream repositories and can be easily downloaded and installed via Fedora package management system the dnf.
 To list hard drives for our system we will use the parted tool:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # parted -l
 Model: NVMe Device (nvme)
 Disk /dev/nvme0n1: 256GB
@@ -224,7 +224,7 @@ The exhibit shows that on our "host" system we have installed an NVMe (NVM Expre
 The NVMe is a specification for accessing SSDs attached through the PCI Express bus.
 Our SSD drive has two partition as you can see the fist is boot partition and second should be our LUKS partition.
 To find out if the second partition is LUKS volume we will use cryptsetup tool with option isLuks:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup isLuks /dev/nvme0n1p1 -v
 Device /dev/nvme0n1p1 is not a valid LUKS device.
 Command failed with code 22: Invalid argument
@@ -233,13 +233,13 @@ This command has no /std/out nor /std/err output unless the -v option is used.
 The actual result of the command is returned as exit code.
 The output show reflects that our boot partition is not a valid LUKS volume as expected.
 This is expected behavior, encrypting MBR partition would make impossible for system to boot.
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup isLuks /dev/nvme0n1p2 -v
 Command successful.
 \end{lstlisting}
 At this point we have successfully identified the LUKS volume.
 To dump the header information of this LUKS volume use cryptsetup option luksDump:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
 
@@ -249,8 +249,7 @@ Cipher mode:	xts-plain64
 Hash spec:		sha256
 Payload offset:	4096
 MK bits:		512
-MK digest:		85 b3 b9 71 b6 b7 51 18 60 39
-				78 db ac e8 82 97 0c 7b a2 3e
+MK digest:		85 b3 b9 71 b6 b7 51 18 60 39 78 db ac e8 82 97 0c 7b a2 3e
 MK salt:		0d 22 53 83 56 0d a0 70 25 c2 bf fe 75 40 71 a9
 				75 f1 ae a3 67 e5 b2 a5 14 85 39 1d c6 74 00 a8
 MK iterations: 	52625
@@ -274,7 +273,7 @@ From the listing we can assume that /dev/nvme0n1p2 has one key encryption key in
 The advantage of LUKS is that if a team or group of up to eight people has to work with a common encrypted volume each team member may use his own password.
 New user keys may be added to the encrypted volume and old user keys may be removed.
 To add a new key we will use cryptsetup with option luksAddKey as shown:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksAddKey  /dev/nvme0n1p2
 Enter any existing passphrase:
 Enter new passphrase for key slot:
@@ -282,7 +281,7 @@ Verify passphrase:
 \end{lstlisting}
 The cryptsetup will derive the key encryption key from this passphrase and bind it to first available key slot in LUKS header.
 The dump of header will now contain information similar to the exhibit below:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
 
@@ -292,8 +291,7 @@ Cipher mode:	xts-plain64
 Hash spec:		sha256
 Payload offset:	4096
 MK bits:		512
-MK digest:		85 b3 b9 71 b6 b7 51 18 60 39
-				78 db ac e8 82 97 0c 7b a2 3e
+MK digest:		85 b3 b9 71 b6 b7 51 18 60 39 78 db ac e8 82 97 0c 7b a2 3e
 MK salt:		0d 22 53 83 56 0d a0 70 25 c2 bf fe 75 40 71 a9
 				75 f1 ae a3 67 e5 b2 a5 14 85 39 1d c6 74 00 a8
 MK iterations: 	52625
@@ -320,14 +318,14 @@ Key Slot 7: DISABLED
 \end{lstlisting}
 At this point LUKS volume is accessible via two different passphrases.
 To remove any key from LUKS header we will use cryptsetup with option luksKillSlot as shown:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksKillSlot /dev/nvme0n1p2 0
 Enter any remaining passphrase:
 \end{lstlisting}
 To successfully remove key from key slot 0 we have to enter any remaining passphrase.
 In our case we would enter the newly created passphrase which is bound to key slot 1.
 This will result into having LUKS header in state like shown:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
 
@@ -337,8 +335,7 @@ Cipher mode:	xts-plain64
 Hash spec:		sha256
 Payload offset:	4096
 MK bits:		512
-MK digest:		85 b3 b9 71 b6 b7 51 18 60 39
-				78 db ac e8 82 97 0c 7b a2 3e
+MK digest:		85 b3 b9 71 b6 b7 51 18 60 39 78 db ac e8 82 97 0c 7b a2 3e
 MK salt:		0d 22 53 83 56 0d a0 70 25 c2 bf fe 75 40 71 a9
 				75 f1 ae a3 67 e5 b2 a5 14 85 39 1d c6 74 00 a8
 MK iterations: 	52625
@@ -360,7 +357,7 @@ Key Slot 7: DISABLED
 \end{lstlisting}
 Password rotation is very important.
 To change LUKS key slot passphrase use the cryptsetup's option luksChangeKey:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 #cryptsetup luksChangeKey /dev/nvme0n1p2 -S 1
 Enter passphrase to be changed:
 Enter new passphrase:
@@ -368,7 +365,7 @@ Verify passphrase:
 \end{lstlisting}
 Note that passphrase to be changed and the slot number must be related to each other.
 We could see change in LUKS header after command succeeded:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
 
@@ -378,8 +375,7 @@ Cipher mode:	xts-plain64
 Hash spec:		sha256
 Payload offset:	4096
 MK bits:		512
-MK digest:		85 b3 b9 71 b6 b7 51 18 60 39
-				78 db ac e8 82 97 0c 7b a2 3e
+MK digest:		85 b3 b9 71 b6 b7 51 18 60 39 78 db ac e8 82 97 0c 7b a2 3e
 MK salt:		0d 22 53 83 56 0d a0 70 25 c2 bf fe 75 40 71 a9
 				75 f1 ae a3 67 e5 b2 a5 14 85 39 1d c6 74 00 a8
 MK iterations: 	52625
