@@ -227,7 +227,7 @@ Before getting to know buildroot we have to have host enviroment ready for build
 
 To be able to work with OpenWrt's bildroot we will need lots of buildroot dependencies first.
 Please note that followning commands have to be run by user with root privileges to install buildroot dependencies on Fedora 27 system:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install binutils bzip2 gcc gcc-c++ \
 gawk gettext git-core flex ncurses-devel ncurses-compat-libs \
 zlib-devel zlib-static make patch perl-ExtUtils-MakeMaker \
@@ -236,7 +236,7 @@ sdcc intltool sharutils bison wget unzip openssl-devel
 \end{lstlisting}
 Some feeds might be not available over git but only via other versioning tools like subversion (svn) or mercurial.
 If we want to obtain their source-code, we need to install svn and mercurial as well:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install subversion mercurial
 \end{lstlisting}
 
@@ -254,70 +254,17 @@ In this case we would have to install or even build older version of required pa
 When we start with porting an upstream projet (such as Tang) for latest release of target's sytem on Fedora host system, an upstream bleeding edge buildroot should be the best solution.
 In our case we will work with latest OpenWrt release LEDE 17.01.4 on our target device, and download the OpenWrt bleeding edge (trunk version) buildroot with git.
 To download OpenWrt buildroot from upstream repository run command:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone https://github.com/openwrt/openwrt.git
 \end{lstlisting}
 
 \section{Working with buildroot}\label{working-with-buildroot}
 
 Working with Openwrt's buildroot requires some basic knowledge of the git version control system\footnote{https://git-scm.com/docs/gittutorial} and processes of upstream project development using GitHub.
+Short description how to fork and set up repository can be found on appendix \ref{set_repo} Setting up the repository.
 
-To save our work progress and be able to contribute to the upstream repository we should have a own fork of it.
-A fork is a copy of a repository that we can manage.
-It lets us make changes to a project without affecting the original (upstream) repository.
-We can fetch updates from the upstream or submit changes to the original repository with pull requests.
-These pull request are generated from the "devel" branch that we should have in our fork.
-Figure \ref{fig:git-workflow} GitHub's workflow reflects this in a nutshell.
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=1]{figures/placeholder.pdf}
-    \caption{GitHub's workflow}
-    \label{fig:git-workflow}
-\end{figure}
-
-To fork OpenWrt's buildroot we should have our GitHub account set up\footnote{https://github.com/join}, visit the OpenWrt's project upstream repository\footnote{https://github.com/openwrt/openwrt}, and click on "Fork" button in the top-right corner of the page.
-Before cloning our fork it is recomended to set ut git enviroment\footnote{https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup} on host machine and upload the SSH keys\footnote{https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/} to our account to minimize pushing effort to our fork.
-All work related to this thesis has been done using GitHub account Tiboris\footnote{https://github.com/Tiboris/} therefore output of following commands are bound to it.
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git clone https://github.com/Tiboris/openwrt.git \
-     ~/buildroot-openwrt
-\end{lstlisting}
-Please note that this command will clone the {\it openwrt} repository of the GitHub user {\it Tiboris} to the {\it $\sim$/buildroot-openwrt} directory on our host.
-
-To catch up with changes made upstream we should consider to configure a remote that points to it.
-Configured remote allows us to sync changes made in the original repository with the fork and vice versa.
-Make sure you are in the buildroot directory and add remote called upstream:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ cd ~/buildroot-openwrt
-$ git git remote add upstream \
-     https://github.com/openwrt/openwrt.git
-\end{lstlisting}
-To verify that remote is present run:
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git remote -v
-origin	git@github.com:Tiboris/openwrt.git (fetch)
-origin	git@github.com:Tiboris/openwrt.git (push)
-upstream	https://github.com/openwrt/openwrt.git (fetch)
-upstream	https://github.com/openwrt/openwrt.git (push)
-\end{lstlisting}
-With the remote conficured correctly we can now sync with
- upstream repository.
-To download latest upstream changes use the "fetch" option
- and  the "merge" option to aply them to our fork's branch.
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git fetch upstream master
-remote: Counting objects: 4376, done.
-remote: Compressing objects: 100% (2/2), done.
-remote: Total 4376 (delta 1776), reused 1775 (delta 1775),
- pack-reused 2599
-Receiving objects: 100% (4376/4376), 1.27 MiB
- | 743.00 KiB/s, done.
-Resolving deltas: 100% (2932/2932), completed
- with 809 local objects.
-From https://github.com/openwrt/openwrt
- * branch                  master     -> FETCH_HEAD
-   36fb0697e2..d089a5d773  master     -> upstream/master
-$ git merge upstream/master
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git clone https://github.com/Tiboris/openwrt.git ~/buildroot-openwrt
 \end{lstlisting}
 
 After we have enviroment ready to be worked on (all needed dependencies installed and fork of our buildroot downloaded on host system) let us just follow these simple 4 rules to not break our enviroment in any way.
@@ -327,10 +274,6 @@ After we have enviroment ready to be worked on (all needed dependencies installe
     \item Do not build in a directory that has spaces in its full path.
     \item Change ownership of the directory where we downloaded \\the OpenWrt to other than root user
 \end{enumerate}
-
-\begin{lstlisting}[columns=fixed,tabsize=4,backgroundcolor=\color{yellow!10}]
-$
-\end{lstlisting}
 
 describe buildroot topology and descibe what every single thing is what for
 
