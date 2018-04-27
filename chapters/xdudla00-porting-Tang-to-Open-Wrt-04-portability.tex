@@ -32,7 +32,7 @@ OpenWrt is a registered trademark which is held by the Software in the Public In
 Installing OpenWrt system means replacing your router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management.
 This means that we are not bound to applications provided by the vendor.
 Router (the embedded device) with this distribution can be used for anything that an embedded Linux system can be used for, from using its SSH Server for SSH Tunneling, to running lightweight server software (e.g. IRC server) on it.
-In fact it allows us to customize the device through the use of packages to suit any application.
+In fact it allows us to customize the device through the use of packages to suit any application. \cite{openwrt}
 
 \subsection{OpenWrt and LEDE}
 
@@ -51,45 +51,40 @@ After long and sometimes slowly moving discussions about the specifics of the re
 OpenWrt and LEDE projects agreed upon their unification under the OpenWrt name.
 After merge OpenWrt upstream repository started to show signs of life.
 
-Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers.
+Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers \cite{lede_release}.
 
 \subsection{Why use OpenWrt}
 
+Custom router firmware may be more stable than our hardware’s default firmware from the vendor.
+Not even that but probably more secure with regullar security updates.
+Besides OpenWrt there are other open source Linux based firmwares available such as Tomato or DD-WRT.
+
+In the past OpenWrt has supported only CLI (command line interface) configuration therefore it was best match for software developers, network admins, or advanced users.
+User not acquainted with Linux or even not comfortable with CLI found the OpenWrt platform hard to use and they turned to other solutions available.
+
+The Tomato firmware is the best match for unexperienced users providing rich GUI and many features specifically live "visual" traffic monitoring, allowing easy visibility on inbound/outbound traffic in real-time.
+Big disadvantage of the Tomato is that list of supported devices is quite poor.
+
+DD-WRT on the other hand is compatible with more routers than any other third party firmware.
+Compared to Tomato, DD-WRT is reported to have more bugs and less intuitive GUI.
+The DD-WRT was known as the most feature rich firmware until OpenWrt came along.
+
 OpenWrt turns our router in a fully capable GNU/Linux computer, not just a network "magic" box.
-This platform has come a long way in making itself more accessible to all user levels.
-
-In the past...
-
-DD features
-Tomato gui  Smaller router compatibility list
-OpenWrt package
-
-All based on Linux
-
-
-
-It may be more stable than our hardware’s default firmware from vendor.
-Not even that but probably more secure with regullar updates and with support of key-based SSH.
-
-It is capable of running lightweight services like an IRC bouncer or samba/ftp file sharing(some routers has USB ports able to power HDD).
-
-OpenWrt has an Web UI interface too so users less experienced in Linux could easily set up their network.
-With OpenWrt we can tweak all the network settings such as QoS, Per-service bandwidth throttling, wireless isolation.
-It is not bound to some "consumer-friendly" vendor-specific configuration of firewalling.
-We are able to set up firewall and port-forwarding as we wish.
-It provides load and bandwidth live graphs and we can monitor all outgoing/incoming connections.
+Last years the OpenWrt platform has come a long way in making itself more accessible to all user levels.
+It has an Luci\footnote{https://github.com/openwrt/luci} Web UI(user interface) now.
+Users less experienced with Linux can easily set up their network using Luci.
+OpenWrt is capable of running lightweight services like an IRC bouncer or samba/ftp file sharing (some routers has USB ports able to power HDD) or even run software build on our own\cite{vpnpick}.
 
 The goal of this thesis would be to port a lightweight Tang daemon described in the chapter \ref{tang} Tang server to OpenWrt system.
 Tang server will help us unlock our encrypted volumes while on safe home or office network without need for extra PC running it but having it on our tiny OpenWrt "server".
-With Tang we do not have to care about typing passphrases over and over to unlock LUKS drives in safe enviroment \cite{vpnpick}.
+With Tang we do not have to care about typing passphrases over and over to unlock LUKS drives in safe enviroment.
 
 \section{OpenWrt's toolchain}
 
 Embeded devices are not meant for building on them because they does not have enough memory nor computation resorces as ordinary personal computers do(see Table \ref{routerspec}).
 Building on such device would be time consuming and may result to overheating, which could cause hardware to fail.
 For this particular reason package building is done with cross-compiler.
-
-Cross-compilation is done by set of tools called toolchain and it consists of:
+Compilation is done by set of tools called toolchain and it consists of:
 \begin{itemize}
     \item compiler
     \item linker
@@ -102,7 +97,7 @@ If a binary package with desired toolchain is not available for our system or is
 
 In case of OpenWrt we have available a set of Makefiles and patches called buildroot which is capable of generating toolchain.
 
-\subsection{Compiler} \todo{rewrite section compiler}
+\subsection{Compiler}
 
 In a nutshell compilers translate the high level programming language source code into lower level language such as machine understandable assembler instructions.
 To do so compiler is performing many operations starting with preprocessing.
@@ -139,9 +134,9 @@ This involves resource and storage decisions, such as deciding which variables t
 Cross-compiler is programming tool capable of creating executable file that is supposed to run on a "target" architecture, in a similar or completely different enviroment, while working on a different "host" architecture.
 It can also create object files used by linker.
 Reason for using cross-compiling might be to separate the build environment from target environment as well.
-OpenWrt toolchain uses gcc compiler, and it is one of the most important parts of toolchain.
+OpenWrt toolchain uses gcc compiler, and it is one of the most important parts of toolchain\cite{compiler}.
 
-\subsection{Linker}\todo{refactor}
+\subsection{Linker}
 
 With linker we are able to link compile's object files into single executable, library or object file.
 Linker can do static linking and dynamic linking.
@@ -155,21 +150,16 @@ That means that the executable code still contains undefined symbols, plus a lis
 Loading the program will load these objects/libraries as well, and perform a final linking.
 Dynamic linking needs no linker.
 
-This approach offers two advantages:
-
-Often-used libraries (for example the standard system libraries) need to be stored in only one location, not duplicated in every single binary.
+Advantage of dynamic linking is that often-used libraries (for example the standard system libraries) need to be stored in only one location, not duplicated in every single binary.
 If a bug in a library function is corrected by replacing the library, all programs using it dynamically will benefit from the correction after restarting them.
 Programs that included this function by static linking would have to be re-linked first.
-There are also disadvantages:
 
-Known on the Windows platform as "DLL Hell", an incompatible updated library will break executables that depended on the behavior of the previous version of the library if the newer version is not properly backward compatible.
-A program, together with the libraries it uses, might be certified (e.g. as to correctness, documentation requirements, or performance) as a package, but not if components can be replaced. (This also argues against automatic OS updates in critical systems; in both cases, the OS and libraries form part of a qualified environment.)
-
+Disadvantage known on the Windows platform as "DLL Hell", an incompatible updated library will break executables that depended on the behavior of the previous version of the library if the newer version is not properly backward compatible\cite{compiler}.
 \subsection{C standard library}
 
 Most common C standard libraries are: GNU Libc, uClibc musl-libc, or dietlibc.
 They provide macros, type definitions and functions for tasks such as input/output processing (<stdio.h>), memory management (<stdlib.h), string handling (<string.h>), mathematical computations (<math.h>) and many more\footnote{https://en.wikipedia.org/wiki/C\_standard\_library\#Header\_files}.
-The OpenWrt's cross-compilation toolchain uses musl-libc.
+The OpenWrt's cross-compilation toolchain uses musl-libc \cite{c_library}.
 
 \section{OpenWrt's buildroot}
 
