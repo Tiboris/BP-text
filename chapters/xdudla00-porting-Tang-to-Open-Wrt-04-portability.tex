@@ -11,14 +11,14 @@ This kind of behavior, an application that works immediately after or even witho
 It often happens when we copy application from one computer to another, not realizing that they have processors with same instructions set and same or very simmilar operating system therefore envoroment.
 But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design, how application is meant to be deployed and of course application's source code.
 
-Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.
-However on embeded devices there are still much more various architectures available ARM MIPS  RISC CISC x86\_64. \todo{TODO}
-
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If software is considered as not portable, it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
 Effort spent porting some software product to work on desired platform must be little, such as copying already installed files to usb flash drive and run it on another computer.
 This kind of approach might most probably fail, due to not present dependencies of third party libraries not present on destination computer.
 Despite dominance of the x86 architecture there is usually a need to recompile software running, not only on different operating systems, to make sure we have all the dependencies present.
+
+Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.
+However on embeded devices market there are still much more various architectures available including ARM\footnote{https://www.arm.com/products/processors} or MIPS\footnote{https://www.mips.com/products/classic/}.
 
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
 But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue \cite{porting_software}.
@@ -53,19 +53,25 @@ After merge OpenWrt upstream repository started to show signs of life.
 
 Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers.
 
-% https://www.quora.com/What-is-the-difference-between-dd-wrt-and-open-wrt
-
-
 \subsection{Why use OpenWrt}
 
-Router is basically a full-blown computer that's always powered on, let us make some good use of it!
 OpenWrt turns our router in a fully capable GNU/Linux computer, not just a network "magic" box.
+This platform has come a long way in making itself more accessible to all user levels.
 
-OpenWrt system may be more stable than our hardware’s default firmware from vendor.
-Not even that but probably more secure login with support of key-based SSH and less security holes since OpenWrt is regularly updated.
+In the past...
 
-It is capable of running lightweight services like an IRC bouncer, a dyndns updater, print server, lighttpd even.
-Some routers has USB ports so samba/ftp file sharing over the network comes into mind with an external HDD connected to it.
+DD features
+Tomato gui  Smaller router compatibility list
+OpenWrt package
+
+All based on Linux
+
+
+
+It may be more stable than our hardware’s default firmware from vendor.
+Not even that but probably more secure with regullar updates and with support of key-based SSH.
+
+It is capable of running lightweight services like an IRC bouncer or samba/ftp file sharing(some routers has USB ports able to power HDD).
 
 OpenWrt has an Web UI interface too so users less experienced in Linux could easily set up their network.
 With OpenWrt we can tweak all the network settings such as QoS, Per-service bandwidth throttling, wireless isolation.
@@ -75,7 +81,7 @@ It provides load and bandwidth live graphs and we can monitor all outgoing/incom
 
 The goal of this thesis would be to port a lightweight Tang daemon described in the chapter \ref{tang} Tang server to OpenWrt system.
 Tang server will help us unlock our encrypted volumes while on safe home or office network without need for extra PC running it but having it on our tiny OpenWrt "server".
-With Tang we do not have to care about typing passphrases over and over to unlock LUKS drives in safe enviroment.
+With Tang we do not have to care about typing passphrases over and over to unlock LUKS drives in safe enviroment \cite{vpnpick}.
 
 \section{OpenWrt's toolchain}
 
@@ -217,7 +223,7 @@ Serial:         &   ?                               \\ \hline
 \end{table}
 
 The actual sum of space required only for buildroot to work correctly which is about 6.4 GB compared to available storage space on wireless router should be demonstrative why is building for embedded devices done with cross-compiling.
-The another reasons, not to just compare internal storage which might be extended (as shown on apendix TODOapendix), are device's minimalistic RAM size and not that "powerfull" CPU.\todo{add more about CPU}
+The another reasons, not to just compare internal storage which might be extended (as shown on apendix TODOapendix), are device's minimalistic RAM size and lower computation capability of the CPU.
 
 \section{Prepare the enviroment}
 
@@ -262,7 +268,7 @@ $ git clone https://github.com/openwrt/openwrt.git
 
 Working with Openwrt's buildroot requires some basic knowledge of the git version control system\footnote{https://git-scm.com/docs/gittutorial} and processes of upstream project development using GitHub.
 Short description how to fork and set up repository can be found on appendix \ref{set_repo} Setting up the repository.
-
+All work related to this thesis has been done using GitHub account Tiboris\footnote{https://github.com/Tiboris/} therefore following command to get our fork of buildroot would be:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone https://github.com/Tiboris/openwrt.git ~/buildroot-openwrt
 \end{lstlisting}
@@ -277,30 +283,52 @@ After we have enviroment ready to be worked on (all needed dependencies installe
 
 describe buildroot topology and descibe what every single thing is what for
 
-make will trigger making all packages not like in sdk
-
-difference working with sdk and buildroot that sdk build only packages and buildroot can buld only package but it is designed to build entire image
-
-for specified architecture respectively device from list
-
-do not know how to add there new device but may provide link
-
-configured with make menuconfig shown here firstly select architecture and configuration will be generated into .config :
-
-in sdk .config is pre generated and make menuconfig (need to find out if possible)
-
-on sdk make will trigger only building packages in directory package and it has to be done right way
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ ./scripts/feeds
+\end{lstlisting}
 
 it is also possible to do this with buildroot but is better to have upstream or own packages there in right directory
 
-screen
 
-make menuconfig is to select all packages which we want to build  todo findout if it is neccessary to buld base packages for selected
-
-{\tt \$ make}
-
-{\tt \$ feeds install -a}
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ ./scripts/feeds update -a
+\end{lstlisting}
 
 tm tmp is needed if package directory has been edited to regenerate metadata of what (todo find out)
 
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ ./scripts/feeds install <PACKAGENAME>
+\end{lstlisting}
+
+make menuconfig is to select all packages which we want to build  todo findout if it is neccessary to buld base packages for selected
+
 it is better to know what we are installig with feeds install and to choose only required packages for one newly choosed package to build
+
+\newpage
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ make menuconfig
+\end{lstlisting}
+for specified architecture respectively device from list
+in sdk .config is pre generated and make menuconfig (need to find out if possible)
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/make_menuconfig.pdf}
+    \caption{make menuconfig}
+    \label{fig:menuconfig}
+\end{figure}
+
+pressing y sets the <*> built-in label
+This package will be compiled and included in the firmware image file.
+pressing m sets the <M> package label
+This package will be compiled, but not included in the firmware image file. (E.g. to be installed with opkg after flashing the firmware image file to the device.)
+pressing n sets the < > excluded label
+The source code will not be processed.
+
+make will trigger making all packages not like in sdk
+
+\cite{build_owrt}
+
+Complete guide how can be found on OpenWrt Wiki\footnote{https://wiki.openwrt.org/doc/howto/build}.

@@ -4,7 +4,7 @@
 # E-mail: dytrych AT fit vutbr cz
 #===========================================
 # asi budete chtit prejmenovat / you will probably rename:
-CO=xdudla00-porting-Tang-to-Open-WRT
+CO=xdudla00-porting-Tang-to-Open-Wrt
 
 all: $(CO).pdf
 
