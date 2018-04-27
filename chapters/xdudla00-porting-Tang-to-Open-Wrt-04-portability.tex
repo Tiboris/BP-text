@@ -171,7 +171,7 @@ In many cases just having the folders /usr and /lib would be sufficient, therefo
 
 It is a good idea to store all these things, the toolchain and the root filesystem in a single place.
 With using OpenWrt's buildroot we will have this covered.
-Be tidy and pedantic, because cross-compiling can easily become a painful mess!
+Be tidy and pedantic, because cross-compiling can easily become a painful mess!\cite{fabrizio}
 
 \subsection{Buildroot prerequisites}
 
@@ -213,7 +213,7 @@ Serial:         &   ?                               \\ \hline
 \end{table}
 
 The actual sum of space required only for buildroot to work correctly which is about 6.4 GB compared to available storage space on wireless router should be demonstrative why is building for embedded devices done with cross-compiling.
-The another reasons, not to just compare internal storage which might be extended (as shown on apendix TODOapendix), are device's minimalistic RAM size and lower computation capability of the CPU.
+The another reasons, not to just compare internal storage which might be extended\footnote{https://wiki.openwrt.org/doc/howto/extroot} are device's minimalistic RAM size and lower computation capability of the CPU.
 
 \section{Prepare the enviroment}
 
