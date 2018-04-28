@@ -310,49 +310,62 @@ Remember to invoke it from the buildroot directory($\sim$/buildroot-openwrt).
 $ ./scripts/feeds update -a
 \end{lstlisting}
 
-To make any feed available for build we shall "install" if using the same feeds script:
+To make any feed available for build we shall "install" it using the same feeds script:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ ./scripts/feeds install <PACKAGENAME>
 \end{lstlisting}
 or we can use option {\it -a} instead of the {\it <PACKAGENAME>} and make all of the feeds available for build.
-Just remember to be pedantic and tidy, do not install all the feeds.
-Some packages may conflict with each other and remember be tidy and pedantic.
 
 If for some unknown reason the issued update of packages does not seems to show all the updates it might be helpful to clean the buildroot's {\it tmp/} directory\cite{feeds}.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-\$ rm -rf tmp/
+$ rm -rf tmp/
 \end{lstlisting}
 
 \subsection{The menuconfig}
 
+For OpenWrt it has been the intention from the beginning, with the development of menuconfig, to create a simple, yet powerful, environment for the configuration of individual builds.
+Working with menuconfig is very intuitive and the tool is more or less self-explanatory.
+Even the most specialized configuration requirements can be met by using it.
+Depending on the particular target platform, package requirements and kernel module needs, the standard configuration process will include modifying:
+\begin{itemize}
+    \item Target system
+    \item Package selection
+    \item Build system settings
+    \item Kernel modules
+\end{itemize}
 
-
-make menuconfig is to select all packages which we want to build  todo findout if it is neccessary to buld base packages for selected
-
-it is better to know what we are installig with feeds install and to choose only required packages for one newly choosed package to build
-
+Start the menuconfig interface shown on Figure \ref{fig_menuconfig} menuconfig by issuing the following command:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-\$ make menuconfig
+$ make menuconfig
 \end{lstlisting}
-for specified architecture respectively device from list
-in sdk .config is pre generated and make menuconfig (need to find out if possible)
-
+The make menuconfig will collect package info first.
+Afterwards the following window will appear in our terminal and there we can start configuring the image using menuconfig:
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.6]{figures/make_menuconfig.pdf}
-    \caption{make menuconfig}
+    \caption{menuconfig}
     \label{fig_menuconfig}
 \end{figure}
 
-pressing y sets the <*> built-in label
+For configuring the image we have three options: y, m, n which are represented as follows:
+\begin{itemize}
+\item pressing y sets the <*> built-in label\\
 This package will be compiled and included in the firmware image file.
-pressing m sets the <M> package label
+\item pressing m sets the <M> package label\\
 This package will be compiled, but not included in the firmware image file. (E.g. to be installed with opkg after flashing the firmware image file to the device.)
-pressing n sets the < > excluded label
+\item pressing n sets the < > excluded label\\
 The source code will not be processed.
+\end{itemize}
+When you save your configuration, the file .config will be created in the buildroot directory according to desired configuration.
 
-make will trigger making all packages not like in sdk
+Target system is selected from the extensive list of supported platforms, with the numerous target profiles – ranging from specific devices to generic profiles, all depending on the particular device at hand.
+In our case we should browse the "Target Profile" selection and find our targeted device (TP-LINK TL-WR842N/ND v3).
 
-\cite{build_owrt}
+Package selection has the option of either 'selecting all package', which might be un-practical in certain situation, or relying on the default set of packages will be adequate or make an individual selection.
+It is here needed to mention that some package combinations might break the build process, so it can take some experimentation before the expected result is reached.
+Added to this, the OpenWrt developers are themselves only maintaining a smaller set of packages – which includes all default packages – but, the feeds-script makes it very simple to handle a locally maintained set of packages and integrate them in the build-process.
+
+The final step before the process of compiling the intended image(s) is to exit menuconfig – this also includes the option to save a specific configuration or load an already existing, and pre-configured, version.
+Exit the TUI, and choose to save your settings\cite{build_owrt}.
 
 Complete guide how can be found on OpenWrt Wiki\footnote{https://wiki.openwrt.org/doc/howto/build}.
