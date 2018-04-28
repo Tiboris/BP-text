@@ -75,13 +75,13 @@
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Pre-istallation enablement of hard drive encryption}{49}{appendix.A}
-\contentsline {section}{\numberline {A.1}Fedora 25 - disc encryption option selecting }{49}{section.A.1}
-\contentsline {section}{\numberline {A.2}Fedora 25 - determination key encryption key }{50}{section.A.2}
-\contentsline {chapter}{\numberline {B}LUKS In-Place Encryption}{51}{appendix.B}
-\contentsline {section}{\numberline {B.1}Step 1 - unmounting}{51}{section.B.1}
-\contentsline {section}{\numberline {B.2}Step 2 - resizing}{51}{section.B.2}
-\contentsline {section}{\numberline {B.3}Step 3 - encrypting}{52}{section.B.3}
-\contentsline {section}{\numberline {B.4}Step 4 - adding key}{52}{section.B.4}
-\contentsline {chapter}{\numberline {C}Setting up the repository}{53}{appendix.C}
+\contentsline {chapter}{\numberline {A}Compact disk content}{49}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{50}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{50}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{51}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{52}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{52}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{52}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{53}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{53}{section.C.4}
 \contentsfinish 
