@@ -29,7 +29,7 @@ It was originally developed in January 2004 for the Linksys WRT54G with buildroo
 Now it supports many more models of routers.
 OpenWrt is a registered trademark which is held by the Software in the Public Interest (SPI) in the name of the OpenWrt project.
 
-Installing OpenWrt system means replacing your router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management.
+Installing OpenWrt system means replacing our router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management.
 This means that we are not bound to applications provided by the vendor.
 Router (the embedded device) with this distribution can be used for anything that an embedded Linux system can be used for, from using its SSH Server for SSH Tunneling, to running lightweight server software (e.g. IRC server) on it.
 In fact it allows us to customize the device through the use of packages to suit any application. \cite{openwrt}
@@ -356,7 +356,7 @@ This package will be compiled, but not included in the firmware image file. (E.g
 \item pressing n sets the < > excluded label\\
 The source code will not be processed.
 \end{itemize}
-When you save your configuration, the file .config will be created in the buildroot directory according to desired configuration.
+When we save our configuration, the file .config will be created in the buildroot directory according to desired configuration.
 
 Target system is selected from the extensive list of supported platforms, with the numerous target profiles – ranging from specific devices to generic profiles, all depending on the particular device at hand.
 In our case we should browse the "Target Profile" selection and find our targeted device (TP-LINK TL-WR842N/ND v3).
@@ -366,6 +366,6 @@ It is here needed to mention that some package combinations might break the buil
 Added to this, the OpenWrt developers are themselves only maintaining a smaller set of packages – which includes all default packages – but, the feeds-script makes it very simple to handle a locally maintained set of packages and integrate them in the build-process.
 
 The final step before the process of compiling the intended image(s) is to exit menuconfig – this also includes the option to save a specific configuration or load an already existing, and pre-configured, version.
-Exit the TUI, and choose to save your settings\cite{build_owrt}.
+Exit the TUI, and choose to save our settings\cite{build_owrt}.
 
 Complete guide how can be found on OpenWrt Wiki\footnote{https://wiki.openwrt.org/doc/howto/build}.
