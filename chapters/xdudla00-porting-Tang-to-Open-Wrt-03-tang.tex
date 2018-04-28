@@ -13,12 +13,12 @@ Unfortunatelly, it is not always as simple as it sounds and there are couple of 
 To transfer the encryption keys we want to store on an Escrow server, we have to encrypt the channel on which we send them.
 When transmitting keys over an insecure network without an encrypted link, anyone listening to the network traffic could immadiately fetch the key.
 This should signal security risks, and, of course, we do not want any third party to access our secret data.
-Usually we encrypt a channel with TLS(Transport Layer Security) or GSSAPI (Generic Security Services Application Program Interface) as shown on a Figure \ref{fig:escrowmodel} Escrow model.
+Usually we encrypt a channel with TLS(Transport Layer Security) or GSSAPI (Generic Security Services Application Program Interface) as shown on a Figure \ref{fig_escrowmodel} Escrow model.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.7]{figures/EscrowModel.pdf}
     \caption{Escrow model}
-    \label{fig:escrowmodel}
+    \label{fig_escrowmodel}
 \end{figure}
 Unfortunatelly, this is not enough to have the communication secure.
 We can not just start sending these keys to the escrow server if we do not know whether this server is the one it acts to be.
@@ -62,11 +62,11 @@ So the Tang server never knew the value of the key and literraly nothing about i
     \centering
     \includegraphics[scale=0.7]{figures/TangModel.pdf}
     \caption{Tang model}
-    \label{fig:tangmodel}
+    \label{fig_tangmodel}
 \end{figure}
 
-On Figure \ref{fig:tangmodel} you can see the Tang model.
-It is very similar to Escrow model \ref{fig:escrowmodel} but there are some thing missing.
+On Figure \ref{fig_tangmodel} you can see the Tang model.
+It is very similar to Escrow model \ref{fig_escrowmodel} but there are some thing missing.
 In fact, there is no longer a need for TLS channel to secure comunication between the client and the server,
  and that is the reason why Tang implements the McCallum-Relyea exchange \ref{mrexchange} as described below.
 

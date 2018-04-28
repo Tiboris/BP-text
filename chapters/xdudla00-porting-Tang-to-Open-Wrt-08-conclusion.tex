@@ -10,12 +10,13 @@ In case of Tang we have Clevis.
 Clevis \ref{clevis} is a client software with full support for Tang.
 It has minimal dependencies and it is possible to use with HTTP, Escrow \ref{escrow}, and it implements Shamir Secret Sharing.
 Clevis has GNOME integration so it is not only a command line tool.
-Clevis also supports removable devices unocking using UDisks2 or even early boot integration with dracut, which was this thesis inspiration and goal to achieve with only embedded device supported OpenWrt running Tang server.
+Clevis also supports removable devices unocking using UDisks2 or even early boot integration with dracut.
+This was inspiration for this thesis with a goal to achieve it with OpenWrt embedded device running Tang server only.
 
 To port Tang to OpenWrt system it was necesarry to port all its dependencies first.
-The OpenWrt system has already package openssl, zlib, and jansson but only version 2.7 which was too old.
+The OpenWrt system had already package openssl, zlib, and jansson but only version 2.7 which was too old.
 So there was a need for updating jansson to resolve all dependencies for package José.
 José required porting and after focusing on upstream version porting on this package was straightforward.
 After struggling with older version, package http-parser known as libhttp-parser in OpenWrt feeds, is now updated to latest upstream version 2.8.0.
 The systemd would be huge effort but tang's requirements are minimal and we were able to work with xinetd's socket activation.
-With correct configuration of xinetd and removing dependency for systemd Tang server is running on OpenWrt with some platform specific changes mentioned in chapter \ref{porting-tang} Porting Tang.
+With correct configuration of xinetd and removing dependency for systemd Tang server is running on OpenWrt with some platform specific changes and limitations.

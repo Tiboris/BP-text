@@ -212,17 +212,16 @@ Serial:         &   ?                               \\ \hline
 \caption{TL-WR842Nv3 specifications}
 \end{table}
 
-The actual sum of space required only for buildroot to work correctly which is about 6.4 GB compared to available storage space on wireless router should be demonstrative why is building for embedded devices done with cross-compiling.
+The actual sum of space required only for buildroot to work correctly which is about 6.4 GB.
+Comparation to available storage space on wireless router should demonstrate why is building for embedded devices done with cross-compiling.
 The another reasons, not to just compare internal storage which might be extended\footnote{https://wiki.openwrt.org/doc/howto/extroot} are device's minimalistic RAM size and lower computation capability of the CPU.
 
-\section{Prepare the enviroment}
+\section{Preparing the host enviroment}
 
-Before getting to know buildroot we have to have host enviroment ready for buildroot in a way that we will install buildroot's dependencies and then buildroot itself.
-
-\subsection{Buildroot's dependencies}
-
-To be able to work with OpenWrt's bildroot we will need lots of buildroot dependencies first.
-Please note that followning commands have to be run by user with root privileges to install buildroot dependencies on Fedora 27 system:
+To start with cross-compilation on the host system we need to set up an enviroment for it.
+As the OpenWrt buildroot is set of scripts it has runtime dependencies.
+We need to install these dependencies first.
+To install buildroot dependencies on Fedora 27 system run:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install binutils bzip2 gcc gcc-c++ \
 gawk gettext git-core flex ncurses-devel ncurses-compat-libs \
@@ -230,33 +229,34 @@ zlib-devel zlib-static make patch perl-ExtUtils-MakeMaker \
 perl-Thread-Queue  glibc glibc-devel glibc-static quilt sed \
 sdcc intltool sharutils bison wget unzip openssl-devel
 \end{lstlisting}
-Some feeds might be not available over git but only via other versioning tools like subversion (svn) or mercurial.
+Some feeds (the OpenWrt packages) might be not available over git but only via other versioning tools like svn (subversion) or mercurial.
 If we want to obtain their source-code, we need to install svn and mercurial as well:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install subversion mercurial
 \end{lstlisting}
+Please note that these commands have to be run by user with root privileges.
 
 \subsection{Getting buildroot}
 
-There are mirrors containg OpenWrt SDK(Software development kit) buildroots for every released version of OpenWrt system.
+OpenWrt system has available an SDK(Software development kit) buildroots for every released version of OpenWrt system.
 It is good to consider using OpenWrt's SDK in order to build software application to only one specific release of target system.
 For example when we are using "stable" release of OpenWrt 15.05.1 with codename "Chaos Calmer" on TL-WR842N(EU) device, we should probably end up in in "Supplementary Files" section of the OpenWrt archives
-\footnote{https://archive.openwrt.org/chaos\_calmer/15.05.1/ar71xx/generic/} looking for SDK.
+\footnote{https://archive.openwrt.org/chaos\_calmer/15.05.1/ar71xx/generic/} looking for the SDK.
+While porting an upstream projets (such as Tang) for latest target release a bleeding edge buildroot would be the best solution.
 
 If we have host platform which aims to be on the bleeding edge of open-source technologies, such as OS Fedora, we will probably encounter issues with dependencies.
 These issues are apearing because an older version of the dependencies are required for this old SDK to work and might be not available for our host platform anymore.
-In this case we would have to install or even build older version of required packages to our host system.
+In this case we would have to install or even build older version of required packages.
 
-When we start with porting an upstream projet (such as Tang) for latest release of target's sytem on Fedora host system, an upstream bleeding edge buildroot should be the best solution.
-In our case we will work with latest OpenWrt release LEDE 17.01.4 on our target device, and download the OpenWrt bleeding edge (trunk version) buildroot with git.
-To download OpenWrt buildroot from upstream repository run command:
+We will work with bleeding edge (trunk version) buildroot and build for latest LEDE 17.01.4 release.
+To clone upstream buildroot run command:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone https://github.com/openwrt/openwrt.git
 \end{lstlisting}
 
 \section{Working with buildroot}\label{working-with-buildroot}
 
-Working with Openwrt's buildroot requires some basic knowledge of the git version control system\footnote{https://git-scm.com/docs/gittutorial} and processes of upstream project development using GitHub.
+Working with Openwrt's buildroot requires some basic knowledge of the git version control system\footnote{https://git-scm.com/docs/gittutorial} and processes of upstream project development using GitHub\footnote{https://guides.github.com/introduction/flow/}.
 Short description how to fork and set up repository can be found on appendix \ref{set_repo} Setting up the repository.
 All work related to this thesis has been done using GitHub account Tiboris\footnote{https://github.com/Tiboris/} therefore following command to get our fork of buildroot would be:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -266,36 +266,70 @@ $ git clone https://github.com/Tiboris/openwrt.git ~/buildroot-openwrt
 After we have enviroment ready to be worked on (all needed dependencies installed and fork of our buildroot downloaded on host system) let us just follow these simple 4 rules to not break our enviroment in any way.
 \begin{enumerate}
     \item Do everything in buildroot as non-root user!
-    \item Issue all OpenWrt build system commands in the <buildroot> directory, \\e.g. $\sim$/buildroot-openwrt/ % ~ is broken
+    \item Issue all OpenWrt build system commands in the <buildroot> directory, \\e.g. $\sim$/buildroot-openwrt/
     \item Do not build in a directory that has spaces in its full path.
     \item Change ownership of the directory where we downloaded \\the OpenWrt to other than root user
 \end{enumerate}
+Having these in mind will definitely make our work easier.
 
-describe buildroot topology and descibe what every single thing is what for
+\subsection{Setting feeds}
 
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-\$ ./scripts/feeds
+In OpenWrt, a "feed" is a collection of packages which share a common location.
+Feeds may reside on a remote server, in a version control system, on the local filesystem, or in any other location addressable by a single name (path/URL) over a protocol with a supported feed method.
+It is the most important step to do before starting cross-compilation.
+As the listing \ref{default_feeds} Content of feeds.conf.default shows a list of usable feeds is configured from the feeds.conf file or feeds.conf.default when feeds.conf does not exist.
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,label=default_feeds,caption=Content of feeds.conf.default]
+    src-git packages https://git.openwrt.org/feed/packages.git
+    src-git luci https://git.openwrt.org/project/luci.git
+    src-git routing https://git.openwrt.org/feed/routing.git
+    src-git telephony https://git.openwrt.org/feed/telephony.git
+    #src-git video https://github.com/openwrt/video.git
+    #src-git targets https://github.com/openwrt/targets.git
+    #src-git management https://github.com/openwrt-management/packages.git
+    #src-git oldpackages http://git.openwrt.org/packages.git
+    #src-link custom /usr/src/openwrt/custom-feed
 \end{lstlisting}
 
-it is also possible to do this with buildroot but is better to have upstream or own packages there in right directory
-
-
+The new custom OpenWrt packages are located in packages feed (see the first line of the \ref{default_feeds} Content of feeds.conf.default listing).
+To work with our own fork of the packages we can simply change the line to point to our fork repository.
+Feeds can point to special branch of our choice:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-\$ ./scripts/feeds update -a
+src-git packages https://github.com/Tiboris/packages-OpenWrt.git;new_packages
+\end{lstlisting}
+or commit hash in repository:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+src-git packages https://github.com/Tiboris/packages-OpenWrt.git^dbdfc99
+\end{lstlisting}
+Changing this feed to will reduce effort spending on getting all new dependencies to the buildroot's feeds/packages directory.
+
+The feeds are "managed" with the script available in builroot's scripts directory, {\it feeds}.
+To download feeds run this script with command {\it update} and option {\it -a}.
+Remember to invoke it from the buildroot directory($\sim$/buildroot-openwrt).
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ ./scripts/feeds update -a
 \end{lstlisting}
 
-tm tmp is needed if package directory has been edited to regenerate metadata of what (todo find out)
-
-
+To make any feed available for build we shall "install" if using the same feeds script:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-\$ ./scripts/feeds install <PACKAGENAME>
+$ ./scripts/feeds install <PACKAGENAME>
 \end{lstlisting}
+or we can use option {\it -a} instead of the {\it <PACKAGENAME>} and make all of the feeds available for build.
+Just remember to be pedantic and tidy, do not install all the feeds.
+Some packages may conflict with each other and remember be tidy and pedantic.
+
+If for some unknown reason the issued update of packages does not seems to show all the updates it might be helpful to clean the buildroot's {\it tmp/} directory\cite{feeds}.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+\$ rm -rf tmp/
+\end{lstlisting}
+
+\subsection{The menuconfig}
+
+
 
 make menuconfig is to select all packages which we want to build  todo findout if it is neccessary to buld base packages for selected
 
 it is better to know what we are installig with feeds install and to choose only required packages for one newly choosed package to build
-
-\newpage
 
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 \$ make menuconfig
@@ -307,7 +341,7 @@ in sdk .config is pre generated and make menuconfig (need to find out if possibl
     \centering
     \includegraphics[scale=0.6]{figures/make_menuconfig.pdf}
     \caption{make menuconfig}
-    \label{fig:menuconfig}
+    \label{fig_menuconfig}
 \end{figure}
 
 pressing y sets the <*> built-in label

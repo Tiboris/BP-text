@@ -7,11 +7,7 @@ feeds install
 make menuconfig
 \newpage
 
-\section{Socket activation with xinetd}
 
-there is no systemd for OpenWrt
-need to configure socket activation because tang is not proggramed to use nor create its own sockets
-\subsection{How }
 
 to have an example created simple application in C for xinetd
 \newpage
@@ -34,7 +30,18 @@ does makefiles support shell {a,b} thing???
 \section{Configure Tang with xinetd}
 
 We need xinetd's socket activation for Tang to work.
+\section{Socket activation with xinetd}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.9]{figures/xinetd.pdf}
+    \caption{xinetd socket activation}
+    \label{fig_xinetd}
+\end{figure}
+
+there is no systemd for OpenWrt
+need to configure socket activation because tang is not proggramed to use nor create its own sockets
+\subsection{How }
 \subsection{systemd}\label{systemd} % vymazat ako subsection
 systemd is a suite of basic building blocks for a Linux system.
 It provides a system and service manager that runs as PID 1 and starts the rest of the system.
