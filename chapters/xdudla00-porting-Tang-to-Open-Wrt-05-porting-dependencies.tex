@@ -27,6 +27,7 @@ Please note that static libraries (‘.a’ files) does not need to be installed
 In case of OpenWrt we will use this approach.
 
 
+
 \section{Find the depencies}
 
 To port Tang to OpenWrt system we have have all its dependencies available and installed in buildroot.
@@ -35,13 +36,13 @@ All packages available for OpenWrt can be found in its github repositories.
 Let us remember Tang's dependencies first:
 
 \begin{itemize}
-\item http-parser \ref{http-parser}
-\item systemd's socket activation\ref{systemd}
-\item José \ref{jose}
+\item http-parser
+\item systemd's socket activation
+\item José
     \begin{itemize}
-    \item jansson \ref{jansson}
-    \item openssl \cite{openssl}
-    \item zlib \cite{zlib}
+    \item jansson
+    \item openssl
+    \item zlib
     \end{itemize}
 \end{itemize}
 
@@ -67,6 +68,7 @@ We will use fork of openwrt/packages repository placed outside of the buildroot 
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone git@github.com:Tiboris/packages-OpenWrt.git
 \end{lstlisting}
+
 
 
 \section{Update outdated packages}
@@ -145,6 +147,7 @@ Update of jansson is already done through merged pull-request\footnote{https://g
 With a knowledge of buildroot and the contribution guidelines effort spent on such updates may be quite minimal.
 
 
+
 \subsection{Update http-parser}\label{http-parser}
 Tang uses this parser library for both parsing HTTP requests and HTTP responses.
 Sources can be found on its GitHub page\footnote{https://github.com/nodejs/http-parser}.
@@ -190,14 +193,13 @@ $ make package/libhttp-parser/{clean,compile} V=s
 Unfortunatelly as we will see in subsection \ref{http_parser_problems} Hurdles with http-parser, the successfull build of the updated package may not be enough.
 Especially when built package is also a dependency for other packages.
 
-
 \section{Create new packages}
 
 After updating of jansson and libhttp-parser we are kind of familiar with the OpenWrt's Makefiles.
-Now comes the time to write one makefile on our own.
+Unfortunatelly José package is not packaged for OpenWrt.
+Now comes the time to write makefile on our own.
 
-\subsection{Create José}\label{jose}
-José \cite{jose_prog} is a C-language implementation of the Javascript Object Signing and Encryption standards.
+José is a C-language implementation of the Javascript Object Signing and Encryption standards.
 Specifically, José aims towards implementing the following standards:
 \begin{itemize}
     \item RFC 7520 - Examples of JSON Object Signing and Encryption (JOSE) \cite{RFC7520}
@@ -210,6 +212,54 @@ Specifically, José aims towards implementing the following standards:
 \end{itemize}
 
 JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties.
-Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
+Tang uses JWKs in comunication between client and server.
+Both POST request and reply bodies are JWK objects\cite{jose_prog}.
+
+\subsection{Create José}\label{jose}
+
+To start with such a work it is good to have some kind of the template.
+For the José we used the jansson's Makefile as a template.
+We will start with editing this Makefile having the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages} opened on the side.
+Let us go through it from the top to the bottom.
+This is first non comment line in the file:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+include $(TOPDIR)/rules.mk
+\end{lstlisting}
+Without this include our Makefile would not work so we will leave it as it is.
+The next are the package name, version and release variables.
+This have to be the first thing to edit:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+PKG_NAME:=jose
+PKG_VERSION:=10
+PKG_RELEASE:=1
+\end{lstlisting}
+We will skip the licence variable for José because of the its upstream.
+
+As we defined the version of the package which we desire we should visit the project José pages and browse for the release archive.
+José's upstream releases lives on GitHub\footnote{https://github.com/latchset/jose/releases}.
+Visit the site and copy link location of the tar.bz2 archive for José release 10.
+Now download the archive and as we did when updating packages run sha256sum:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ wget -P /tmp \
+https://github.com/latchset/jose/releases/download/v10/jose-10.tar.bz2
+$ sha256sum /tmp/jose-10.tar.bz2 | cut -d " " -f1
+5c9cdcfb535c4d9f781393d7530521c72b1dd81caa9934cab6dd752cc7efcd72
+\end{lstlisting}
+This manual step is reflected in the Makefile as shown:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+
+PKG_SOURCE_URL:=\
+https://github.com/latchset/$(PKG_NAME)/releases/download/v$(PKG_VERSION)/
+
+PKG_HASH:=\
+5c9cdcfb535c4d9f781393d7530521c72b1dd81caa9934cab6dd752cc7efcd72
+\end{lstlisting}
+The {\it PKG\_SOURCE} variable now contain the value of the source archive name.
+The {\it PKG\_SOURCE\_URL} provides the whole path to archive stored on GitHub server and the {\it PKG\_HASH} is used to verify the file integrity.
+
+
+
+
 
 \newpage

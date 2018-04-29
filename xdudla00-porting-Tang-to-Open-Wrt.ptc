@@ -53,36 +53,36 @@
 \contentsline {subsection}{\numberline {5.2.2}Update http-parser}{35}{subsection.5.2.2}
 \contentsline {section}{\numberline {5.3}Create new packages}{36}{section.5.3}
 \contentsline {subsection}{\numberline {5.3.1}Create Jos\IeC {\'e}}{36}{subsection.5.3.1}
-\contentsline {chapter}{\numberline {6}Porting Tang}{37}{chapter.6}
-\contentsline {section}{\numberline {6.1}Socket activation}{37}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}xinetd}{37}{subsection.6.1.1}
-\contentsline {section}{\numberline {6.2}Install dependencies}{37}{section.6.2}
-\contentsline {section}{\numberline {6.3}Cross-compile Tang}{39}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Hurdles with http-parser}{40}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}Mysterious Jos\IeC {\'e}}{41}{subsection.6.3.2}
-\contentsline {section}{\numberline {6.4}Configure Tang with xinetd}{42}{section.6.4}
-\contentsline {subsection}{\numberline {6.4.1}}{42}{subsection.6.4.1}
-\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{43}{chapter.7}
-\contentsline {section}{\numberline {7.1}Configuration}{43}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}OPKG Package manager}{43}{subsection.7.1.1}
-\contentsline {section}{\numberline {7.2}Limitations}{43}{section.7.2}
-\contentsline {section}{\numberline {7.3}Contribute your work}{43}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}subsection name}{43}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Follow contribution guide}{43}{subsection.7.3.2}
-\contentsline {chapter}{\numberline {8}Conclusion}{44}{chapter.8}
-\contentsline {chapter}{Bibliography}{45}{chapter*.2}
+\contentsline {chapter}{\numberline {6}Porting Tang}{38}{chapter.6}
+\contentsline {section}{\numberline {6.1}Socket activation}{38}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}xinetd}{38}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}Install dependencies}{39}{section.6.2}
+\contentsline {section}{\numberline {6.3}Cross-compile Tang}{41}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Hurdles with http-parser}{42}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Mysterious Jos\IeC {\'e}}{43}{subsection.6.3.2}
+\contentsline {section}{\numberline {6.4}Configure Tang with xinetd}{44}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}}{44}{subsection.6.4.1}
+\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{45}{chapter.7}
+\contentsline {section}{\numberline {7.1}Configuration}{45}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}OPKG Package manager}{45}{subsection.7.1.1}
+\contentsline {section}{\numberline {7.2}Limitations}{45}{section.7.2}
+\contentsline {section}{\numberline {7.3}Contribute your work}{45}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}subsection name}{45}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Follow contribution guide}{45}{subsection.7.3.2}
+\contentsline {chapter}{\numberline {8}Conclusion}{46}{chapter.8}
+\contentsline {chapter}{Bibliography}{47}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Compact disk content}{48}{appendix.A}
-\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{49}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{49}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{50}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{51}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{51}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{51}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{52}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{52}{section.C.4}
-\contentsline {chapter}{\numberline {D}Setting up the repository}{53}{appendix.D}
-\contentsline {chapter}{\numberline {E}Example OpenWrt package's Makefile}{55}{appendix.E}
+\contentsline {chapter}{\numberline {A}Compact disk content}{50}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{51}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{51}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{52}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{53}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{53}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{53}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{54}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{54}{section.C.4}
+\contentsline {chapter}{\numberline {D}Setting up the repository}{55}{appendix.D}
+\contentsline {chapter}{\numberline {E}Example OpenWrt package's Makefile}{57}{appendix.E}
 \contentsfinish 
