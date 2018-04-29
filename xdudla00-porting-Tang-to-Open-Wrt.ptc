@@ -45,43 +45,44 @@
 \contentsline {section}{\numberline {4.5}Working with buildroot}{28}{section.4.5}
 \contentsline {subsection}{\numberline {4.5.1}Setting feeds}{29}{subsection.4.5.1}
 \contentsline {subsection}{\numberline {4.5.2}The menuconfig}{30}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Building single Packages}{31}{subsection.4.5.3}
 \contentsline {chapter}{\numberline {5}Porting the dependencies}{32}{chapter.5}
 \contentsline {section}{\numberline {5.1}Find the depencies}{33}{section.5.1}
 \contentsline {section}{\numberline {5.2}Update outdated packages}{33}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Update jansson}{34}{subsection.5.2.1}
 \contentsline {subsection}{\numberline {5.2.2}Update http-parser}{35}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}Makefiles for OpenWrt's packages}{35}{section.5.3}
-\contentsline {section}{\numberline {5.4}Create new packages}{36}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Create Jos\IeC {\'e}}{37}{subsection.5.4.1}
-\contentsline {chapter}{\numberline {6}Porting Tang}{38}{chapter.6}
-\contentsline {section}{\numberline {6.1}Install dependencies}{38}{section.6.1}
-\contentsline {section}{\numberline {6.2}Cross-compile Tang}{40}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Concealing http-parser}{41}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Mysterious Jos\IeC {\'e}}{42}{subsection.6.2.2}
-\contentsline {section}{\numberline {6.3}Configure Tang with xinetd}{43}{section.6.3}
-\contentsline {section}{\numberline {6.4}Socket activation with xinetd}{43}{section.6.4}
-\contentsline {subsection}{\numberline {6.4.1}How }{43}{subsection.6.4.1}
-\contentsline {subsection}{\numberline {6.4.2}systemd}{43}{subsection.6.4.2}
-\contentsline {subsection}{\numberline {6.4.3}}{43}{subsection.6.4.3}
-\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{44}{chapter.7}
-\contentsline {section}{\numberline {7.1}Configuration}{44}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}OPKG Package manager}{44}{subsection.7.1.1}
-\contentsline {section}{\numberline {7.2}Limitations}{44}{section.7.2}
-\contentsline {section}{\numberline {7.3}Contribute your work}{44}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}subsection name}{44}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Follow contribution guide}{44}{subsection.7.3.2}
-\contentsline {chapter}{\numberline {8}Conclusion}{45}{chapter.8}
-\contentsline {chapter}{Bibliography}{46}{chapter*.2}
+\contentsline {section}{\numberline {5.3}Create new packages}{36}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Create Jos\IeC {\'e}}{36}{subsection.5.3.1}
+\contentsline {chapter}{\numberline {6}Porting Tang}{37}{chapter.6}
+\contentsline {section}{\numberline {6.1}Socket activation}{37}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}xinetd}{37}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}Install dependencies}{37}{section.6.2}
+\contentsline {section}{\numberline {6.3}Cross-compile Tang}{39}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Hurdles with http-parser}{40}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Mysterious Jos\IeC {\'e}}{41}{subsection.6.3.2}
+\contentsline {section}{\numberline {6.4}Configure Tang with xinetd}{42}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}}{42}{subsection.6.4.1}
+\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{43}{chapter.7}
+\contentsline {section}{\numberline {7.1}Configuration}{43}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}OPKG Package manager}{43}{subsection.7.1.1}
+\contentsline {section}{\numberline {7.2}Limitations}{43}{section.7.2}
+\contentsline {section}{\numberline {7.3}Contribute your work}{43}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}subsection name}{43}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Follow contribution guide}{43}{subsection.7.3.2}
+\contentsline {chapter}{\numberline {8}Conclusion}{44}{chapter.8}
+\contentsline {chapter}{Bibliography}{45}{chapter*.2}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Compact disk content}{49}{appendix.A}
-\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{50}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{50}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{51}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{52}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{52}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{52}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{53}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{53}{section.C.4}
+\contentsline {chapter}{\numberline {A}Compact disk content}{48}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{49}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{49}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{50}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{51}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{51}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 - resizing}{51}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{52}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 - adding key}{52}{section.C.4}
+\contentsline {chapter}{\numberline {D}Setting up the repository}{53}{appendix.D}
+\contentsline {chapter}{\numberline {E}Example OpenWrt package's Makefile}{55}{appendix.E}
 \contentsfinish 

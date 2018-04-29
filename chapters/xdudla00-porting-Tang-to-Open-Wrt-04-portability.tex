@@ -8,7 +8,7 @@ Porting is also used to describe procces of converting computer games to became 
 Software porting procces might be hard to distinguish with building software.
 The reason might be that in many cases building software on desired platform is enough, when software application does not work "out of the box".
 This kind of behavior, an application that works immediately after or even without any special installation and without need for any configuration or modification, is ideal.
-It often happens when we copy application from one computer to another, not realizing that they have processors with same instructions set and same or very simmilar operating system therefore envoroment.
+It often happens when we copy application from one computer to another, not realizing that they have processors with same instructions set and same or very similar operating system therefore envoroment.
 But let us be realistic, it depends on many things, such as processor architecture to which was application written (compiled), quality of design, how application is meant to be deployed and of course application's source code.
 
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
@@ -368,4 +368,20 @@ Added to this, the OpenWrt developers are themselves only maintaining a smaller 
 The final step before the process of compiling the intended image would be to exit the menuconfig tool – this also includes the option to save a specific configuration or load an already existing, and pre-configured, version.
 Exit the UI, and choose to save the settings\cite{build_owrt}.
 
+\subsection{Building single Packages}
+
+When developing or packaging software for OpenWrt, it is convenient to be able to build only the package in question (e.g. with package cups):
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ make package/cups/compile V=s
+\end{lstlisting}
+For a rebuild run:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ make package/cups/{clean,compile,install} V=s
+\end{lstlisting}
+It doesn't matter what feed the package is located in, this same syntax works for any installed package.
+
+If for some reason the build fails, the easiest way to spot the error is to do:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ make V=s 2>&1 | tee build.log | grep -i error
+\end{lstlisting}
 Complete guide can be found on OpenWrt Wiki\footnote{https://wiki.openwrt.org/doc/howto/build}.

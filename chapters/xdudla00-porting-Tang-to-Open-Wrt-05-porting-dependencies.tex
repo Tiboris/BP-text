@@ -26,6 +26,7 @@ Do not forget to install them in the file system of the actual target machine, i
 Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program.
 In case of OpenWrt we will use this approach.
 
+
 \section{Find the depencies}
 
 To port Tang to OpenWrt system we have have all its dependencies available and installed in buildroot.
@@ -39,8 +40,8 @@ Let us remember Tang's dependencies first:
 \item José \ref{jose}
     \begin{itemize}
     \item jansson \ref{jansson}
-    \item openssl \ref{openssl}
-    \item zlib \ref{zlib}
+    \item openssl \cite{openssl}
+    \item zlib \cite{zlib}
     \end{itemize}
 \end{itemize}
 
@@ -53,65 +54,162 @@ The reason might be that we will try to find a exactly "http-parser" string in O
 First of all, we must not forget that feeds of many packages are living in repository packages nested under openwrt organization.
 Secondly after searching repository openwrt/packages for http-parser we will find out that it is named as libhttp-parser and in version 2.2.3.
 This, let us say naming convention, is really common in Linux and could be predictable as the http-parser is in fact only a library.
-One way or another compared to fedora packages it needs to be updated.
+One way or another compared to fedora packages it needs to be updated to latest version.
 
-Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José because it require at least jannson version 2.9.
+Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José because it require at least jansson version 2.10.
 We shall not forget that there is a need for updating jansson package for OpenWrt platform as well so we will do updates first.
 
 Packages José, Tang and systemd are not listed in OpenWrt's packages.
 Porting of the systemd would be huge effort but tang's requirements are minimal and we should be able to work with xinetd's socket activation.
 Finally, as José and Tang are not listed in packages they will require to add them into package feeds to port Tang itself.
 
+We will use fork of openwrt/packages repository placed outside of the buildroot package:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git clone git@github.com:Tiboris/packages-OpenWrt.git
+\end{lstlisting}
+
+
 \section{Update outdated packages}
 
 Finding that some of dependencies are already available on our desired target platform will definitelly make us satisfied.
-We would agree that starting with something already built for OpenWrt is the best thing to do when you are approaching unknown platform.
+We would agree that starting with something already built for OpenWrt is the best thing to do when we are approaching unknown platform.
 In following subsections we will use all things we know from section \ref{working-with-buildroot} Working with buildroot.
 Let us start with missing update of José's dependency, package jansson.
 
+
 \subsection{Update jansson}\label{jansson}
-Tang uses this parser for both parsing HTTP requests and HTTP responses.
-The parser can be found on its own GitHub \cite{http-parser}.
-\newpage
+Jansson is a C library for encoding, decoding and manipulating JSON data.
+The latest release of the jansson is v2.11 released on 11th of February 2018\cite{jansson}.
 
-\subsection{Update http-parser}\label{http-parser}
+However at the begining of the Tang porting efort started the latest release was v2.10.
+To update mentioned OpenWrt available jansson package version v2.7 to 2.10 change to package's fork directory and create a new branch for changes:
 
-\section{Makefiles for OpenWrt's packages}
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ cd ~/packages-OpenWrt
+$ git checkout -b jansson-update
+\end{lstlisting}
+In order to tell the OpenWrt buildroot how to build a program we need to create a special Makefile in the appropriate directory.
+The appendix \ref{hello_mkfile} Example OpenWrt package's Makefile ilustrate its content.
+We shall now find the jansson package Makefile in the repository using for example:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git grep jansson | grep PKG_NAME
+libs/jansson/Makefile:PKG_NAME:=jansson
+\end{lstlisting}
+The {\it PKG\_NAME} variable is one that identifies package for OpenWrt buildroot\cite{creating_pkgs}.
+List of all available variables can be found on the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages}.
+We can assume that the jansson library related files are located in libs/jansson directory of the packages repository.
+Now we can now update Makefile.
 
-This is very important part of creating new packages therefore porting them to openwrt this file is similar to specfiles on fedora...
-
-\begin{lstlisting}[language=c,basicstyle=\ttfamily\footnotesize,label=c,caption=Basic C code.]
-    #include<stdio.h>
-    #include<iostream>
-    int main(void)
-    {
-        printf("Chello World\n");
-        // comment
-        return 0;
-    }
+We will open it with our preferred editor and find variable {\it PKG\_VERSION}.
+Edit the old version number (in our case 2.7) to new version number (2.10).
+This edit will result into changing the {\it PKG\_SOURCE} variable in Makefile.
+Variables {\it PKG\_SOURCE} and {\it PKG\_SOURCE\_URL} are used to identify location of the archive with sources for specified version from where the sources would be downloaded.
+After the downaload the OpenWrt buildroot checks the file integrity.
+The {\it PKG\_HASH} and {\it PKG\_MD5SUM} variables serve this purpose.
+As the new version of archive with sources will be downloaded we need to change {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable as well.
+For some reason upstream developers required the use of {\it PKG\_HASH} variable and the bz2 archive for the jansson package.
+In general it would be sufficient to change only version and the appropriate {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable.
+We changed the filename extension for {\it PKG\_SOURCE} variable from ".tar.gz" to ".tar.bz2".
+Now download the archive containing sources and get the archive hash using sha256sum:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ wget http://www.digip.org/jansson/releases/jansson-2.10.tar.bz2 -P /tmp
+$ sha256sum /tmp/jansson-2.10.tar.bz2 | cut -d " " -f1
+241125a55f739cd713808c4e0089986b8c3da746da8b384952912ad659fa2f5a
+\end{lstlisting}
+Last but not least commit the changes and push the changes into our fork.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git commit -a
+$ git push --set-upstream origin jansson-update
 \end{lstlisting}
 
-\newpage
+Before submitting the pull request we should try to build updated package first.
+Let us remember that we have special branch set up for buildroot feeds.
+We will use this branch to merge our newly created branch into it using:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git checkout new_packages
+$ git merge jansson-update
+\end{lstlisting}
+After successfull merge we have updated jansson package available in our custom feeds.
+Trigger update with feeds script and make jansson available in menuconfig with:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ ./scripts/feeds update packages
+$ ./scripts/feeds install jansson
+\end{lstlisting}
+To finally build package we shall run the command:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ make package/jansson/{clean,compile} V=s
+\end{lstlisting}
+
+After successfull build the most important part would be to contribute changes to the upstream.
+Update of jansson is already done through merged pull-request\footnote{https://github.com/openwrt/packages/pull/4289}.
+With a knowledge of buildroot and the contribution guidelines effort spent on such updates may be quite minimal.
+
+
+\subsection{Update http-parser}\label{http-parser}
+Tang uses this parser library for both parsing HTTP requests and HTTP responses.
+Sources can be found on its GitHub page\footnote{https://github.com/nodejs/http-parser}.
+
+The lastest release available at the time was version v2.7.1 untill 9th February's 2018 release of v2.8.0.
+Fedora is still using version v2.7.1 with Tang server so compared to last available version on OpenWrt which was v2.3.0 an update is needed.
+Hoping for the best we updated the libhttp-parser to version v2.7.1 to match Fedora version similar way as with jansson.
+First make sure that we are still in packages repository and create branch for the change:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git checkout master
+$ git checkout -b libhttp-parser-update
+\end{lstlisting}
+Locate the http-parser Makefile:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git grep http-parser | grep PKG_NAME
+libs/libhttp-parser/Makefile:PKG_NAME:=libhttp-parser
+\end{lstlisting}
+Find out the source url to download the archive containing and get the archive hash using sha256sum:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ wget https://github.com/nodejs/http-parser/archive/v2.7.1.tar.gz -P /tmp
+$ sha256sum /tmp/v2.7.1.tar.gz | cut -d " " -f1
+70409ad324e5de2da6a0f39e859e566d497c1ff0a249c0c38a5012df91b386b3
+\end{lstlisting}
+We shall now edit correspondent variables, commit the changes and push them into our fork.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git commit -a
+$ git push --set-upstream origin libhttp-parser-update
+\end{lstlisting}
+Again merge the libhttp-parser-update branch with feeds branch:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git checkout new_packages
+$ git merge libhttp-parser-update
+\end{lstlisting}
+After successfull merge trigger update with feeds script and make new version of libhttp-parser package available in menuconfig:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ ./scripts/feeds update packages
+$ ./scripts/feeds install libhttp-parser
+\end{lstlisting}
+Finally build an updated libhttp-parser running:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ make package/libhttp-parser/{clean,compile} V=s
+\end{lstlisting}
+Unfortunatelly as we will see in subsection \ref{http_parser_problems} Hurdles with http-parser, the successfull build of the updated package may not be enough.
+Especially when built package is also a dependency for other packages.
+
 
 \section{Create new packages}
 
-\newpage
+After updating of jansson and libhttp-parser we are kind of familiar with the OpenWrt's Makefiles.
+Now comes the time to write one makefile on our own.
 
 \subsection{Create José}\label{jose}
 José \cite{jose_prog} is a C-language implementation of the Javascript Object Signing and Encryption standards.
 Specifically, José aims towards implementing the following standards:
 \begin{itemize}
-   \item RFC 7515 - JSON Web Signature (JWS)        \cite{RFC7515}
-   \item RFC 7516 - JSON Web Encryption (JWE)       \cite{RFC7516}
-   \item RFC 7517 - JSON Web Key (JWK)              \cite{RFC7517}
-   \item RFC 7518 - JSON Web Algorithms (JWA)       \cite{RFC7518}
-   \item RFC 7519 - JSON Web Token (JWT)            \cite{RFC7519}
-   \item RFC 7520 - Examples of JSON Object Signing and Encryption \cite{RFC7520}
-   \item RFC 7638 - JSON Web Key (JWK) Thumbprint   \cite{RFC7638}
+    \item RFC 7520 - Examples of JSON Object Signing and Encryption (JOSE) \cite{RFC7520}
+    \item RFC 7515 - JSON Web Signature (JWS)        \cite{RFC7515}
+    \item RFC 7516 - JSON Web Encryption (JWE)       \cite{RFC7516}
+    \item RFC 7517 - JSON Web Key (JWK)              \cite{RFC7517}
+    \item RFC 7518 - JSON Web Algorithms (JWA)       \cite{RFC7518}
+    \item RFC 7519 - JSON Web Token (JWT)            \cite{RFC7519}
+    \item RFC 7638 - JSON Web Key (JWK) Thumbprint   \cite{RFC7638}
 \end{itemize}
 
 JOSE (Javascript Object Signing and Encryption) is a framework intended to provide a method to securely transfer claims (such as authorization information) between parties.
-
 Tang uses JWKs in comunication between client and server. Both POST request and reply bodies are JWK objects.
 
 \newpage
