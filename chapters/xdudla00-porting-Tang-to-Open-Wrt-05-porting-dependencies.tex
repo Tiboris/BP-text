@@ -193,6 +193,8 @@ $ make package/libhttp-parser/{clean,compile} V=s
 Unfortunatelly as we will see in subsection \ref{http_parser_problems} Hurdles with http-parser, the successfull build of the updated package may not be enough.
 Especially when built package is also a dependency for other packages.
 
+
+
 \section{Create new packages}
 
 After updating of jansson and libhttp-parser we are kind of familiar with the OpenWrt's Makefiles.
@@ -215,11 +217,23 @@ JOSE (Javascript Object Signing and Encryption) is a framework intended to provi
 Tang uses JWKs in comunication between client and server.
 Both POST request and reply bodies are JWK objects\cite{jose_prog}.
 
+
+
 \subsection{Create José}\label{jose}
+
+First, let us create feature branch and directory for new package:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git checkout master
+$ git checkout -b libhttp-parser-update
+$ mkdir -p utils/jose
+\end{lstlisting}
+At first it does not matter whether new Makefile will be placed whether libs or utils for the build purposes.
+We can simply change it as upstream developers would require.
 
 To start with such a work it is good to have some kind of the template.
 For the José we used the jansson's Makefile as a template.
-We will start with editing this Makefile having the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages} opened on the side.
+Place this "template" Makefile into utils/jose directory and start with editing having the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages} opened on the side.
+
 Let us go through it from the top to the bottom.
 This is first non comment line in the file:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -256,10 +270,125 @@ PKG_HASH:=\
 5c9cdcfb535c4d9f781393d7530521c72b1dd81caa9934cab6dd752cc7efcd72
 \end{lstlisting}
 The {\it PKG\_SOURCE} variable now contain the value of the source archive name.
-The {\it PKG\_SOURCE\_URL} provides the whole path to archive stored on GitHub server and the {\it PKG\_HASH} is used to verify the file integrity.
+The {\it PKG\_SOURCE\_URL} provides the wshole path to archive stored on GitHub server and the {\it PKG\_HASH} is used to verify the file integrity.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+PKG_INSTALL:=1
+PKG_BUILD_PARALLEL:=1
 
+PKG_FIXUP:=autoreconf
+include $(INCLUDE_DIR)/package.mk
+\end{lstlisting}
+Upstream may require to divide it into two packages:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/libjose
+  SECTION:=libs
+  TITLE:=Provides a full crypto stack...
+  DEPENDS:=+zlib +jansson +libopenssl +libpthread
+  URL:=https://github.com/latchset/jose
+  MAINTAINER:=Tibor Dudlak <tibor.dudlak@gmail.com>
+endef
 
+define Package/$jose
+  SECTION:=utils
+  TITLE:=Provides a full crypto stack...
+      DEPENDS:=+libjose +zlib +jansson +libopenssl +libpthread
+  URL:=https://github.com/latchset/jose
+  MAINTAINER:=Tibor Dudlak <tibor.dudlak\@gmail.com>
+endef
+\end{lstlisting}
+To add a nice description for both packages we would add some defines as shown:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/jose/description
+	... description text ...
+endef
 
+define Package/libjose/description
+	... description text ...
+endef
+\end{lstlisting}
 
+You can leave this undefined if the source doesn't use configure or has a normal config script, otherwise you can put your own commands here or use "\$(call Build/Configure/Default,)" as shown to pass in additional arguments for a standard configure script.
 
-\newpage
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+CFLAGS += -fhonour-copts
+TARGET_CFLAGS += $(FPIC) -std=gnu99
+TARGET_LDFLAGS += -Wl,-rpath-link=$(1)/usr/lib
+
+define Build/Configure
+	$(call Build/Configure/Default)
+endef
+\end{lstlisting}
+Every library package should have section "Build/InstallDev".
+This section is important for linker and buildsystem especially to work correctly when library would be used as dependency (static libs, header files) for other tools or packages.
+This section has no use on the target device.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Build/InstallDev
+	$(INSTALL_DIR)	$(1)/usr/lib
+	$(INSTALL_DIR)  $(1)/usr/include
+	$(INSTALL_DIR)	$(1)/usr/include/$(PKG_NAME)
+	$(INSTALL_DIR)	$(1)/usr/lib/pkgconfig
+	$(CP)	$(PKG_INSTALL_DIR)/usr/lib/lib$(PKG_NAME).so*	$(1)/usr/lib
+	$(CP)	$(PKG_INSTALL_DIR)/usr/include/$(PKG_NAME)/*.h	\
+			$(1)/usr/include/$(PKG_NAME)
+	$(CP)	$(PKG_BUILD_DIR)/*.pc	$(1)/usr/lib/pkgconfig
+endef
+\end{lstlisting}
+A set of commands to copy files into the ipkg which is represented by the \$(1) directory.
+As source we can use relative paths which will install from the unpacked and compiled source, or \$(PKG\_INSTALL\_DIR) which is where the files in the Build/Install (not used here) step end up.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/libjose/install
+	$(INSTALL_DIR)	$(1)/usr/lib
+	$(CP)	$(PKG_INSTALL_DIR)/usr/lib/lib$(PKG_NAME).so*	$(1)/usr/lib/
+endef
+
+define Package/jose/install
+	$(INSTALL_DIR)	$(1)/usr/bin
+	$(INSTALL_BIN)	$(PKG_INSTALL_DIR)/usr/bin/$(PKG_NAME)	$(1)/usr/bin/
+endef
+\end{lstlisting}
+At the bottom of the file is where the real magic happens, "BuildPackage" is a macro setup by the earlier include statements.
+BuildPackage only takes one argument directly – the name of the package to be built.
+All other information is taken from the define blocks. This is a way of providing a level of verbosity, it's inherently clear what the DESCRIPTION variable in Package/bridge is, which wouldn't be the case if we passed this information directly as the Nth argument to BuildPackage.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$(eval $(call BuildPackage,libjose))
+$(eval $(call BuildPackage,jose))
+\end{lstlisting}
+At this point our first Makefile for José is ready.
+Let us merge this changes to feeds and try to build our freshly created package.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ git commit -a
+$ git push --set-upstream origin add-jose
+$ git checkout new_packages
+$ git merge add-jose
+\end{lstlisting}
+In buildroot run:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ ./scripts/feeds update packages
+$ ./scripts/feeds install jose
+$ make package/jose/{clean,compile}
+\end{lstlisting}
+Note that scritp feeds with an install option will install also missing dependecies of José to be available in buildroot.
+Do not worry if the José's build takes time, it has openssl library as dependency and to compile this one it takes some time.
+% After first try to build we will encounter first problem.
+% Running make without the "V=s" option will result into:
+% \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+%  make[1] package/jose/clean
+%  make[2] -C feeds/packages/libs/jose clean
+%  make[1] package/jose/compile
+%  make[2] -C package/libs/toolchain compile
+%  make[2] -C feeds/packages/libs/jansson compile
+%  make[2] -C package/libs/openssl compile
+%  make[2] -C package/libs/zlib compile
+%  make[2] -C feeds/packages/libs/jose compile
+% \end{lstlisting}
+% Running make with V=s will expose that jose failed with an error like this:
+% \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+% openssl/compat.h:21:10: fatal error: openssl/ec.h: No such file or directory
+%  #include <openssl/ec.h>
+%           ^~~~~~~~~~~~~~
+% \end{lstlisting}
+% This means that we did not install the openssl dependency with feeds script.
+% It is required to install all dependencies when building in buildroot even when we defined it in Makefile:
+% \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+%
+% \end{lstlisting}
