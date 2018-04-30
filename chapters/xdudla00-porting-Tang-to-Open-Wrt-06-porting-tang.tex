@@ -31,50 +31,103 @@ Whenever a connection would come in an instance of the respective service will b
 
 
 
-\section{Install dependencies}
-
-As we have all of the Tang dependencies "ready"
-
-update feeds
-feeds install
-make menuconfig
-\newpage
-
-
-
-to have an example created simple application in C for xinetd
-\newpage
-
 \section{Cross-compile Tang}
+Add sources:\todo{text}
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+include $(TOPDIR)/rules.mk
 
-do not forget to add xinetd in Dependencies
-\newpage
+PKG_NAME:=tang
+PKG_VERSION:=6
+PKG_RELEASE:=1
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+PKG_SOURCE_URL:=\
+https://github.com/latchset/$(PKG_NAME)/releases/download/v$(PKG_VERSION)/
+
+PKG_HASH:=1df78b48a52d2ca05656555cfe52bd4427c884f5a54a2c5e37a7b39da9e155e3
+
+
+PKG_INSTALL:=1
+PKG_BUILD_PARALLEL:=1
+
+PKG_FIXUP:=autoreconf
+
+include $(INCLUDE_DIR)/package.mk
+\end{lstlisting}
+
+do not forget to add xinetd and bash in Dependencies
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/tang
+  SECTION:=utils
+  TITLE:=tang v$(PKG_VERSION) - daemon for binding data to the presence of a third party
+  DEPENDS:=+libhttp-parser +xinetd +jose +bash
+  URL:=https://github.com/latchset/tang
+endef
+\end{lstlisting}
+
+Add description and flags\todo{text}
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+CFLAGS += -fhonour-copts
+TARGET_CFLAGS += $(FPIC) -std=gnu99 -D_GNU_SOURCE
+TARGET_LDFLAGS += -Wl,-rpath-link=$(1)/usr/lib
+
+define Package/tang/description
+	Tang is a small daemon for binding data to the presence of a third party.
+endef
+
+define Build/Configure
+	$(call Build/Configure/Default)
+endef
+\end{lstlisting}
+
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/tang/install
+	$(INSTALL_DIR)	$(1)/usr/libexec
+	$(INSTALL_DIR)	$(1)/etc/xinetd.d/
+	$(INSTALL_BIN)	$(PKG_INSTALL_DIR)/usr/lib/$(PKG_NAME)d		$(1)/usr/libexec/
+	$(INSTALL_BIN)	$(PKG_INSTALL_DIR)/usr/lib/$(PKG_NAME)d-*	$(1)/usr/libexec/
+	$(INSTALL_BIN)	./files/tangdw	$(1)/usr/libexec/
+	$(CP)			./files/tangdx	$(1)/etc/xinetd.d/
+endef
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$(eval $(call BuildPackage,$(PKG_NAME)))
+\end{lstlisting}
+
+After first run we will encounter the systemd dependency errror:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+configure: error: Package requirements (systemd) were not met:
+
+No package 'systemd' found
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+\end{lstlisting}
+We did not defined it for Makefile but the cross-compilation of the package will try to configure and compile downloaded sources.
+Compiler will try to find the systemd dependency as it is defined in the "file" in Tang repository.
+We shall remove this builtime dependency.
+
+\todo{text and diff for makefile and configure}
+
+After removal the build will be successfull and we have Tang package ready to be installed on our device.
+We are avoiding troubles with using the libhttp-parser in version 2.8.0.
+These self issued problems are described in following subsection \ref{http_parser_problems} Hurdles with http-parser.
+The most important part now would br to configure it right way.
+
+
 
 \subsection{Hurdles with http-parser}\label{http_parser_problems}
 
-without upstream patch not working tang
+without upstream patch not working tang \todo{text}
 \newpage
 
 \subsection{Mysterious José}
 
 does makefiles support shell {a,b} thing???
 \newpage
-
-\section{Configure Tang with xinetd}
-
-We need xinetd's socket activation for Tang to work.
-
-
-there is no systemd for OpenWrt
-
-/etc/services
-
-xinetd configuration
-
-\subsection{}
-
-
-% root@A04-0315A:~# if [ -z "$(find /usr/share/tang/db/ -name "*.jw*" -maxdepth 1)" ]; then echo nic; else echo daco;fi
-% daco
-% root@A04-0315A:~# if [ -z "$(find /usr/share/tang/db/ -name "*.jwk" -maxdepth 1)" ]; then echo nic; else echo daco;fi
-% daco

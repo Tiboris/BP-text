@@ -1,37 +1,201 @@
 \chapter{Tang on OpenWrt}\label{config}
 
-\section{Configuration}
+Having the installation capable packages in our buildroot is only the half of the work done.
+We need to install them on the actual device and setup the enviroment especially for the Tang package to work correctly.
+The installation of the packages on OpenWrt is done with the opkg package manager.
 
-
-
-
-\subsection{OPKG Package manager}
-
-The opkg utility (Open Package Management System) is a lightweight package manager used to download and install OpenWrt packages.
-The opkg is fork of an ipkg (Itsy Package Management System).
+The opkg (Open Package Management System) is a lightweight package manager used to download and install OpenWrt packages.
 These packages could be stored somewhere on device's filesystem or the package manager will download them from local package repositories or ones located on the Internet mirrors.
-Users already familiar with GNU/Linux package managers like apt/apt-get, pacman, yum, dnf, emerge etc. will definitely recognize the similarities.
+Users already familiar with GNU/Linux package managers like dnf, yum, apt/apt-get, pacman, emerge etc. will definitely recognize the similarities.
 It also has similarities with NSLU2's Optware, also made for embedded devices.
-Fact that OPKG is also a full package manager for the root file system, instead of just a way to add software to a seperate directory (e.g. /opt) includes the possibility to add kernel modules and drivers.
-OPKG is sometimes called Entware, but this is mainly to refer to the Entware repository for embedded devices.
 
-Opkg attempts to resolve dependencies with packages in the repositories - if this fails, it will report an error, and abort the installation of that package.
+Opkg attempts to resolve dependencies with packages in the available repositories/mirrors.
+If the opkg fails to find the dependency, it will report an error, and abort the installation of selected package.
 
 Missing dependencies with third-party packages are probably available from the source of the package.
 
-\section{Limitations}
+Remember that we removed systemd related lines from sources.
+Now we do not have automatic updates of the Tang's cache and keys are not generated when tang has empty database.
 
-\section{Contribute your work}\label{contrib}
+
+
+\section{Install the packages}
+
+The packages that have been built in our buildroot are not available in any online mirror yet.
+To make it available for openwrt we should create a pull-request and hope for the comunity to accept it.
+Before we do so, we have to make sure, that the built packages are working with installing them and testing their functionality.
+
+To get our newly built packages to the target device running the OpenWrt we can upload them using scp to device's filesystem.
+After successfull build the packages are present in the bin/packages/mips\_24kc/packages/ directory:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+scp bin/packages/mips_24kc/packages/*.ipk root@192.168.0.1:/root/custom-packages/
+\end{lstlisting}
+This command will upload every package built before in builroot to the device's /root/custom-packages/ directory.
+The buildroot should contain at least these files:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ ls bin/packages/mips_24kc/packages/
+bash_4.4.12-1_mips_24kc.ipk
+jansson_2.10-1_mips_24kc.ipk
+jose_10-1_mips_24kc.ipk
+libhttp-parser_2.8.0-1_mips_24kc.ipk
+libjose_10-1_mips_24kc.ipk
+Packages
+Packages.gz
+Packages.manifest
+Packages.sig
+tang_6-1_mips_24kc.ipk
+xinetd_2.3.15-5_mips_24kc.ipk
+\end{lstlisting}
+After the successfull upload connect to the device and install packages.
+We recommend installing only newly built or updated packages.
+opkg will resolve known dependencies from the mirrors and will install them.
+Make sure that you install them in right order.
+Due to fact that opkg not is not capable to resolve these new packages.
+Install the packages using opkg:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+opkg install /root/custom-packages/jansson_2.10-1_mips_24kc.ipk
+opkg install /root/custom-packages/jose_10-1_mips_24kc.ipk
+opkg install /root/custom-packages/libhttp-parser_2.8.0-1_mips_24kc.ipk
+opkg install /root/custom-packages/tang_6-1_mips_24kc.ipk
+\end{lstlisting}
+The opkg tool will resolve other dependencies and install them as well.
+After packages are installed we may now proceed to the enviroment setup.
+
+
+
+\section{Setting up the Tang keys}
+The Tang server is packaged with the cripts which help us to genarate keys and cache for the Tang daemon.\todo{text about generation and systemd}
+
+
+The OpenWrt Makefile can define section "Package/\$(PKG\_NAME)/postinst".
+This section usually contain a short shell script to tweak the package after installation to make package work out of the box.
+We can reflect behavior described above to this short sript and add it to the Tang's Makefile:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	mkdir -p /usr/share/tang/db
+	mkdir -p /usr/share/tang/cache
+	KEYS=$(find /usr/share/tang/db/ -name "*.jw*" -maxdepth 1 | wc -l)
+	if [ KEYS -eq 0 ]; then # if db is empty generate new key pair
+		/usr/libexec/tangd-keygen /usr/share/tang/db/
+	elif [ KEYS -eq 2 ]; then # regenerate cache if db has 2 keys
+		/usr/libexec/tangd-update /usr/share/tang/db/ /usr/share/tang/cache/
+	else
+		(>&2 echo "Please check the Tang's keys in /usr/share/tang/db \
+and regenate cache using /usr/libexec/tangd-update script.")
+	fi
+	(cat /etc/services | grep -E "tangd.*8888\/tcp") > /dev/null \
+		|| echo -e "tangd\t\t8888/tcp" >> /etc/services
+fi
+endef
+\end{lstlisting}
+
+
+
+\section{Configure Tang for xinetd}
+
+We need xinetd's socket activation for Tang to work.    \todo{text}
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10},caption=Configuration of Tang service for xinetd]
+service tangd
+{
+    port            = 8888
+    socket_type     = stream
+    wait            = no
+    user            = root
+    server          = /usr/libexec/tangd
+    server_args     = /usr/share/tang/cache
+    log_on_success  += USERID
+    log_on_failure  += USERID
+    disable         = no
+}
+\end{lstlisting}
+setup /etc/services:\todo{text}
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+echo -e "tangd\t\t8888/tcp" >> /etc/services
+\end{lstlisting}
+Please make sure that you put two of ">" using only one will rewrite whole file.
+In such case please copy the backup of the file from devices ROM and edit it again.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+cp /rom/etc/services /etc/services
+\end{lstlisting}
+restart xinetd\todo{text}
+
+To test that service is running we can use the telnet to the device on port defined in the xinetd configuration.
+The server should advertise its public key.
+It can be retrieved with simple GET request for /adv contenr from the server.
+Try telnet to device write "GET /adv HTTP/1.1" and confirm this with two newlines.
+The ouput similar to following should appear:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ telnet 192.168.0.1 8888
+Trying 192.168.0.1...
+Connected to 192.168.0.1.
+Escape character is '^]'.
+GET /adv HTTP/1.1
+
+<unknown> GET /adv => 200 (src/tangd.c:85)
+HTTP/1.1 200 OK
+Content-Type: application/jose+json
+Content-Length: 956
+
+{"payload":"eyJrZXlzIjpbeyJhbGciOiJFQ01SIiwiY3J2IjoiUC01MjEiLCJrZXlfb3BzIjpb
+ImRlcml2ZUtleSJdLCJrdHkiOiJFQyIsIngiOiJBR3V2amxUZmpYaDBraWFEa19Tak1vMGhYUm1R
+dzFZNkVkNE9yN3Fza2J2c1h6QUlvRTl5ZnRwR2xRVng1OVlxZ1gtR3hQSE8tdzVLVXFmanRGQkVV
+ZVByIiwieSI6IkFiNE9NNTBhQ1Y4NkdZVW1PdHBua1VTanNXNUFleENXZG5PZFEyakl0Z1RGNXNq
+MG1TSFZCYXhsd2w1N3ZTUEdrSExiRl96SFlUVzlvVzNoTFJyeXRRNmYifSx7ImFsZyI6IkVTNTEy
+IiwiY3J2IjoiUC01MjEiLCJrZXlfb3BzIjpbInZlcmlmeSJdLCJrdHkiOiJFQyIsIngiOiJBQVpS
+ZmNlNUhLaFYyck1OQzhqLW5iVW1pdlh4NDRjcU1qX2Jvbk5OdnNTcXdBRjhFcGoyTFM0cFpfdUNR
+VDJGVDRUSHJnX1Y4VHBKci1PQW41Z05CaUZNIiwieSI6IkFTMjJSdVJZZXVOU1ZtSkdfSmcwSW1n
+by1LREd2QVFPZV9Vdk9fT3RZS3lGeUVoSWI1U0FLd3cwSEF0QjJFX2FTMG5pcWV3UUlod1QyanR5
+eklCaWdkQU0ifV19","protected":"eyJhbGciOiJFUzUxMiIsImN0eSI6Imp3ay1zZXQranNvb
+iJ9","signature":"ADpGOjYeB45MznQOxA6Pw9MXTMYQ649UkRSi_RsP8KPKosl-eA7GmOIiBM
+FOoPnCNX-cGjhyDBbQuvESUCJ_3txjANf-srntxFAX5p72Eip-kROGrlCdLrVLnlg36itQUBFx7S
+UyB_7I6CX6gdpWyJ-wtro8f2Snu6wwMGl-8V3ylWYr"}
+\end{lstlisting}
+The content of the first line from server response should be suspicious to us.
+The HTTP header should not contain such line\cite{RFC2616}.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+<unknown> GET /adv => 200 (src/tangd.c:85)
+\end{lstlisting}
+After some investigation done in the Tang sources we found out that the line contain some debug information from the Tang daemon which were written to the /dev/stderr.
+From this we can assume that xinetd is sending also /dev/stderr to the created socker.
+To bypass this beavior we should write som wrapper script which will redirect the /dev/stderr ouptut somewhere else.
+We decided that this output may be helpful for debugging purpose and forwarded it to the some sort of log file in the /var/log/ directory of the device using this script:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+#!/bin/bash
+echo "==================================" >> /var/log/tangd.log
+echo `date`: >> /var/log/tangd.log
+/usr/libexec/tangd $1 2>> /var/log/tangd.log
+\end{lstlisting}
+Let us call this wrapper script the tangdw.
+To get Tang to work we need to put invocation of this script in place where tangd binary was configured to.
+Move the script to the /usr/libexec directory where the tangd binary is to have it in one place and edit the line of xinetd configuration to run wrapper:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+    server          = /usr/libexec/tangdw
+\end{lstlisting}
+The last thing would be to change the sript's permissions to allow execution.
+
+
+
+\section{Limitations} \todo{text?}
+
+Let us sum up the limitations that Tang has on OpenWrt platform due to replaced systemd dependency with less capable xinetd implementation of super-server.
+
+Key exchange and regeneration of cache must be manual but  can be automated with inotifytools to watch directory for change and run update script automatically.
+But this mean that the embeded device with such configuration will have another proccess always running.
+We decided to not implement automated update of the cachce in favor to computation resources being available to other services.
+
+xinetd is forwarding the stderr output to the socket as well.
+To have tang working correctly we wrote a wrapper running the shell script redirecting the stderr into log file.
+Running some shell script takes some time compared to only running the binary file but for xinetd it is neccessary.
+
+
+
+\section{Contribute your work}\label{contrib}\todo{text}
 
 Everyone can profit from our work...
 
-\subsection{subsection name}
-{Make it look easy}
-
 Be tidy create nice files and patch files to be used.
 
-\subsection{Follow contribution guide}
-
-\todo{mailing lists}
-
-\todo{github - how}
+Follow contribution guide

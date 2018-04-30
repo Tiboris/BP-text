@@ -56,19 +56,15 @@
 \contentsline {chapter}{\numberline {6}Porting Tang}{40}{chapter.6}
 \contentsline {section}{\numberline {6.1}Socket activation}{40}{section.6.1}
 \contentsline {subsection}{\numberline {6.1.1}xinetd}{40}{subsection.6.1.1}
-\contentsline {section}{\numberline {6.2}Install dependencies}{41}{section.6.2}
-\contentsline {section}{\numberline {6.3}Cross-compile Tang}{43}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Hurdles with http-parser}{44}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}Mysterious Jos\IeC {\'e}}{45}{subsection.6.3.2}
-\contentsline {section}{\numberline {6.4}Configure Tang with xinetd}{46}{section.6.4}
-\contentsline {subsection}{\numberline {6.4.1}}{46}{subsection.6.4.1}
-\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{47}{chapter.7}
-\contentsline {section}{\numberline {7.1}Configuration}{47}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}OPKG Package manager}{47}{subsection.7.1.1}
-\contentsline {section}{\numberline {7.2}Limitations}{47}{section.7.2}
-\contentsline {section}{\numberline {7.3}Contribute your work}{47}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}subsection name}{47}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Follow contribution guide}{47}{subsection.7.3.2}
+\contentsline {section}{\numberline {6.2}Cross-compile Tang}{41}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Hurdles with http-parser}{42}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Mysterious Jos\IeC {\'e}}{43}{subsection.6.2.2}
+\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{44}{chapter.7}
+\contentsline {section}{\numberline {7.1}Install the packages}{44}{section.7.1}
+\contentsline {section}{\numberline {7.2}Setting up the Tang keys}{45}{section.7.2}
+\contentsline {section}{\numberline {7.3}Configure Tang for xinetd}{45}{section.7.3}
+\contentsline {section}{\numberline {7.4}Limitations}{47}{section.7.4}
+\contentsline {section}{\numberline {7.5}Contribute your work}{47}{section.7.5}
 \contentsline {chapter}{\numberline {8}Conclusion}{48}{chapter.8}
 \contentsline {chapter}{Bibliography}{49}{chapter*.2}
 \select@language {english}
