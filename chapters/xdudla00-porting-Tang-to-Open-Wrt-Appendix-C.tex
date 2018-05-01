@@ -7,12 +7,18 @@ It takes 4 steps to perform an in place encryption with {\it luksipc} \cite{luks
     \item Performing luksipc
     \item Adding custom keys to the LUKS keyring
 \end{enumerate}
+
+
+
 \section{Step 1 - unmounting}
 There should not be any problems unmounting partition, unless you want to encrypt / - the root partition, which in our case (to lock whole disk) will be necessary.
 To do so we need to restart our computer and boot any other or live distribution capable of completing these next steps.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # umount /dev/vda2
 \end{lstlisting}
+
+
+
 \section{Step 2 - resizing}
 There are plenty tools for re-sizing, essentially for partitioning as whole (fdisk, e2fsck, etc.).
 Demonstrating how this is done for ext 2, 3, 4 here:
@@ -44,6 +50,9 @@ Device        Boot        Start     End         Blocks      Id    System
 /dev/vda1      *          2048      1026047     512000      83    Linux
 /dev/vda2                 1026048   1640447     307200      8e    Linux LVM}
 \end{lstlisting}
+
+
+
 \section{Step 3 - encrypting}
 After this, luksipc comes into play. It performs an in-place encryption of the data and prepends the partition with a LUKS header. Firt we have to download luksipc or install it with package manager.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -60,6 +69,9 @@ luksipc will have created a key file /root/initial\_keyfile.bin that you can use
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksOpen --key-file /root/initial\_keyfile.bin /dev/vda2 fedoradrive
 \end{lstlisting}
+
+
+
 \section{Step 4 - adding key}
 DO NOT FORGET to add key to LUKS volume:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]

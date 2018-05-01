@@ -3,7 +3,9 @@
 After successfull cross-compilation of jose we have all the dependencies "ready" and packaged except the systemd.
 systemd is only one of the many implementations (inetd, launchd, ucspi-tcp, xinetd) of a super-server providing socket activation.
 
-\section{Socket activation}
+
+
+\section{Socket activation}\label{socket_activation}
 
 Socket activation is a technology provided by a super-server (also called a service dispatcher daemon).
 A super-server starts other servers when needed as well, normally with access to them checked by a TCP wrapper.
@@ -118,7 +120,7 @@ We shall remove this builtime dependency.
 After removal the build will be successfull and we have Tang package ready to be installed on our device.
 We are avoiding troubles with using the libhttp-parser in version 2.8.0.
 These self issued problems are described in following subsection \ref{http_parser_problems} Hurdles with http-parser.
-The most important part now would br to configure it right way.
+The most important part now would be to configure it right way.
 
 
 
@@ -126,6 +128,8 @@ The most important part now would br to configure it right way.
 
 without upstream patch not working tang \todo{text}
 \newpage
+
+
 
 \subsection{Mysterious José}
 

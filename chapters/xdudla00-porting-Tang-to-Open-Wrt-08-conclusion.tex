@@ -14,9 +14,7 @@ Clevis also supports removable devices unocking using UDisks2 or even early boot
 This was inspiration for this thesis with a goal to achieve it with OpenWrt embedded device running Tang server only.
 
 To port Tang to OpenWrt system it was necesarry to port all its dependencies first.
-The OpenWrt system had already package openssl, zlib, and jansson but only version 2.7 which was too old.
-So there was a need for updating jansson to resolve all dependencies for package José.
-José required porting and after focusing on upstream version porting on this package was straightforward.
-After struggling with older version, package http-parser known as libhttp-parser in OpenWrt feeds, is now updated to latest upstream version 2.8.0.
+
+After struggling with older version, package http-parser known as libhttp-parser in OpenWrt feeds, is now updated to latest upstream version 2.8.0 with STATUS\_MAP patch.
 The systemd would be huge effort but tang's requirements are minimal and we were able to work with xinetd's socket activation.
 With correct configuration of xinetd and removing dependency for systemd Tang server is running on OpenWrt with some platform specific changes and limitations.

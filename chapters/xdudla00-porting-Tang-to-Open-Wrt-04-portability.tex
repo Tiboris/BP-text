@@ -2,7 +2,7 @@
 
 Ideally, any software would be usable on any operating system, platform, and any processor architecture.
 Existence of term "porting", derived from the Latin portāre which means "to~carry", proves that this ideal situation does not occurs that often, and acctual process of "carrying" software to system with different environment is most probably required.
-Porting is process not documented and required if we want to run thing on another platform.
+Porting is not documented process required to adapt software designed for specific platform to another platform.
 Porting is also used to describe procces of converting computer games to became platform independent\cite{wiki_porting}.
 
 Software porting procces might be hard to distinguish with building software.
@@ -14,7 +14,7 @@ But let us be realistic, it depends on many things, such as processor architectu
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If software is considered as not portable, it could not have to mean immediately that it is not possible, just that time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch.
 Effort spent porting some software product to work on desired platform must be little, such as copying already installed files to usb flash drive and run it on another computer.
-This kind of approach might most probably fail, due to not present dependencies of third party libraries not present on destination computer.
+This kind of approach might most probably fail, due to not present dependencies of third party libraries on destination computer.
 Despite dominance of the x86 architecture there is usually a need to recompile software running, not only on different operating systems, to make sure we have all the dependencies present.
 
 Number of significantly different central processor units (CPUs), and operating systems used on the desktop or server is much smaller than in the past.
@@ -22,6 +22,8 @@ However on embeded devices market there are still much more various architecture
 
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
 But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue \cite{porting_software}.
+
+
 
 \section{OpenWrt system}\label{owrt}
 OpenWrt is is perhaps the most widely known Linux distribution for embedded devices especially for wireless routers.
@@ -33,6 +35,8 @@ Installing OpenWrt system means replacing our router’s built-in firmware with 
 This means that we are not bound to applications provided by the vendor.
 Router (the embedded device) with this distribution can be used for anything that an embedded Linux system can be used for, from using its SSH Server for SSH Tunneling, to running lightweight server software (e.g. IRC server) on it.
 In fact it allows us to customize the device through the use of packages to suit any application. \cite{openwrt}
+
+
 
 \subsection{OpenWrt and LEDE}
 
@@ -52,6 +56,8 @@ OpenWrt and LEDE projects agreed upon their unification under the OpenWrt name.
 After merge OpenWrt upstream repository started to show signs of life.
 
 Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers \cite{lede_release}.
+
+
 
 \subsection{Why use OpenWrt}
 
@@ -75,9 +81,11 @@ It has an Luci\footnote{https://github.com/openwrt/luci} Web UI(user interface) 
 Users less experienced with Linux can easily set up their network using Luci.
 OpenWrt is capable of running lightweight services like an IRC bouncer or samba/ftp file sharing (some routers has USB ports able to power HDD) or even run software build on our own\cite{vpnpick}.
 
-The goal of this thesis would be to port a lightweight Tang daemon described in the chapter \ref{tang} Tang server to OpenWrt system.
+The goal of this thesis would be to port a lightweight Tang daemon described in the section \ref{tang} Tang to OpenWrt system.
 Tang server will help us unlock our encrypted volumes while on safe home or office network without need for extra PC running it but having it on our tiny OpenWrt "server".
 With Tang we do not have to care about typing passphrases over and over to unlock LUKS drives in safe enviroment.
+
+
 
 \section{OpenWrt's toolchain}
 
@@ -92,10 +100,12 @@ Compilation is done by set of tools called toolchain and it consists of:
 \end{itemize}
 For porting to "target" system (OpenWrt) this toolchain has to be generated on "host" system.
 The toolchain can be achieved in many different ways.
-The easiest way is undoubtedly to find a .rpm (or .deb) package and have it installed on our "host" system.
+The easiest way is undoubtedly to find a .rpm (.deb or any distribution specific available) package and have it installed on our "host" system.
 If a binary package with desired toolchain is not available for our system or is not available at all, there might be need to compile a custom toolchain from scratch.\footnote{tools like crosstool-ng (https://github.com/crosstool-ng/crosstool-ng) may help}
 
 In case of OpenWrt we have available a set of Makefiles and patches called buildroot which is capable of generating toolchain.
+
+
 
 \subsection{Compiler}
 
@@ -136,6 +146,8 @@ It can also create object files used by linker.
 Reason for using cross-compiling might be to separate the build environment from target environment as well.
 OpenWrt toolchain uses gcc compiler, and it is one of the most important parts of toolchain\cite{compiler}.
 
+
+
 \subsection{Linker}
 
 With linker we are able to link compile's object files into single executable, library or object file.
@@ -155,11 +167,16 @@ If a bug in a library function is corrected by replacing the library, all progra
 Programs that included this function by static linking would have to be re-linked first.
 
 Disadvantage known on the Windows platform as "DLL Hell", an incompatible updated library will break executables that depended on the behavior of the previous version of the library if the newer version is not properly backward compatible\cite{compiler}.
+
+
+
 \subsection{C standard library}
 
 Most common C standard libraries are: GNU Libc, uClibc musl-libc, or dietlibc.
 They provide macros, type definitions and functions for tasks such as input/output processing (<stdio.h>), memory management (<stdlib.h), string handling (<string.h>), mathematical computations (<math.h>) and many more\footnote{https://en.wikipedia.org/wiki/C\_standard\_library\#Header\_files}.
 The OpenWrt's cross-compilation toolchain uses musl-libc \cite{c_library}.
+
+
 
 \section{OpenWrt's buildroot}
 
@@ -172,6 +189,8 @@ In many cases just having the folders /usr and /lib would be sufficient, therefo
 It is a good idea to store all these things, the toolchain and the root filesystem in a single place.
 With using OpenWrt's buildroot we will have this covered.
 Be tidy and pedantic, because cross-compiling can easily become a painful mess!\cite{fabrizio}
+
+
 
 \subsection{Buildroot prerequisites}
 
@@ -216,6 +235,8 @@ The actual sum of space required only for buildroot to work correctly which is a
 Comparation to available storage space on wireless router should demonstrate why is building for embedded devices done with cross-compiling.
 The another reasons, not to just compare internal storage which might be extended\footnote{https://wiki.openwrt.org/doc/howto/extroot} are device's minimalistic RAM size and lower computation capability of the CPU.
 
+
+
 \section{Preparing the host enviroment}
 
 To start with cross-compilation on the host system we need to set up an enviroment for it.
@@ -235,6 +256,8 @@ If we want to obtain their source-code, we need to install svn and mercurial as 
 # dnf install subversion mercurial
 \end{lstlisting}
 Please note that these commands have to be run by user with root privileges.
+
+
 
 \subsection{Getting buildroot}
 
@@ -271,6 +294,8 @@ After we have enviroment ready to be worked on (all needed dependencies installe
     \item Change ownership of the directory where we downloaded \\the OpenWrt to other than root user
 \end{enumerate}
 Having these in mind will definitely make our work easier.
+
+
 
 \subsection{Setting feeds}
 
@@ -367,6 +392,8 @@ Added to this, the OpenWrt developers are themselves only maintaining a smaller 
 
 The final step before the process of compiling the intended image would be to exit the menuconfig tool – this also includes the option to save a specific configuration or load an already existing, and pre-configured, version.
 Exit the UI, and choose to save the settings\cite{build_owrt}.
+
+
 
 \subsection{Building single Packages}
 
