@@ -92,7 +92,7 @@ $ cd ~/packages-OpenWrt
 $ git checkout -b jansson-update
 \end{lstlisting}
 In order to tell the OpenWrt buildroot how to build a program we need to create a special Makefile in the appropriate directory.
-The appendix \ref{hello_mkfile} Example OpenWrt package's Makefile ilustrate its content.
+The appendix \ref{hello_mkfile} OpenWrt package's Makefile ilustrate its content.
 We shall now find the jansson package Makefile in the repository using for example:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git grep jansson | grep PKG_NAME
@@ -156,7 +156,7 @@ Sources can be found on its GitHub page\footnote{https://github.com/nodejs/http-
 The lastest release available at the time was version v2.7.1 untill 9th February's 2018 release of v2.8.0 which update will be demonstrated below.
 Fedora is still using version v2.7.1 with Tang server so compared to last available version on OpenWrt which was v2.3.0 an update is needed.
 Hoping for the best we first thy to update the libhttp-parser to version v2.7.1 to match Fedora version similar way as with jansson.
-Only updating version of the package may suffice but the case of libhttp-parser as dependency was special as you will notice in subsection \ref{http_parser_problems} Hurdles with http-parser.
+Only updating version of the package may suffice but the case of libhttp-parser as dependency was special as you will notice in subsection \ref{porting_problems} Obstacles of delivering Tang.
 To upgrade this package we will do same as with jansson package.
 First make sure that we are still in packages repository and create branch for the change:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -197,7 +197,7 @@ Finally build an updated libhttp-parser running:
 $ make package/libhttp-parser/{clean,compile} V=s
 \end{lstlisting}
 The update of the libhttp-parser can be found upstream with already merged pull-request\footnote{https://github.com/openwrt/packages/pull/5446}.
-Unfortunatelly as we will see in subsection \ref{http_parser_problems} Hurdles with http-parser, the successfull build of the updated package may not be enough.
+Unfortunatelly as we will see in subsection \ref{porting_problems} Obstacles of delivering Tang, the successfull build of the updated package may not be enough.
 Especially when built package is also a dependency for other packages.
 
 

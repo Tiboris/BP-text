@@ -65,14 +65,11 @@ After packages are installed we may now proceed to the enviroment setup.
 
 \section{Setting up the Tang keys}
 The Tang server is packaged with the cripts which help us to genarate keys and cache for the Tang daemon.
-
+Only problem with them was that OpenWrt has no realpath available therefore the {\tt tangd-update} script did not work on OpenWrt.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 bash: realpath: command not found
 \end{lstlisting}
-
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-readlink -f
-\end{lstlisting}
+Simply replacing it with {\tt readlink -f} solved an issue and script with such change is capable of generating cache.
 
 The OpenWrt Makefile can define section "Package/\$(PKG\_NAME)/postinst".
 This section usually contain a short shell script to tweak the package after installation to make package work out of the box.
