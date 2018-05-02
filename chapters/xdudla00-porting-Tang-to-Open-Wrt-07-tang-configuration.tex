@@ -65,8 +65,14 @@ After packages are installed we may now proceed to the enviroment setup.
 
 \section{Setting up the Tang keys}
 The Tang server is packaged with the cripts which help us to genarate keys and cache for the Tang daemon.
-\todo{text about generation and systemd}
 
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+bash: realpath: command not found
+\end{lstlisting}
+
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+readlink -f
+\end{lstlisting}
 
 The OpenWrt Makefile can define section "Package/\$(PKG\_NAME)/postinst".
 This section usually contain a short shell script to tweak the package after installation to make package work out of the box.
@@ -80,11 +86,11 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	KEYS=$(find /usr/share/tang/db/ -name "*.jw*" -maxdepth 1 | wc -l)
 	if [ KEYS -eq 0 ]; then # if db is empty generate new key pair
 		/usr/libexec/tangd-keygen /usr/share/tang/db/
-	elif [ KEYS -eq 2 ]; then # regenerate cache if db has 2 keys
-		/usr/libexec/tangd-update /usr/share/tang/db/ /usr/share/tang/cache/
-	else
+	elif [ KEYS -eq 1 ]; then # having 1 key should not happen
 		(>&2 echo "Please check the Tang's keys in /usr/share/tang/db \
 and regenate cache using /usr/libexec/tangd-update script.")
+	else
+		/usr/libexec/tangd-update /usr/share/tang/db/ /usr/share/tang/cache/
 	fi
 	(cat /etc/services | grep -E "tangd.*8888\/tcp") > /dev/null \
 		|| echo -e "tangd\t\t8888/tcp" >> /etc/services
@@ -96,8 +102,8 @@ endef
 
 \section{Configure Tang for xinetd}
 
-We need xinetd's socket activation for Tang to work.    \todo{text}
-
+We need xinetd's socket activation for Tang to work.
+And to do so we will need a configuration file for the tangd service for xinetd daemon:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10},caption=Configuration of Tang service for xinetd]
 service tangd
 {
@@ -112,16 +118,26 @@ service tangd
     disable         = no
 }
 \end{lstlisting}
-setup /etc/services:\todo{text}
+This is configuration to run /usr/libexec/tangd anfter a request comes to port 8888.
+The server will be spawned with one argument, the cache directory.
+Please note that we used other directory compared to Fedora.
+We need to have Tang keys stored on persistent data storage.
+The /var/ location is only a symling to the /tmp directory on OpenWrt device.
+The developers on IRC channel proposed to use the persistent /usr/share/ directory for that purpose.
+
+The last step before starting the Tang service on OpenWrt would be to setup /etc/services:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-echo -e "tangd\t\t8888/tcp" >> /etc/services
+# echo -e "tangd\t\t8888/tcp" >> /etc/services
 \end{lstlisting}
-Please make sure that you put two of ">" using only one will rewrite whole file.
-In such case please copy the backup of the file from devices ROM and edit it again.
+In such case of the accidental removal of this file we have to copy the backup of the file from devices ROM and edit it again.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-cp /rom/etc/services /etc/services
+# cp /rom/etc/services /etc/services
 \end{lstlisting}
-restart xinetd\todo{text}
+Now we shall restart the xinetd daemon using the xinetd script located in /etc/init.d/ directory of the device:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+#/etc/init.d/xinetd stop
+#/etc/init.d/xinetd start
+\end{lstlisting}
 
 To test that service is running we can use the telnet to the device on port defined in the xinetd configuration.
 The server should advertise its public key.
@@ -175,28 +191,45 @@ Move the script to the /usr/libexec directory where the tangd binary is to have 
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
     server          = /usr/libexec/tangdw
 \end{lstlisting}
-The last thing would be to change the sript's permissions to allow execution.
+The last thing would be to change the sript's permissions to allow execution and add following files and install steps to the Tang's Makefile to look like this:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+define Package/tang/install
+	$(INSTALL_DIR)	$(1)/usr/libexec
+	$(INSTALL_DIR)	$(1)/etc/xinetd.d/
+	$(INSTALL_BIN)	$(PKG_INSTALL_DIR)/usr/lib/$(PKG_NAME)d*	$(1)/usr/libexec/
+	$(INSTALL_BIN)	./files/tangdw	$(1)/usr/libexec/
+	$(CP)			./files/tangdx	$(1)/etc/xinetd.d/
+endef
+\end{lstlisting}
 
 
 
-\section{Limitations} \todo{text?}
+\section{Contribute you work!}
+Due to many changes to the Makefile in this section the final Makefile can be found in appendix \ref{diffs} List of pull-request and can be found upstream in submitted pull-request\footnote{https://github.com/openwrt/packages/pull/5447}.
+
+Note that every update and new package we did has its reference to an upstream pull-request.
+Do not be afraid to contribute to upstream.
+Path is not always easy but follow contribution guide for specific project is big help.
+The result or even journey of the upstream contribution will definitelly get us some experience.
+Have in mind that everyone can profit from our work.
+Be tidy and pedantic, try to write easy to understand commits and files/pathches that have purpose and are well formated.
+It is the best way to have comunity on your side!
+
+
+
+\section{Tang's limitations}
 
 Let us sum up the limitations that Tang has on OpenWrt platform due to replaced systemd dependency with less capable xinetd implementation of super-server.
+We also found one platform independent limitation of the Tang's solution to full disk description on early boot.
 
-Key exchange and regeneration of cache must be manual but  can be automated with inotifytools to watch directory for change and run update script automatically.
+\paragraph{Key exchange and generation} of cache must be manual but  can be automated with inotifytools to watch directory for change and run update script automatically.
 But this mean that the embeded device with such configuration will have another proccess always running.
 We decided to not implement automated update of the cachce in favor to computation resources being available to other services.
 
-xinetd is forwarding the stderr output to the socket as well.
+\paragraph{xinetd forwarding the stderr} output to the socket as well is a little problem.
 To have tang working correctly we wrote a wrapper running the shell script redirecting the stderr into log file.
 Running some shell script takes some time compared to only running the binary file but for xinetd it is neccessary.
 
-
-
-\section{Contribute your work}\label{contrib}\todo{text}
-
-Everyone can profit from our work...
-
-Be tidy create nice files and patch files to be used.
-
-Follow contribution guide
+\paragraph{Early boot decryption using Wi-Fi network} is a platform independent chicken-egg problem caused by information about wireless network being encrypted on system volume.
+The information needed to connect to wireless network needs to be decrypted but in order to decrypt them automatically we need to connect to network exposed to Tang server.
+It could be solved using a TPM to store information about such network but it is a security vulnerability and must be considered with a caution.
