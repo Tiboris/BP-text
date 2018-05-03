@@ -182,13 +182,18 @@ echo "==================================" >> /var/log/tangd.log
 echo `date`: >> /var/log/tangd.log
 /usr/libexec/tangd $1 2>> /var/log/tangd.log
 \end{lstlisting}
-Let us call this wrapper script the tangdw.
+Let us name this wrapper script the tangdw.
+
 To get Tang to work we need to put invocation of this script in place where tangd binary was configured to.
 Move the script to the /usr/libexec directory where the tangd binary is to have it in one place and edit the line of xinetd configuration to run wrapper:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
     server          = /usr/libexec/tangdw
 \end{lstlisting}
-The last thing would be to change the sript's permissions to allow execution and add following files and install steps to the Tang's Makefile to look like this:
+The last thing would be to change the sript's permissions on device to allow execution.
+
+feeds/packages/utils/tang/files and feeds/packages/utils/tang/patches
+
+Finally add following files and install steps to the Tang's Makefile to look like this:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/tang/install
 	$(INSTALL_DIR)	$(1)/usr/libexec
@@ -214,7 +219,8 @@ It is the best way to have comunity on your side!
 
 
 
-\section{Tang's limitations}
+
+\section{Tang's limitations}\label{limitations}
 
 Let us sum up the limitations that Tang has on OpenWrt platform due to replaced systemd dependency with less capable xinetd implementation of super-server.
 We also found one platform independent limitation of the Tang's solution to full disk description on early boot.

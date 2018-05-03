@@ -1,4 +1,4 @@
-\chapter{Porting the dependencies}\label{tangservice}
+\chapter{Porting the dependencies}\label{satisfy_dependencies}
 
 Programs don’t run in a vacuum but they interface with the outside world.
 The view of this outside world differs from environment to environment.
@@ -69,6 +69,10 @@ We will use fork of openwrt/packages repository placed outside of the buildroot 
 $ git clone git@github.com:Tiboris/packages-OpenWrt.git
 \end{lstlisting}
 
+The following packages were built using OpenWrt buildroot with latest upstream commit hash {\tt 030a23001b74ede5fa2e6070a8fb04f3feccfbbd}.
+The OpenWrt buildroot has to have a packages feeds set to point to repository with available OpenWrt packages.
+We used repository with latest upstream commit hash {\tt 580053888235713dd95b96b37169926bffedce0b}.
+\newpage
 
 
 \section{Update outdated packages}
@@ -100,7 +104,7 @@ libs/jansson/Makefile:PKG_NAME:=jansson
 \end{lstlisting}
 The {\it PKG\_NAME} variable is one that identifies package for OpenWrt buildroot\cite{creating_pkgs}.
 List of all available variables can be found on the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages}.
-We can assume that the jansson library related files are located in libs/jansson directory of the packages repository.
+We can assume that the jansson library related files are located in {\it libs/jansson} directory of the packages repository.
 Now we can now update Makefile.
 
 We will open it with our preferred editor and find variable {\it PKG\_VERSION}.
@@ -126,8 +130,9 @@ $ git push --set-upstream origin jansson-update
 \end{lstlisting}
 
 Before submitting the pull request we should try to build updated package first.
-Let us remember that we have special branch set up for buildroot feeds.
-We will use this branch to merge our newly created branch into it using:
+Following step is not neccessary because update of jansson package has been already merged upstream.
+But to do so, let us remember that we have special branch set up for buildroot feeds.
+In general to test updated or new packages we will use this branch to merge our newly created branch into it using:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git checkout new_packages
 $ git merge jansson-update
@@ -182,12 +187,12 @@ We shall now edit correspondent variables, commit the changes and push them into
 $ git commit -a
 $ git push --set-upstream origin libhttp-parser-update
 \end{lstlisting}
-Again merge the libhttp-parser-update branch with feeds branch:
+Again following step to merge the libhttp-parser-update branch with feeds branch is not neccessary because the submitted pull-request containing these changes has been already merged to the upstream:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git checkout new_packages
 $ git merge libhttp-parser-update
 \end{lstlisting}
-After successfull merge trigger update with feeds script and make new version of libhttp-parser package available in menuconfig:
+After package is available in our feeds trigger update with feeds script and make new version of libhttp-parser package available in menuconfig:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ ./scripts/feeds update packages
 $ ./scripts/feeds install libhttp-parser
@@ -196,7 +201,7 @@ Finally build an updated libhttp-parser running:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ make package/libhttp-parser/{clean,compile} V=s
 \end{lstlisting}
-The update of the libhttp-parser can be found upstream with already merged pull-request\footnote{https://github.com/openwrt/packages/pull/5446}.
+The update of the libhttp-parser can be found upstream in merged pull-request\footnote{https://github.com/openwrt/packages/pull/5446}.
 Unfortunatelly as we will see in subsection \ref{porting_problems} Obstacles of delivering Tang, the successfull build of the updated package may not be enough.
 Especially when built package is also a dependency for other packages.
 
@@ -285,7 +290,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_FIXUP:=autoreconf
 include $(INCLUDE_DIR)/package.mk
 \end{lstlisting}
-Setting {\it PKG\_INSTALL} to "1" will call the package's original "make install" to the {\it PKG\_INSTALL\_DIR} directory.
+Setting {\it PKG\_INSTALL} to "1" will call the package's original "make install" to the directory defined with {\it PKG\_INSTALL\_DIR} variable.
 The {\it PKG\_FIXUP} performs the important {\tt autoreconf -f -i} for project using autotools.
 And again without including makefile package.mk the buildroot would not now how to continue build.
 Upstream may require to divide it into two packages the library and the tool.
@@ -307,7 +312,7 @@ define Package/$jose
   MAINTAINER:=Tibor Dudlak <tibor.dudlak\@gmail.com>
 endef
 \end{lstlisting}
-To add a nice description for both packages we would add some defines as shown:
+To add a nice description for both packages we should add some defines to Makefile with propper text:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/jose/description
 	... description text ...
@@ -370,8 +375,16 @@ In buildroot run:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ ./scripts/feeds update packages
 $ ./scripts/feeds install jose
+$ make menuconfig
 $ make package/jose/{clean,compile}
 \end{lstlisting}
-Note that scritp feeds with an install option will install also missing dependecies of José to be available in buildroot.
+Note that feeds script with an install option will install also missing dependecies of José to be available in buildroot.
+The new packages will be available in the {\it Extra packages} section of the menuconfig as you can see on Figure \ref{fig_extra} Extra packages.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/extra_packages.pdf}
+    \caption{Extra Packages}
+    \label{fig_extra}
+\end{figure}
 Do not worry if the José's build takes time, it has openssl library as dependency and to compile this one it takes some time.
 The pull request for adding the Jose package for OpenWrt can be found in its repository\footnote{https://github.com/openwrt/packages/pull/4334}.

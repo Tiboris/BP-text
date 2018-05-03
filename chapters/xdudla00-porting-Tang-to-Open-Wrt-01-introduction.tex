@@ -5,22 +5,23 @@ Nowadays, the whole world uses information technologies to communicate and to sp
 But there are pieces of personal information such as photos from family vacation, videos of our children as they grow, contracts, testaments which we would like to protect.
 
 {\it Encryption}, as described in chapter \ref{encryption} How we use Encryption, protects our data and privacy even when we do not realize that.
-It provides process of transforming our information in such way that only trusted person or device can decrypt data and retrieve it.
-An unauthorized party might be able to access secured data but will not be able to read the information from it without the proper key.
-The most important thing is keeping the encryption key a secret.
-
+An unauthorized party may be able to access secured data but will not be able to read the information from it without the proper key.
 With an increasing number of encryption keys to store and protect, there might be necessary to consider using Key management server.
-This server should provide a secure and persistent service to its clients.
-One of the possible solutions for persistent Key management is to deploy {\it Key Escrow} server described in section \ref{escrow}.
-Another solution is server {\it Tang}, which principles are mentioned in chapter \ref{tang} Tang server.
-Tang is completely anonymous key recovery service.
+One of the possible solutions for persistent Key management is to deploy {\it key escrow} server described in section \ref{escrow}Key Escrow.
+Another solution is server {\it Tang}, which principles are mentioned in section \ref{tang} Tang server.
+
+Tang is completely anonymous key recovery service aiming to solve an early boot decryption of the system volumes encrypted with LUKS specification described in section \ref{LUKS_disk} Disk encryption with LUKS.
 In contrast to Key Escrow server, Tang does not know any key.
 It only provides mathematical operation for its clients to recover them.
 
 The goal of this bachelor thesis is to port the {\it Tang} server, and its dependencies listed in section \ref{dependencies} to the OpenWrt system.
-{\it OpenWrt}, characterized in chapter \ref{owrt} OpenWrt system, is Linux based operating system for {\it embedded} devices such as Wireless routers.
+{\it OpenWrt}, characterized in section \ref{owrt} OpenWrt system, is Linux based operating system for {\it embedded} devices such as Wireless routers.
+Porting packages for the OpenWrt as described in chapter\ref{porting} Software portability is done with cross-compilation tools available from OpenWrt's buildroot.
 
-To achieve this goal \dots \todo{thesis tour correct all refs}
+The process of porting missing dependecies for the Tang server is described in chapter \ref{satisfy_dependencies} Porting the dependencies.
+Work required for the Tang itself is divided into chapters \ref{porting-tang} Porting Tang and \ref{config} Tang on OpenWrt.
+
+Section \ref{limitations} Tang's limitations sums up not only the limitations that are present on OpenWrt platform but also a limitation that was discovered while testing solution.
 
 With accomplishing thesis goal, we will be able to automatize process of unlocking encrypted drives on our private home or small office network, therefore securing our data stored on personal computer's hard drive and/or NAS (Network-attached storage) server if it is stolen.
 There will be no need for any decryption or even Key Escrow server but the {\it OpenWrt} device running the {\it Tang} server itself only.
