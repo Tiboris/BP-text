@@ -126,10 +126,22 @@ We did not defined it for Makefile but the cross-compilation of the package will
 Compiler will try to find the systemd dependency as it is defined in the "file" in Tang repository.
 We shall remove this builtime dependency.
 
-As we studied the autotools files Makefile.am and the configure.ac and removed the systemd related requirements and dependency we found a definition to
-Diffs can be found when following propper link on appendix \label{diffs} List of pull-request.
+To do so we will remove a requirement for systemd from the Tang's configure.ac and Makefile.am file.
+These patches are too extensive to be demonstrated.
+{\it Makefile\_am.patch} and {\it configure\_ac.patch} can be found in submitted pull-request files\footnote{https://github.com/openwrt/packages/pull/5447/files} on GitHub.
 
-After removal the build will be successfull and we have Tang package ready to be installed on our device.
+To have sources patched before compilation we have to crate a directory for them in the package's feeds repository we forked on branch containing commit adding the Tang and copy them to created directory:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ cd packages-OpenWrt
+$ git checkout add-tang
+$ mkdir -p utils/tang/patches
+\end{lstlisting}
+Patches included in this directory are automatically applied on the sources downloaded from the mirror in the build time.
+
+To have these changes in our feeds in buildroot commit them and push to add-tang branch.
+After these changes pushed and merged with {\it new\_packages} branch a rebuild of the tang package we will succeed.
+Now we have Tang package ready to be installed on our device.
+
 We are avoiding troubles with using the libhttp-parser in version 2.8.0.
 These self issued problems are described in following subsection \ref{porting_problems} Obstacles of delivering Tang.
 The most important part after successfull build would be to configure it right way.

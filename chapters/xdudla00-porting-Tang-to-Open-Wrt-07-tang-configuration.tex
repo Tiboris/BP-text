@@ -70,6 +70,7 @@ Only problem with them was that OpenWrt has no realpath available therefore the 
 bash: realpath: command not found
 \end{lstlisting}
 Simply replacing it with {\tt readlink -f} solved an issue and script with such change is capable of generating cache.
+Creating a diff file for this change and adding it into {\it utils/tang/patches} should be in order.
 
 The OpenWrt Makefile can define section "Package/\$(PKG\_NAME)/postinst".
 This section usually contain a short shell script to tweak the package after installation to make package work out of the box.
@@ -78,8 +79,7 @@ We can reflect behavior described above to this short sript and add it to the Ta
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
-	mkdir -p /usr/share/tang/db
-	mkdir -p /usr/share/tang/cache
+	mkdir -p /usr/share/tang/db && mkdir -p /usr/share/tang/cache
 	KEYS=$(find /usr/share/tang/db/ -name "*.jw*" -maxdepth 1 | wc -l)
 	if [ KEYS -eq 0 ]; then # if db is empty generate new key pair
 		/usr/libexec/tangd-keygen /usr/share/tang/db/
@@ -168,7 +168,7 @@ FOoPnCNX-cGjhyDBbQuvESUCJ_3txjANf-srntxFAX5p72Eip-kROGrlCdLrVLnlg36itQUBFx7S
 UyB_7I6CX6gdpWyJ-wtro8f2Snu6wwMGl-8V3ylWYr"}
 \end{lstlisting}
 The content of the first line from server response should be suspicious to us.
-The HTTP header should not contain such line\cite{RFC2616}.
+According to the RFC 2616 the HTTP header should not contain such line\cite{RFC2616}.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 <unknown> GET /adv => 200 (src/tangd.c:85)
 \end{lstlisting}
@@ -191,29 +191,38 @@ Move the script to the /usr/libexec directory where the tangd binary is to have 
 \end{lstlisting}
 The last thing would be to change the sript's permissions on device to allow execution.
 
-feeds/packages/utils/tang/files and feeds/packages/utils/tang/patches
-
-Finally add following files and install steps to the Tang's Makefile to look like this:
+We did a lot changes to the configuration.
+The Tang for the OpenWrt platform needs a xinetd configuration which for the ease of use could be packaged with it.
+The same with the wrapper script in order to have the service working correctly we also need this file.
+There is a way to add new files for each package and package them for the OpenWrt's opkg to install.
+To do so we will crate a directory for the files in the package's feeds repository we forked on branch containing commit adding the Tang and copy files there.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+$ cd packages-OpenWrt
+$ git checkout add-tang
+$ mkdir -p utils/tang/files
+\end{lstlisting}
+As the new files are copied there we need to also edit a {\it Package/tang/install} section to install these files in proper directories (config file into dedicated /etc/xinetd.d/; wrapper into /usr/libexec/) as shown:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/tang/install
 	$(INSTALL_DIR)	$(1)/usr/libexec
 	$(INSTALL_DIR)	$(1)/etc/xinetd.d/
-	$(INSTALL_BIN)	$(PKG_INSTALL_DIR)/usr/lib/$(PKG_NAME)d*	$(1)/usr/libexec/
+	$(INSTALL_BIN)	\
+			$(PKG_INSTALL_DIR)/usr/lib/$(PKG_NAME)d*	$(1)/usr/libexec/
 	$(INSTALL_BIN)	./files/tangdw	$(1)/usr/libexec/
 	$(CP)			./files/tangdx	$(1)/etc/xinetd.d/
 endef
 \end{lstlisting}
-
+After all changes done last thing would be to ammend commit on a branch, update the feeds in buildroot, rebuild the Tang package, upload and reinstall it on our device running the OpenWrt.
+Due to many changes to the Makefile and the Tang branch in packages see the submitted pull-request\footnote{https://github.com/openwrt/packages/pull/5447} where all changes are.
 
 
 \section{Contribute you work!}
-Due to many changes to the Makefile in this section the final Makefile can be found in appendix \ref{diffs} List of pull-request and can be found upstream in submitted pull-request\footnote{https://github.com/openwrt/packages/pull/5447}.
 
 Note that every update and new package we did has its reference to an upstream pull-request.
-Do not be afraid to contribute to upstream.
-Path is not always easy but follow contribution guide for specific project is big help.
-The result or even journey of the upstream contribution will definitelly get us some experience.
 Have in mind that everyone can profit from our work.
+Do not be afraid to contribute to upstream.
+It is not always easy but following contribution guide for specific project is a big help.
+The result or even journey of the upstream contribution will definitelly get us some experience.
 Be tidy and pedantic, try to write easy to understand commits and files/pathches that have purpose and are well formated.
 It is the best way to have comunity on your side!
 

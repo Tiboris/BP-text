@@ -24,7 +24,7 @@ Remember that when everything will be up and running, these libraries must be in
 So there is a natural answer to the question above: install them in the target's root filesystem, for example in /usr/lib (the binary shared files) and /usr/include (the header files) or in any other path that allow the loader to find those libraries when the program executes.
 Do not forget to install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
 Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program.
-In case of OpenWrt we will use this approach.
+In case of OpenWrt we will use this approach\cite{fabrizio}.
 
 
 
