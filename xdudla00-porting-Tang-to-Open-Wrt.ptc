@@ -34,7 +34,7 @@
 \contentsline {subsection}{\numberline {4.2.3}C standard library}{25}{subsection.4.2.3}
 \contentsline {section}{\numberline {4.3}OpenWrt's buildroot}{25}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Buildroot prerequisites}{26}{subsection.4.3.1}
-\contentsline {section}{\numberline {4.4}Preparing the host enviroment}{27}{section.4.4}
+\contentsline {section}{\numberline {4.4}Preparing the host environment}{27}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Getting buildroot}{27}{subsection.4.4.1}
 \contentsline {section}{\numberline {4.5}Working with buildroot}{27}{section.4.5}
 \contentsline {subsection}{\numberline {4.5.1}Setting feeds}{28}{subsection.4.5.1}
