@@ -76,14 +76,14 @@ The OpenWrt Makefile can define section "Package/\$(PKG\_NAME)/postinst".
 This section usually contain a short shell script to tweak the package after installation to make package work out of the box.
 We can reflect behavior described above to this short sript and add it to the Tang's Makefile:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-define Package/$(PKG_NAME)/postinst
+define Package/tang/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	mkdir -p /usr/share/tang/db && mkdir -p /usr/share/tang/cache
 	KEYS=$(find /usr/share/tang/db/ -name "*.jw*" -maxdepth 1 | wc -l)
-	if [ KEYS -eq 0 ]; then # if db is empty generate new key pair
+	if [ "${KEYS}" = "0" ]; then # if db is empty generate new key pair
 		/usr/libexec/tangd-keygen /usr/share/tang/db/
-	elif [ KEYS -eq 1 ]; then # having 1 key should not happen
+	elif [ "${KEYS}" = "1" ]; then # having 1 key should not happen
 		(>&2 echo "Please check the Tang's keys in /usr/share/tang/db \
 and regenate cache using /usr/libexec/tangd-update script.")
 	else
@@ -207,7 +207,7 @@ define Package/tang/install
 	$(INSTALL_DIR)	$(1)/usr/libexec
 	$(INSTALL_DIR)	$(1)/etc/xinetd.d/
 	$(INSTALL_BIN)	\
-			$(PKG_INSTALL_DIR)/usr/lib/$(PKG_NAME)d*	$(1)/usr/libexec/
+			$(PKG_INSTALL_DIR)/usr/libexec/$(PKG_NAME)d*	$(1)/usr/libexec/
 	$(INSTALL_BIN)	./files/tangdw	$(1)/usr/libexec/
 	$(CP)			./files/tangdx	$(1)/etc/xinetd.d/
 endef
