@@ -5,13 +5,13 @@ It takes 4 steps to perform an in place encryption with {\it luksipc} \cite{luks
     \item Unmounting the filesystem
     \item Resizing the filesystem to shrink about 10 megabytes (2048 kB is the current LUKS header size -- but do not trust this value, it has changed in the past!)
     \item Performing luksipc
-    \item Adding custom keys to the LUKS keyring
+    \item Adding custom keys to the LUKS key-ring
 \end{enumerate}
 
 
 
 \section{Step 1 - unmounting}
-There should not be any problems unmounting partition, unless you want to encrypt / - the root partition, which in our case (to lock whole disk) will be necessary.
+There should not be any problems unmounting partition, unless you want to encrypt {\it /} - the root partition, which in our case (to lock whole disk) will be necessary.
 To do so we need to restart our computer and boot any other or live distribution capable of completing these next steps.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # umount /dev/vda2

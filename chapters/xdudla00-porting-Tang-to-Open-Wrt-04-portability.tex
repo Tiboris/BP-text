@@ -3,9 +3,9 @@
 Ideally, any software would be usable on any operating system, platform, and any processor architecture.
 Existence of term "porting", derived from the Latin portāre which means "to~carry", proves that this ideal situation does not occurs that often, and the actual process of "carrying" software to a system with a different environment is most probably required.
 Porting is process, which is not documented, required to adapt software designed for specific platform to another platform. % miso
-Porting is also used to describe procces of converting computer games to become platform independent\cite{wiki_porting}.
+Porting is also used to describe process of converting computer games to become platform independent\cite{wiki_porting}.
 
-Software porting procces might be hard to distinguish with building software.
+Software porting process might be hard to distinguish with building software.
 The reason might be that in many cases, building software on the desired platform is enough, when software application does not work "out of the box".
 This kind of behavior, an application that works immediately after or even without any special installation and without need for any configuration or modification, is ideal.
 It often happens when we copy application from one computer to another, not realizing that they have processors with same instructions set and same or very similar operating system therefore environment. % miso
@@ -13,12 +13,12 @@ But let us be realistic, it depends on many things, such as processor architectu
 
 Nowadays, the goal should be to develop software which is portable between preferred computer platforms (Linux, UNIX, Apple, Microsoft).
 If the software is considered as not portable, it does not have to mean that it is not possible, just that the time and resources spent porting already written software are almost comparable, or even significantly higher than writing software as a whole from scratch. % miso
-Effort spent porting some software product to work on a desired platform must be little, such as copying already installed files to usb flash drive and run it on another computer.
+Effort spent porting some software product to work on a desired platform must be little, such as copying already installed files to USB flash drive and run it on another computer.
 This kind of approach might most probably fail, due to not present dependencies of third party libraries on the destination computer.
 Despite dominance of the x86 architecture, there is usually a need to recompile software running, not only on different operating systems, to make sure we have all the dependencies present.
 
 Number of significantly different central processor units (CPUs), and operating systems used on the desktop or the server is much smaller than in the past.
-However, on embeded devices market, there are still much more various architectures available including ARM\footnote{https://www.arm.com/products/processors} or MIPS\footnote{https://www.mips.com/products/classic/}.
+However, on embedded devices market, there are still much more various architectures available including ARM\footnote{https://www.arm.com/products/processors} or MIPS\footnote{https://www.mips.com/products/classic/}.
 
 To simplify portability, even on distinguished processors with distant instruction sets, modern compilers translate source code to a machine-independent intermediate code.
 But still, in the embedded system market, where OpenWrt belongs to, porting remains a significant issue \cite{porting_software}.
@@ -180,13 +180,13 @@ The OpenWrt's cross-compilation toolchain uses musl-libc \cite{c_library}.
 
 \section{OpenWrt's buildroot}
 
-OpenWrt's buildroot is a build system capable of generating toolchain, and also a root filesystem (also called sysroot), an environment tightly bound to the target.
+OpenWrt's buildroot is a build system capable of generating the tool-chain, and also a root file-system (also called sysroot), an environment tightly bound to the target.
 The build system can be configured for any device that is supported by OpenWrt. % miso
 
-The root filesystem in general is a mere copy of the file system of target's platform.
+The root file-system in general is a mere copy of the file system of target's platform.
 In many cases, just having the folders /usr and /lib would be sufficient, therefore we do not need to copy nor create the entire target file system on our host.
 
-It is a good idea to store all these things, the toolchain and the root filesystem in a single place.
+It is a good idea to store all these things, the tool-chain and the root file-system in a single place.
 With using OpenWrt's buildroot we will have this covered.
 Be tidy and pedantic, because cross-compiling can easily become a painful mess!\cite{fabrizio}
 
@@ -194,14 +194,14 @@ Be tidy and pedantic, because cross-compiling can easily become a painful mess!\
 
 \subsection{Buildroot prerequisites}
 
-Let us demonstrate what are minimum requirements of space and size of RAM (Random Access Memory) for building packages for Openwrt using its buildroot.
-For generating an installable OpenWrt firmware image file with a size of e.g. 8MB, we will need at least:
+Let us demonstrate what the minimum requirements of space and size of RAM for building packages for Openwrt using its buildroot.
+For generating an install-able OpenWrt firmware image file with a size of e.g. 8 MB, we will need at least:
 \begin{itemize}
 \item ca. 200 MB for OpenWrt build system
 \item ca. 300 MB for OpenWrt build system with OpenWrt Feeds
 \item ca. 2.1 GB for source packages downloaded during build from the Feeds
 \item ca. 3-4 GB to build (i.e. cross-compile) OpenWrt and generate the firmware file
-\item ca. 1-4 GB of RAM to build Openwrt.(build x86's img need 4GB RAM)
+\item ca. 1-4 GB of RAM to build Openwrt.(build x86's image need 4 GB RAM)
 \end{itemize}
 
 These are specifications of embedded device TL-WR842Nv3, a regular wireless router manufactured by TP-LINK, which was used to test all packages related to Tang server porting effort:
@@ -223,7 +223,7 @@ Flash size:     &   16 MiB                          \\ \hline
 RAM chip:       &   Zentel A3R12E40CBF-8E           \\ \hline
 RAM size:       &   64 MiB                          \\ \hline
 Wireless:       &   Qualcomm Atheros QCA9531        \\ \hline
-Antenae(s):     &   2 non-removable                 \\ \hline
+Antennae(s):    &   2 non-removable                 \\ \hline
 Ethernet:       &   4 LAN, 1 WAN 10/100             \\ \hline
 USB:            &   1 x 2.0                         \\ \hline
 Serial:         &   ?                               \\ \hline
@@ -239,7 +239,7 @@ Another reasons, not to just compare internal storage which might be extended\fo
 \section{Preparing the host environment}
 
 To start with cross-compilation on the host system, we need to set up an environment for it.
-As the OpenWrt buildroot is a set of scripts, it has runtime dependencies.
+As the OpenWrt buildroot is a set of scripts, it has run-time dependencies.
 We need to install these dependencies first.
 To install buildroot dependencies on Fedora 27 system run:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -299,9 +299,9 @@ Having these in mind will definitely make our work easier.
 \subsection{Setting feeds}
 
 In OpenWrt, a "feed" is a collection of packages which share a common location.
-Feeds may reside on a remote server, in a version control system, on the local filesystem, or in any other location addressable by a single name (path/URL) over a protocol with a supported feed method.
+Feeds may reside on a remote server, in a version control system, on the local file-system, or in any other location addressable by a single name (path/URL) over a protocol with a supported feed method.
 It is the most important step to do before starting cross-compilation.
-As the listing \ref{default_feeds} Content of feeds.conf.default shows, a list of usable feeds is configured from the feeds.conf file or feeds.conf.default when feeds.conf does not exist.
+As the listing \ref{default_feeds} Content of feeds.conf.default shows, a list of usable feeds is configured from the {\it feeds.conf} file or {\it feeds.conf.default} when {\it feeds.conf} does not exist.
 
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,label=default_feeds,caption=Content of feeds.conf.default]
     src-git packages https://git.openwrt.org/feed/packages.git
@@ -373,19 +373,19 @@ Afterwards, the following window will appear in our terminal and there we can st
 
 For configuring the image, we have three options: y, m, n which are represented as follows:
 \begin{itemize}
-\item pressing y sets the <*> built-in label\\
+\item pressing {\it y} sets the {\it <*>} built-in label\\
 This package will be compiled and included in the firmware image file.
-\item pressing m sets the <M> package label\\
+\item pressing {\it m} sets the {\it <M>} package label\\
 This package will be compiled, but not included in the firmware image file. (E.g. to be installed with opkg after flashing the firmware image file to the device.)
-\item pressing n sets the < > excluded label\\
+\item pressing {\it n} sets the {\it < >} excluded label\\
 The source code will not be processed.
 \end{itemize}
-When we save our configuration, the file .config will be created in the buildroot directory according to desired configuration.
+When we save our configuration, the file {\it .config} will be created in the buildroot directory according to desired configuration.
 
 Target system is selected from the extensive list of supported platforms, with the numerous target profiles – ranging from specific devices to generic profiles, all depending on the particular device at hand.
 In our case, we should browse the "Target Profile" selection and find our targeted device (TP-LINK TL-WR842N/ND v3).
 
-Package selection has the option of either 'selecting all package', which might be un-practical in certain situations, or relying on the default set of packages will be adequate or make an individual selection.
+Package selection has the option of either 'selecting all packages', which might be un-practical in certain situations, or relying on the default set of packages will be adequate or make an individual selection.
 It is here worth mentioning that some package combinations might break the build process, so it can take some experimentation before the expected result is reached.
 Added to this, the OpenWrt developers are themselves only maintaining a smaller set of packages – which include all default packages – but, the feeds-script makes it very simple to handle a locally maintained set of packages and integrate them in the build-process.
 

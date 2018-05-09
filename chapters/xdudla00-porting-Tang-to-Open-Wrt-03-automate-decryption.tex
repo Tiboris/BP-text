@@ -1,10 +1,10 @@
-\chapter{Atomated decryption}
+\chapter{Automated decryption}
 
-People usually try to automate everything they can in order to avoid repetitive tasks. % miso
-Even though disc enctyption provides another layer of security to our data, it is not used often.
-Typing one more passphrase when accessing some removable storage seems to bother.
+People usually try to automate everything they can in order to avoid repetitive tasks.
+Even though disc encryption provides another layer of security to our data, it is not used often.
+Typing one more pass-phrase when accessing some removable storage seems like too much work.
 More crucial would be full disk encryption.
-In order to boot the system, we need to have storage with system decrypted - provide another passphrase every time the computer is turned off and on again.
+In order to boot the system, we need to have storage with system decrypted - provide another pass-phrase every time the computer is turned off and on again.
 The Tang server aims to solve struggles with the early boot decryption of system volumes.
 Before Tang, automated decryption was usually handled by a Key Escrow server.
 
@@ -12,10 +12,10 @@ Before Tang, automated decryption was usually handled by a Key Escrow server.
 
 The Key Escrow server (also known as a “fair” cryptosystem) is providing escrow service for encryption keys.
 A client using Key Escrow usually generates a key, encrypts data with it and then stores the key encryption key on a remote server.
-Unfortunatelly, it is not always as simple as it sounds and there are couple of security concerns.
+Unfortunately, it is not always as simple as it sounds and there are couple of security concerns.
 
 To transfer the encryption keys we want to store on an Escrow server, we have to encrypt the channel on which we send them.
-When transmitting keys over an insecure network without an encrypted link, anyone listening to the network traffic could immadiately fetch the key.
+When transmitting keys over an insecure network without an encrypted link, anyone listening to the network traffic could immediately fetch the key.
 This should signal security risks, and, of course, we do not want any third party to access our secret data.
 Usually we encrypt a channel with TLS (Transport Layer Security) or GSSAPI (Generic Security Services Application Program Interface) as shown on a Figure \ref{fig_escrowmodel} Escrow model.
 \begin{figure}[h]
@@ -24,7 +24,7 @@ Usually we encrypt a channel with TLS (Transport Layer Security) or GSSAPI (Gene
     \caption{Escrow model}
     \label{fig_escrowmodel}
 \end{figure}
-Unfortunatelly, this is not enough to have the communication secure.
+Unfortunately, this is not enough to have the communication secure.
 We can not just start sending these keys to the escrow server if we do not know whether this server is the one it acts to be.
 This server has to have its identity verified, and the client has to authenticate to this server too.
 The increasing amount of keys implicates a need for Certification Authority server (CA) or a Key Distribution Center (KDC) to manage all of them.
@@ -61,14 +61,14 @@ We can see on Figure \ref{fig_tangmodel} Tang Model that the model is very simil
     \caption{Tang model}
     \label{fig_tangmodel}
 \end{figure}
-In fact, there is no longer need for TLS channel to secure comunication between the client and the server,
+In fact, there is no longer need for TLS channel to secure communication between the client and the server,
  and that is because Tang implements the McCallum-Relyea exchange as described below.
 
 Tang server advertises asymmetric keys on the network and a client is able to get the list of these signing keys by HTTP (Hypertext Transfer Protocol) GET request or even using curl:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 curl -f http://tang.local/adv
 \end{lstlisting}
-All tang comunication is performed using HTTP protocol with the message body in JWK(JSON Web Key) format defined by RFC 7517 \cite{RFC7517}.
+All tang communication is performed using the HTTP protocol with the message body in JWK (JSON Web Key) format defined by RFC 7517 \cite{RFC7517}.
 Getting advertised keys is the first step of the McCallum-Relyea exchange protocol summed up in table \ref{mrexchange} McCallum-Relyea exchange protocol.
 \begin{table}[h]
 \centering
@@ -92,62 +92,62 @@ Retain s, c &  &  &  \\ \hline
 This protocol has two phases provisioning and recovery.
 
 \paragraph{Provisioning}
-The server key pair generation is represented by equation \label{servergen}, capital is private key; lowercase is public key; g stands for generate.
+The server key pair generation is represented by equation \ref{servergen}, capital is private key; lowercase is public key; g stands for generate.
 \begin{equation}\label{servergen}
     s = g * S
 \end{equation}
 After the server generates key pair, it is advertising the public part of it.
-The client then selects one of the Tang server's exchange keys (we will call it sJWK; identified by the use of deriveKey in the sJWK's key\_ops attribute).
+The client then selects one of the Tang server's exchange keys (we will call it {\it sJWK}; identified by the use of {\it deriveKey} in the {\it sJWK}'s {\it key\_ops} attribute).
 The lowercase "s" stands for server's public key and JWK is used format of the message.
-The client then generates a new (random) JWK (cJWK; c stands for client's key pair).
+The client then generates a new (random) JWK ({\it cJWK}; c stands for client's key pair).
 \begin{equation}\label{clientgen}
     c = g * C
 \end{equation}
-The client performs its half of a standard ECDH exchange producing dJWK which it uses to encrypt the data.
-Afterwards, it must discard the dJWK and the private key from cJWK.
-The dJWK is represented as K in equation \ref{dJWK_gen}.
+The client performs its half of a standard ECDH exchange producing {\it dJWK} which it uses to encrypt the data.
+Afterwards, it must discard the {\it dJWK} and the private key from {\it cJWK}.
+The {\it dJWK} is represented as K in equation \ref{dJWK_gen}.
 \begin{equation}\label{dJWK_gen}
     K = s * C
 \end{equation}
-The client has to store cJWK for later use in the recovery step.
+The client has to store {\it cJWK} for later use in the recovery step.
 Generally speaking, the client may also store other data, such as the URL of the Tang server or the trusted advertisement signing keys called also binding keys.
 
 
 
 \paragraph{Recovery}
-Mathematically capital is private key; g stands for generate.
+Mathematically capital letter is private key; g stands for generate.
 When the client wants to access the encrypted data, it must be able to recover encryption key.
-To recover dJWK after discarding it, the client generates a third ephemeral key (eJWK) as the equation \ref{eqn_ephemeral} represents.
+To recover {\it dJWK} after discarding it, the client generates a third ephemeral key ({\it eJWK}) as the equation \ref{eqn_ephemeral} represents.
 This key is used to hide the client's public key and the binding key.
 \begin{equation}\label{eqn_ephemeral}
     e = g * E
 \end{equation}
 The ephemeral key is generated for each execution of a key establishment process particularly.
-Using eJWK, the client performs elliptic curve group addition of eJWK and cJWK, producing xJWK represented in the equation \ref{eqn_ecga}.
-The client POSTs xJWK to the server.
+Using {\it eJWK}, the client performs elliptic curve group addition of {\it eJWK} and {\it cJWK}, producing {\it xJWK} represented in the equation \ref{eqn_ecga}.
+The client {\it POST}s {\it xJWK} to the server.
 \begin{equation}\label{eqn_ecga}
     x = c + e
 \end{equation}
-The server then performs its half of the ECDH key exchange using xJWK and sJWK, producing yJWK reflected in the equation \ref{eqn_response}. The server returns yJWK to the client.
+The server then performs its half of the ECDH key exchange using {\it xJWK} and {\it sJWK}, producing {\it yJWK} reflected in the equation \ref{eqn_response}. The server returns {\it yJWK} to the client.
 \begin{equation}\label{eqn_response}
     y = x * S
 \end{equation}
-The client then performs half of an ECDH key exchange between eJWK and sJWK, producing zJWK as the equation \ref{eqn_get} shows.
+The client then performs half of an ECDH key exchange between {\it eJWK} and {\it sJWK}, producing {\it zJWK} as the equation \ref{eqn_get} shows.
 \begin{equation}\label{eqn_get}
     z = s * E
 \end{equation}
-Subtracing zJWK from yJWK produces dJWK represented as K in the equation \ref{eqn_extract} again.
+Subtracting {\it zJWK} from {\it yJWK} produces {\it dJWK} represented as {\it K} in the equation \ref{eqn_extract} again.
 \begin{equation}\label{eqn_extract}
     K = y - z
 \end{equation}
 Finally, the client has calculated the key value, which is better than when the server calculates it.
-So the Tang server never knew the value of the key and literraly nothing about its clients.
+So the Tang server never knew the value of the key and literally nothing about its clients.
 
 
 
 \subsection{Security}
 
-As shown in table \ref{compare} Comparing Escrow and Tang, Tang compared to Escrow is stateless and doesn't require TLS or authentication. % miso
+As shown in table \ref{compare} Comparing Escrow and Tang, Tang compared to Escrow is stateless and doesn't require TLS or authentication.
 Tang also has limited knowledge.
 Unlike escrows, where the server has knowledge of every key ever used, Tang never sees a single client key.
 Tang never gains any identifying information from the client.
@@ -168,11 +168,11 @@ Anonymous      & No       & Yes                          \\ \bottomrule
 \end{table}
 
 Thanks to McCallum-Relyea exchange protocol summed up in the table \ref{mrexchange} McCallum-Relyea exchange protocol Tang is resistant to the man in the middle attack.
-In case of the eavesdroppers, they see the client send xJWK and receive yJWK.
-Since, these packets are blinded by eJWK, only the party that can unblind these values is the client itself (since only it has eJWK's private key). % miso
+In case of the eavesdroppers, they see the client send {\it xJWK} and receive {\it yJWK}.
+Since, these packets are blinded by {\it eJWK}, only the party that can un-blind these values is the client itself (since only it has {\it eJWK}'s private key).
 Thus, the MitM attack fails.
 
-It is of utmost importance that the client protects cJWK from prying eyes and the Tang server must protect the private key for sJWK.
+It is of utmost importance that the client protects {\it cJWK} from prying eyes and the Tang server must protect the private key for {\it sJWK}.
 
 
 
@@ -233,8 +233,8 @@ Do not forget to generate an exchange key:
 \end{lstlisting}
 
 Now we are up and running.
-Keys are stored in the Tang's database directory and update script, which is activated by systemd, generates the cache in a cache directory. % miso
-The server is ready to send an advertisment on demand.
+Keys are stored in the Tang's database directory and update script, which is activated by systemd, generates the cache in a cache directory.
+The server is ready to send an advertisement on demand.
 
 
 
@@ -250,7 +250,7 @@ In clevis terminology, a {\it PIN} is a plugin which implements automated decryp
 We simply pass the name of the supported pin here.
 Besides Tang {\it PIN} clevis also supports a {\it PIN} for performing escrow using HTTP or an SSS {\it PIN} to provide a way to mix pins together to provide sophisticated unlocking policies by using an algorithm called Shamir Secret Sharing (SSS).%miso
 
-Secondly, {\it CONFIG} is a JSON object which will be passed directly to the {\it PIN}. %miso
+Secondly, {\it CONFIG} is a JSON object which will be passed directly to the {\it PIN}.
 It contains all the necessary configuration to perform encryption and setup automated decryption.
 
 
@@ -272,9 +272,9 @@ The only parameter needed in this case is the URL of the Tang server.
 During the encryption process, the Tang pin requests the key advertisement from the server and asks us to trust the keys.
 This works similarly to SSH.
 
-Alternatively, we can manually load the advertisment using the adv parameter.
-This parameter takes either a string referencing the file where the advertisement is stored, or the JSON contents of the advertisment itself.
-When the advertisment is specified manually like this, Clevis presumes that the advertisement is trusted.
+Alternatively, we can manually load the advertisement using the adv parameter.
+This parameter takes either a string referencing the file where the advertisement is stored, or the JSON contents of the advertisement itself.
+When the advertisement is specified manually like this, Clevis presumes that the advertisement is trusted.
 
 
 
@@ -308,7 +308,7 @@ To unlock our Fedora, rebuild initramfs after installing Clevis using: % miso
 \end{lstlisting}
 Upon reboot, we will be prompted to unlock the volume using a password.
 In the background, Clevis will attempt to unlock the volume automatically.
-If it succeeds, the password prompt will be cancelled and boot will continue.
+If it succeeds, the password prompt will be canceled and boot will continue.
 Install it to fedora using:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install clevis-dracut

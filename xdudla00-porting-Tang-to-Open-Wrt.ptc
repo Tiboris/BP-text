@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {2.3.2}LUKS drive structure}{8}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}Managing LUKS volume}{9}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}LUKS security}{13}{subsection.2.3.4}
-\contentsline {chapter}{\numberline {3}Atomated decryption}{14}{chapter.3}
+\contentsline {chapter}{\numberline {3}Automated decryption}{14}{chapter.3}
 \contentsline {section}{\numberline {3.1}Key Escrow}{14}{section.3.1}
 \contentsline {section}{\numberline {3.2}Tang server}{15}{section.3.2}
 \contentsline {paragraph}{Provisioning}{16}{section*.2}
@@ -80,9 +80,9 @@
 \contentsline {chapter}{\numberline {D}Setting up the repository}{58}{appendix.D}
 \contentsline {chapter}{\numberline {E}OpenWrt package's Makefile}{60}{appendix.E}
 \contentsline {chapter}{\numberline {F}List of pull-requests}{62}{appendix.F}
-\contentsline {paragraph}{zlib}{62}{section*.13}
-\contentsline {paragraph}{jansson}{62}{section*.14}
-\contentsline {paragraph}{libhttp-parser}{62}{section*.15}
-\contentsline {paragraph}{jose}{62}{section*.16}
-\contentsline {paragraph}{tang}{62}{section*.17}
+\contentsline {paragraph}{package zlib}{62}{section*.13}
+\contentsline {paragraph}{package jansson}{62}{section*.14}
+\contentsline {paragraph}{package libhttp-parser}{62}{section*.15}
+\contentsline {paragraph}{package jose}{62}{section*.16}
+\contentsline {paragraph}{package tang}{62}{section*.17}
 \contentsfinish 

@@ -1,6 +1,6 @@
 \chapter{Porting Tang}\label{porting-tang}
 
-After successfull cross-compilation of jose we have all the dependencies "ready" and packaged except the systemd.
+After successful cross-compilation of José we have all the dependencies "ready" and packaged except the systemd.
 systemd is only one of the many implementations (inetd, launchd, ucspi-tcp, xinetd) of a super-server providing socket activation.
 
 
@@ -11,8 +11,8 @@ Socket activation is a technology provided by a super-server (also called a serv
 A super-server starts other servers when needed as well, normally with access to them checked by a TCP wrapper.
 It uses very few resources when in idle state.
 
-A service designed for the socket activation would behave as bare CLI application with input read from stdin (standard input) and output written to stdout (standard output).
-Tang is exactly this kind of an application and because of that we need to configure socket activation\cite{super_server}.
+A service designed for the socket activation would behave as bare CLI application with input read from {\it stdin} (standard input) and output written to {\it stdout} (standard output).
+Tang is exactly this kind of an application and because of that we need to configure socket activation\cite{super_server}. % nedá sa mu super_server
 
 
 
@@ -29,7 +29,7 @@ This is reflected on Figure \ref{fig_xinetd} xinetd socket activation below.
 xinetd features access control mechanisms such as TCP Wrapper ACLs (access control lists), extensive logging capabilities, and the ability to make services available based on time.
 It can place limits on the number of servers that the system can spawn.
 xinetd is listening on behalf of the services.
-Whenever a connection would come in an instance of the respective service will be spawned with using stdin and stdout of the service application\cite{xinetd}.
+Whenever a connection would come in an instance of the respective service will be spawned with using {\it stdin} and {\it stdout} of the service application\cite{xinetd}.
 
 
 
@@ -67,8 +67,8 @@ include $(INCLUDE_DIR)/package.mk
 \end{lstlisting}
 Do not forget to add the package description which should have section dependencies filled.
 The libhttp-parser dependency used for parsing HTTP requests.
-José the library and tool for the Javascript Object Signing and Encryption.
-xinetd is a runtime dependency, the actual build proccess of the Tang does not require its libraries but to have its socket activation available in runtime.
+José the library and tool for the JavaScript Object Signing and Encryption.
+xinetd is a run-time dependency, the actual build proccess of the Tang does not require its libraries but to have its socket activation available in run-time.
 The bash dependency is there for a reason that Tang's tangd-update and tangd-keygen executables are bash scripts.
 These scripts are complex and are using data structures that are not available for OpenWrt's default shell - ash.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -144,20 +144,20 @@ Now we have Tang package ready to be installed on our device.
 
 We are avoiding troubles with using the libhttp-parser in version 2.8.0.
 These self issued problems are described in following subsection \ref{porting_problems} Obstacles of delivering Tang.
-The most important part after successfull build would be to configure it right way.
+The most important part after successful build would be to configure it right way.
 
 
 
 \subsection{Obstacles of delivering Tang package}\label{porting_problems}
 
 The upstream world is not always ideal.
-As this porting effort started OpenWrt upstream was in bad shape and almost dead for reasons we described in subsection \ref{LEDE} OpenWrt and LEDE.
-The latest release of the OpenWrt with codename "Chaos Calmer" did not calm developers.
-The active part of them decided to focus on LEDE project and submitting a pull-request to the OpenWrt was painfull.
+Soon after this porting effort started OpenWrt upstream was in bad shape and almost dead for reasons we described in subsection \ref{LEDE} OpenWrt and LEDE.
+The latest release of the OpenWrt with code-name "Chaos Calmer" did not calm developers.
+The active part of them decided to focus on LEDE project and submitting a pull-request to the OpenWrt was painful.
 Working with outdated buildroot (an SDK) mixed with upstream aiming host system such as Fedora as well.
-After OpenWrt waters calmed down we decided to use upstream version of buildroot and it solved many issues with outdated dependecies\footnote{https://github.com/openwrt/openwrt/pull/537/files} that came into way.
+After OpenWrt waters calmed down we decided to use upstream version of buildroot and it solved many issues with outdated dependencies\footnote{https://github.com/openwrt/openwrt/pull/537/files} that came into way.
 
-\paragraph{Outdated buildroot} caused many issues with dependecies but as we installed older version of them the build could be triggered.
+\paragraph{Outdated buildroot} caused many issues with dependencies but as we installed older version of them the build could be triggered.
 The most annoying thing was to run build over and over and collect linker and compiler errors and adding additional flags into Makefile such as:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 +CFLAGS += -fhonour-copts
@@ -175,10 +175,10 @@ dprintf()
 vdprintf()
 \end{lstlisting}
 
-\paragraph{libhttp-parser} dependency has been in its latest version 2.7.1 when the effort srarted.
+\paragraph{libhttp-parser} dependency has been in its latest version 2.7.1 when the effort started.
 With this version we have spent the most of the time due to not paying attention and watching only a release numbers.
 The Fedora OS has packaged http-parser in same version so we assumed that it will be enough to update the version of the package already available in OpenWrt.
-Unfortunatelly it was sufficient until a first attempt to build the Tang package.
+Unfortunately it was sufficient until a first attempt to build the Tang package.
 
 We have to realize that not only a OpenWrt packages can have patches packaged but also our host system distribution packages.
 Building the Tang package with libhttp-parser updated to version 2.7.1 failed on dependency and has thrown an error:
@@ -203,7 +203,7 @@ As comments on appendix \ref{diffs} List of pull-requests related to libhttp-upd
 In the end the release 2.8.0 brought us a salvation and bump to this version solved a dependency error for a {\it HTTP\_STATUS\_MAP} macro.
 
 On the other hand it brought us another issue.
-But watching at this following issue we were delighted and provided an easy fix for it rightaway:
+But watching at this following issue we were delighted and provided an easy fix for it right-away:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 Package tang is missing dependencies for the following libraries:
 libhttp_parser.so.2.8
