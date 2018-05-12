@@ -31,7 +31,8 @@ Delete and recreate shrinked partition with fdisk:
 # fdisk /dev/vda
 Welcome to fdisk (util-linux 2.23.2).
 
-Changes will remain in memory only, until you decide to write them. Be careful before using the write command.
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
 
 Command (m for help):
 \end{lstlisting}
@@ -67,7 +68,8 @@ Now run it with parameters like:
 \end{lstlisting}
 luksipc will have created a key file /root/initial\_keyfile.bin that you can use to gain access to the newly created LUKS device:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-# cryptsetup luksOpen --key-file /root/initial\_keyfile.bin /dev/vda2 fedoradrive
+# cryptsetup luksOpen --key-file /root/initial\_keyfile.bin \
+    /dev/vda2 fedoradrive
 \end{lstlisting}
 
 

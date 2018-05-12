@@ -18,12 +18,12 @@ We must then remember to provide to compiler and linker programs the paths where
 With static libraries, this information is only needed at compile and link time, but if we are using shared libraries, this won’t suffice.
 We must also specify where these libraries can be found at run time.
 
-If we are satisfying the dependencies with shared libraries (.so files), having dependencies in root file-system is probably the most common solution.
-When everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
+If we are satisfying the dependencies with shared libraries (“.so ” files), having dependencies in root file-system is probably the most common solution.
 In case of OpenWrt we will use this approach.
+When everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
 It is natural to install dependencies in the target's root file-system, for example in {\tt /usr/lib} (the binary shared files) and {\tt /usr/include} (the header files) or in any other path that allow the loader to find those libraries when the program executes.
 We shall not forget to install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
-Please note that static libraries (‘.a’ files) do not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program\cite{fabrizio}.
+Please note that static libraries (“.a” files) do not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program\cite{fabrizio}.
 
 
 
@@ -113,7 +113,7 @@ The {\it PKG\_HASH} and {\it PKG\_MD5SUM} variables serve this purpose.
 As the new version of archive with sources will be downloaded we need to change {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable as well.
 For some reason, OpenWrt upstream developers required the use of {\it PKG\_HASH} variable and the bz2 archive for the jansson package.
 In general it would be sufficient to change only version and the appropriate {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable.
-We changed the filename extension for {\it PKG\_SOURCE} variable from ".tar.gz" to ".tar.bz2".
+We changed the filename extension for {\it PKG\_SOURCE} variable from “.tar.gz” to “.tar.bz2”.
 Now download the archive containing sources and get the archive hash using sha256sum:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ wget http://www.digip.org/jansson/releases/jansson-2.10.tar.bz2 -P /tmp
@@ -236,7 +236,7 @@ We can simply change it as upstream developers would require.
 
 To start with such a work it is good to have some kind of the template.
 For the José we used the jansson's Makefile as a template.
-Place this "template" Makefile into {\tt utils/jose} directory and start editing.
+Place this “template” Makefile into {\tt utils/jose} directory and start editing.
 
 Let us go through it from the top to the bottom.
 This is first non comment line in the file:
@@ -281,7 +281,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_FIXUP:=autoreconf
 include $(INCLUDE_DIR)/package.mk
 \end{lstlisting}
-Setting {\it PKG\_INSTALL} to "1" will call the package's original "make install" to the directory defined with {\it PKG\_INSTALL\_DIR} variable.
+Setting {\it PKG\_INSTALL} to “1” will call the package's original “make install” to the directory defined with {\it PKG\_INSTALL\_DIR} variable.
 The {\it PKG\_FIXUP} performs the important {\tt autoreconf -f -i} for project using autotools.
 And again without including makefile package.mk the buildroot would not now how to continue build.
 It is a good practice to divide it into two packages the library and the tool:
@@ -376,5 +376,5 @@ The new packages will be available in the {\it Extra packages} section of the me
     \caption{Extra Packages}
     \label{fig_extra}
 \end{figure}
-José's build takes som time, since it has openssl library as dependency which also needs to be compiled.
+José's build takes some time, since it has openssl library as dependency which also needs to be compiled.
 The pull request for adding the José package to OpenWrt can be found in its repository\footnote{https://github.com/openwrt/packages/pull/4334}.

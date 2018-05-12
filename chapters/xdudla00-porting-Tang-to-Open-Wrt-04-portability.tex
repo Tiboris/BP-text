@@ -142,9 +142,9 @@ For generating an installable OpenWrt firmware image file with a size of e.g. 8 
 \item ca. 1-4 GB of RAM to build Openwrt
 \end{itemize}
 
-These are specifications of embedded device TL-WR842Nv3, a regular wireless router manufactured by TP-LINK, which was used to test all packages related to Tang server porting effort:
+Table \ref{routerspec} lists the specifications of embedded device TL-WR842Nv3, a regular wireless router manufactured by TP-LINK, which was used to test all packages related to Tang server porting effort.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \label{routerspec}
 \begin{tabular}{c|c}
@@ -164,7 +164,7 @@ Wireless:       &   Qualcomm Atheros QCA9531        \\ \hline
 Antennae(s):    &   2 non-removable                 \\ \hline
 Ethernet:       &   4 LAN, 1 WAN 10/100             \\ \hline
 USB:            &   1 x 2.0                         \\ \hline
-Serial:         &   ?                               \\ \hline
+Serial:         &   No                              \\ \hline
 \end{tabular}
 \caption{TL-WR842Nv3 specifications}
 \end{table}
@@ -236,7 +236,7 @@ After we have the environment ready to be worked on, all required dependencies i
 In OpenWrt, a {\it feed} is a collection of packages which share a common location.
 {\it Feeds} may reside on a remote server, in a version control system, on the local file-system, or in any other location addressable by a single name (path/URL) over a protocol with a supported {\it feed} method.
 Setting the {\it feeds} is the most important step to do before starting cross-compilation.
-Listing \ref{default_feeds} shows, a list of usable {\it feeds} configured by default.\\
+Listing \ref{default_feeds} shows, a list of usable {\it feeds} configured by default.\newpage
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,label=default_feeds,caption=Content of feeds.conf.default]
     src-git packages https://git.openwrt.org/feed/packages.git
     src-git luci https://git.openwrt.org/project/luci.git
@@ -248,7 +248,7 @@ Listing \ref{default_feeds} shows, a list of usable {\it feeds} configured by de
     #src-git oldpackages http://git.openwrt.org/packages.git
     #src-link custom /usr/src/openwrt/custom-feed
 \end{lstlisting}
-Custom OpenWrt packages are located in {\tt packages} {\it feed} (see the first line of the listing \ref{default_feeds}.
+Custom OpenWrt packages are located in {\tt packages} {\it feed} -- see the first line of the listing \ref{default_feeds}.
 To work with our own fork of the packages {\it feed}, we can simply change the line to point to our fork repository.
 Feeds can point to a special {\it branch} of our choice:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]

@@ -10,7 +10,7 @@ With an increasing number of encryption keys to store and protect, it might be n
 One of the possible solutions for persistent Key management is to deploy {\it key escrow} server described in section \ref{escrow}.
 Another solution is server {\it Tang}, whose principles are mentioned in section \ref{tang}.
 
-Tang is completely anonymous key recovery service aiming to solve early boot decryption of system volumes encrypted with LUKS specification, described in section \ref{LUKS_disk}.
+Tang is completely anonymous key recovery service aiming to solve early boot decryption of system volumes encrypted with {\it LUKS} specification, described in section \ref{LUKS}.
 In contrast to Key Escrow server, Tang does not know any keys.
 It only provides mathematical operation for its clients to recover them.
 
@@ -18,7 +18,7 @@ The goal of this bachelor thesis is to port and document this process of porting
 {\it OpenWrt}, characterized in section \ref{owrt}, is Linux-based operating system for {\it embedded} devices such as wireless routers.
 Porting packages for the OpenWrt as described in chapter \ref{porting} is done with cross-compilation tools available from OpenWrt's buildroot.
 
-The process of porting missing dependencies for the Tang server is described in chapter \ref{satisfy_dependencies}.
+The process of porting missing dependencies for the Tang server is described in chapter~\ref{satisfy_dependencies}.
 Work required for the Tang itself is divided into chapter \ref{porting-tang} and chapter \ref{config}.
 Section \ref{limitations} sums up not only the limitations that are present on OpenWrt platform but also generic limitation that was discovered while testing the solution.
 

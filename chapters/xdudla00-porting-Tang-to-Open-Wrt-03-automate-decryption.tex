@@ -1,6 +1,6 @@
 \chapter{Automated decryption}
 
-As article {\it Inductive programming meets the real world} \cite{Gulwani2015} states, we should try to automate everything we can in order to avoid repetitive tasks.
+As article {\it Inductive programming meets the real world} \cite{Gulwani2015} states, that we should try to automate everything we can in order to avoid repetitive tasks.
 Even though disc encryption provides another layer of security to our data, it is used less.
 Typing one more pass-phrase when accessing some removable storage seems like too much work.
 More crucial would be full disk encryption.
@@ -39,8 +39,8 @@ The Escrow server may store lots of keys from lots of different places, users an
 \section{Tang server}\label{tang}
 
 With key escrow, a third party gets copies of a cryptographic key.
-People might not be comfortable with any third party having this ability and that "technical" problems vex the key escrow solution.
-Tang's key recovery, on the other hand, lets us just "backup" and restore cryptographic keys anonymously and without any third party possesing our key.
+People might not be comfortable with any third party having this ability and that “technical” problems vex the key escrow solution.
+Tang's key recovery, on the other hand, lets us just “backup” and restore cryptographic keys anonymously and without any third party possesing our key.
 
 Tang is a very lightweight network service using systemd's socket activation as described in section \ref{socket_activation}.
 Its purpose is to provide anonymous key recovery to clients over the network.
@@ -59,7 +59,7 @@ In fact, there is no longer need for TLS channel to secure communication between
 
 Tang server advertises asymmetric keys on the network and a client is able to get the list of these signing keys by HTTP (Hypertext Transfer Protocol) GET request.
 All tang communication is performed using the HTTP protocol with the message body in JWK (JSON Web Key) format defined by RFC 7517 \cite{RFC7517}.
-Getting advertised keys is the first step of the McCallum-Relyea exchange protocol summed up in table \ref{mrexchange} McCallum-Relyea exchange protocol.
+Getting advertised keys is the first step of the McCallum-Relyea exchange protocol summed up in table \ref{mrexchange}.
 \begin{table}[h]
 \centering
 \label{mrexchange}
@@ -88,14 +88,14 @@ The server key pair generation is represented by equation \ref{servergen}, capit
 \end{equation}
 After the server generates key pair, it is advertising the public part of it.
 The client then selects one of the Tang server's exchange keys (we will call it {\it sJWK}; identified by the use of {\it deriveKey} in the {\it sJWK}'s {\it key\_ops} attribute).
-The lowercase "s" stands for server's public key and JWK is format of the message.
+The lowercase “s” stands for server's public key and JWK is format of the message.
 The client then generates a new (random) JWK ({\it cJWK}; c stands for client's key pair).
 \begin{equation}\label{clientgen}
     c = g * C
 \end{equation}
-The client performs its half of a standard ECDH exchange producing {\it dJWK} -- see equation \ref{dJWK_gen}, which it uses to encrypt the data.
-Afterwards, it must discard the {\it dJWK} and the private key from {\it cJWK}.
-\begin{equation}\label{dJWK_gen}
+The client performs its half of a standard ECDH exchange producing {\it kJWK} -- see equation \ref{k    JWK_gen}, which it uses to encrypt the data.
+Afterwards, it must discard the {\it kJWK} and the private key from {\it cJWK}.
+\begin{equation}\label{kJWK_gen}
     k = s * C
 \end{equation}
 The client has to store {\it cJWK} for later use in the recovery step.
@@ -106,7 +106,7 @@ Generally speaking, the client may also store other data, such as the URL of the
 \paragraph{Recovery}
 Mathematically capital letter is private key; g stands for generate.
 When the client wants to access the encrypted data, it must be able to recover encryption key.
-To recover {\it dJWK} after discarding it, the client generates a third ephemeral key ({\it eJWK}) as the equation \ref{eqn_ephemeral} represent.
+To recover {\it kJWK} after discarding it, the client generates a third ephemeral key ({\it eJWK}) as the equation \ref{eqn_ephemeral} represent.
 This key is used to hide the client's public key and the binding key.
 \begin{equation}\label{eqn_ephemeral}
     e = g * E
@@ -245,7 +245,7 @@ Do you wish to trust these keys? [ynYN] y
 $ clevis decrypt tang '{"url": "http://tang.local"}' < hi.jwe
 hi
 \end{lstlisting}
-In this example, we encrypt the message "hi" using the {\tt Tang} {\it PIN}.
+In this example, we encrypt the message “hi” using the {\tt Tang} {\it PIN}.
 The only parameter needed in this case is the URL of the Tang server.
 During the encryption process, the {\tt Tang} {\it PIN} requests the key advertisement from the server and asks us to trust the keys.
 This works similarly to SSH.
@@ -262,7 +262,7 @@ Clevis can be used to bind a {\it LUKS} volume using a {\it PIN} so that it can 
 
 Clevis automatically generates a new, cryptographically strong key using the Tang's advertisement.
 This key is added to {\it LUKS} as an additional passphrase.
-Clevis then encrypt this key using Tang's advertisement, and store the output JWE (JSON Web Encryption) inside the {\it LUKS} header using {\it LUKSMeta} library\footnote{https://github.com/latchset/luksmeta}.
+Clevis then encrypt this key using Tang's advertisement, and store the output JWE (JSON Web Encryption) inside the {\it LUKS} header using {\it LUKSMeta} library.
 Here is an example where we bind {\tt /dev/vda2} using the Tang ping:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # clevis bind-luks /dev/sda1 tang '{"url": "http://tang.local"}'
