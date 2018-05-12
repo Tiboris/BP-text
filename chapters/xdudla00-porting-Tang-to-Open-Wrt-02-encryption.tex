@@ -1,16 +1,15 @@
 \chapter{How we use Encryption}\label{encryption}
 
 We may not realize this, but we use encryption every day.
-The purpose of encryption is to keep us safe when we are browsing the internet or just storing our sensitive information on digital media.
-In general encryption is used to secure our data, whether transmitted around the internet or stored on our hard drives, from being compromised.
+The purpose of encryption is to keep us safe when we are browsing the Internet or just storing our sensitive information on digital media.
+In general encryption is used to secure our data, whether transmitted around the Internet or stored on our hard drives, from being compromised.
 Encryption protects us from many threats.
 
 It protects us from identity theft.
 Our personal information stored all over governmental authorities should be secured with it.
 Encryption takes care for not revealing sensitive information about ourselves, to protect our financial details, passwords along with others, mainly when we bank online from being defraud.
 
-It looks after our conversation privacy.
-To be more specific, our cell phone conversations from eavesdroppers and our online chatting with acquaintances or colleagues.
+It looks after our conversation privacy, protecting our cell phone conversations from eavesdroppers and our online chatting with acquaintances or colleagues.
 It also allows attorneys to communicate privately with their clients and it aims to secure communication between investigation bureaus to exchange sensitive information about lawbreakers.
 
 If we encrypt our laptop or desktop computer's hard drive, encryption protects our data in case the computer or hard drive is stolen.
@@ -23,26 +22,25 @@ Security is not binary; it is a sliding scale of risk management.
 People are used to mark things, for example good and bad, expensive, and cheap.
 But we know that people may differ on image/sense.
 For example, there is no such thing as line or sign which tells us that this part of town is secure, and this is not.
-The way we reason about security is that we study environment entering or observing it, and we begin to decide whether it is secure or not.
-Especially at enterprise sector.
+The way we reason about security is by studying environment, entering or observing it, and we begin to decide whether it is secure or not.
 Encryption, on its own, might not be enough to make our data or infrastructure secure but is definitely a critical aspect of security.
 
 Companies define their own security strategies which may include encryption or may not at all.
-Security strategies rely on company's needs or will to take risks in conclusion of getting high gain from them.
+Security strategies rely on company's needs or will to take risks.
 
-According to 2016 Global Encryption Trends Study, independently conducted by the Ponemon Institute, the enterprise-wide encryption in 5 years increased from 15 to 38 percent.
-Also, the ratio of companies with no encryption strategy at all decreased from 37 to 15 percent.
-More than 50 percent of companies are using extensively deployed encryption technologies to encrypt mostly databases, infrastructure and laptop hard drives \cite{Thales}.
+According to 2016 Global Encryption Trends Study, independently conducted by the Ponemon Institute, the enterprise-wide encryption increased from 15 percent in February 2006 to 41 percent in February 2017.
+Also, the ratio of companies with no encryption strategy at all decreased from 37 to 14 percent in these years.
+More than 60 percent of companies are using extensively deployed encryption technologies to encrypt mostly databases, infrastructure and laptop hard drives \cite{Thales}.
 
 Passwords are the most common authentication method used for accessing computer systems, files, data, and networks.
-It is important to keep changing them in reasonable time and as a secret to others.
+As stated in article {\it Solid IT control hygiene} \cite{Perry2017}\label{rotation}, it is important to keep changing them in reasonable time and keep them secret to others.
 Still, no matter the company's security strategy, we keep seeing them on monitors or desktops written on sticky notes, and this is absolutely not secure.
 In fact, users are the most vulnerable part of securing our systems.
 To aid their memory, users often include part of a phone number, family name, Social Security number, or even birth date in their passwords \cite{pwdsec}.
 They choose cryptographically weak passwords, dictionary words, which are easy to remember but also easy to guess or to break with brute-force attacks in short period of time.
 According to Splash Data, a supplier of security applications, the most common user selected password in the year 2016 was "123456".
 They claim that people continue to put themselves at risk for hacking and identity theft by using weak, easily guessable passwords.
-To create strong password we can follow any trustworthy guide\footnote{https://www.wikihow.com/Create-a-Secure-Password} on the Internet.
+To create strong password, we may follow any trustworthy guide\footnote{https://www.wikihow.com/Create-a-Secure-Password} on the Internet.
 More secure way to create passwords would be to generate cryptographically stronger cipher and use it as a password.
 The only disadvantage is that it is hard to remember \cite{splashdata}.
 
@@ -57,33 +55,32 @@ Hard drive encryption is a technology provided by software performing sophistica
 This technology is used to prevent unauthorized access by unauthorized persons or service to an encrypted data storage without possession of the appropriate key or password.
 Encrypting the hard drive means providing another layer of security against hackers and other online threats.
 
-To protect secret data, we usually encrypt this data by using an "encryption key" - see Figure \ref{fig_encdata} Hard drive encryption in a nutshell.
+To protect secret data, we usually encrypt this data by using an "encryption key" -- see Figure \ref{fig_encdata} Hard drive encryption in a nutshell.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.7]{figures/HowWeEncryptData.pdf}
     \caption{Hard drive encryption in a nutshell}
     \label{fig_encdata}
 \end{figure}
-Every encryption key should be unpredictable and unique set of bits able to "scramble" data in a way that it would be impossible to recover data without it.
+Every encryption key should be unpredictable and unique set of bits able to "scramble" data in a way that it should be impossible to recover data without the key.
 To satisfy this need, encryption keys are generated by specialized algorithms such as AES (Advanced Encryption Standard\footnote{https://en.wikipedia.org/wiki/Symmetric-key\_algorithm\#Implementations}) for symmetric keys and RSA (Rivest–Shamir–Adleman\footnote{https://en.wikipedia.org/wiki/Public-key\_cryptography}) for asymmetric.
-Changing encryption key implies the whole data decryption with an old key and encryption with new encryption every time the old one is compromised or a change is required.
-Also this secret data might grow in size, and it is time and resource consuming to decrypt and encrypt the volume or even the whole hard drive.
-Because of that, the encryption key is then wrapped by the key encryption key.
+Changing encryption key implies that all the data needs to be decrypted with the old key and re-encrypted with the new one, every time the old key is compromised or a change is required.
+To avoid time-consuming re-encryption whenever key change occurs, the encryption key is then wrapped by the key encryption key.
 
-Key encryption key is mostly generated using the user provided password.
+Key encryption key is mostly generated using the user-provided password.
 This key encryption key is then used to encrypt the encryption key which does the actual data encryption.
-Again, the most insecure thing in this would be the user provided password which we can easily replace with using only cryptographically stronger key.
+Again, the most insecure thing in this key hierarchy would be the user-provided password which we can easily replace with using only cryptographically stronger key.
 This principle has at least two advantages.
-Changing the key encryption key does not affect encrypted data, and key can be changed whenever the user desires to, and redistributed to all users or services that are supposed to access this data.
+Changing the key encryption key does not affect encrypted data, and key can be changed whenever the user desires to, and redistributed to all users or services that are supposed to decrypt this data, giving access to the encryption key.
 
 Hard drive can be encrypted as whole or per partition.
 Full disk encryption is done in a way that all content on the hard drive except MBR (Master Boot Record) is encrypted.
 Encrypting MBR would make it impossible to start boot sequence of operating system.
 Boot sequence would prompt the user for key encryption key in order to load the operating system from encrypted storage.
 
-This could disrupt our daily basis and might be the reason why most of us do not use hard drive encryption, even when we know it will protect our data.
+This could disrupt our daily workflow and might be the reason why most of us do not use hard drive encryption, even when we know it will protect our data.
 There is a way to automate the hard drive unlocking on early boot with a help from key management system.
-We can get the key encryption key from some remote system, the Escrow server mentioned in section \ref{escrow} Escrow server, or recover it with Tang described in chapter \ref{tang} Tang server.
+We can get the key encryption key from some remote system, the Escrow server mentioned in section \ref{escrow}, or recover it with Tang described in chapter \ref{tang}.
 Before that, let us have a look on most common hard drive encryption implementations.
 
 
@@ -92,77 +89,72 @@ Before that, let us have a look on most common hard drive encryption implementat
 BitLocker is a closed source, full disk data protection feature that integrates with the operating system Windows Vista and later.
 It is designed to protect data by providing encryption for entire volumes and addresses the threats of data theft or exposure from lost, stolen, or inappropriately decommissioned computers.
 By default, it uses the AES encryption algorithm in cipher block chaining (CBC) or XTS mode with a 128-bit or 256-bit key.
-CBC is not used over the whole disk; it is applied to each individual sector.
-
-BitLocker supports TPM (Trusted Platform Module).
-The TPM is a hardware component installed in many newer computers by the computer manufacturers.
-It works with BitLocker to help protect user data and to ensure that a computer has not been tampered with while the system was offline\cite{bitlocker}.
+CBC is not used over the whole disk; it is applied to each individual sector \cite{bitlocker}.
 
 
 
 \subsection{LibreCrypt}
 
-LibreCrypt is a LUKS (Linux Unified Key Setup-on-disk-format) compatible open source “on-the-fly” transparent disk encryption software written mostly in Pascal programming language.
+LibreCrypt is a {\it LUKS} (Linux Unified Key Setup-on-disk-format) compatible open source “on-the-fly” transparent disk encryption software written mostly in Pascal programming language.
 This project is based on original FreeOTFE project by Sarah Dean renamed in version 6.2 to LibreCrypt and supports both 32 and 64 bit Windows.
 LibreCrypt is easy to use even for inexperienced user through its GUI (Graphical User Interface) with support of many languages.
 
-LibreCrypt support many ciphers including AES (up to 256 bit), Twofish\footnote{https://en.wikipedia.org/wiki/Twofish} (up to 256 bit), Blowfish\footnote{https://en.wikipedia.org/wiki/Blowfish\_(cipher)} (up to 448 bit), Serpent\footnote{https://en.wikipedia.org/wiki/Serpent\_(cipher)} (up to 256 bit)\cite{librecrypt}.
+LibreCrypt supports many ciphers including AES (up to 256 bit), Twofish\footnote{https://en.wikipedia.org/wiki/Twofish} (up to 256 bit), Blowfish\footnote{https://en.wikipedia.org/wiki/Blowfish\_(cipher)} (up to 448 bit), Serpent\footnote{https://en.wikipedia.org/wiki/Serpent\_(cipher)} (up to 256 bit).
 It can create “virtual disks” on our computer and anything written to these disks is automatically encrypted before being stored on our computer’s hard drive\cite{FreeOTFE}.
 
 Unfortunately this project seems to be abandoned by its developer on GitHub
-The source code of LibreCrypt is available on GitHub. We can visit the site or clone source code using~git:
+The source code of LibreCrypt is available at GitHub.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-git clone https://github.com/t-d-k/LibreCrypt.git
+https://github.com/t-d-k/LibreCrypt
 \end{lstlisting}
 
 
 
-\subsection{LUKS}
+\subsection{dm-crypt}\label{dm-crypt}
 
-LUKS (Linux Unified Key Setup-on-disk-format) is a platform-independent disk encryption specification.
-LUKS was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions only.
+The device-mapper crypt target ({\it dm-crypt}) provides transparent encryption of block devices using the kernel crypto API (Application programming interface) supporting ciphers and digest algorithms via standard kernel modules.
+Device-mapper is a part of the Linux kernel that provides a generic way to create virtual layers of block devices, for example LVM (Logical Volume Manager) logical volumes.
+
+In Fedora and Red Hat Enterprise Linux distributions, user-space interaction with {\it dm-crypt} is managed by a tool called {\tt cryptsetup}, which uses the device-mapper infrastructure to setup and operate on encrypted block devices.
+With modern versions of {\tt cryptsetup} (i.e., since ~2006), encrypted block devices can be created in two main formats, plain {\it dm-crypt} format or the extended {\it LUKS} format.
+
+Plain format has no meta-data on disk.
+When using any such encrypted device, all the necessary parameters must be passed to {\tt cryptsetup} from the command line, otherwise it uses the defaults, which will only succeed if the device was created using default settings.
+It derives (generates) the master key from the pass-phrase provided and then uses that to decrypt or encrypt the sectors of the device, with a direct 1:1 mapping between encrypted and decrypted sectors.
+
+In contrast to previous Linux disk encryption solutions, {\it LUKS} stores all necessary setup information in the partition header, enabling the user to transport or migrate their data more easily.
+
+
+
+\section{Disk encryption with LUKS}
+
+{\it LUKS} (Linux Unified Key Setup-on-disk-format) is a platform-independent disk encryption specification.
+{\it LUKS} was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions only.
 It provides a standard on-disk-format for hard disk encryption, which facilitates compatibility among Linux distributions and provides secure management of multiple user passwords.
 
-Referential implementation of LUKS is using a device-mapper crypt target (dm-crypt) subsystem for bulk data encryption.
-This subsystem is not particularly bound to LUKS and can be used for plain format encryption.
+Referential implementation of {\it LUKS} is using a device-mapper crypt target ({\it dm-crypt}) subsystem for bulk data encryption.
+This subsystem is not particularly bound to {\it LUKS} and can be used for plain format encryption as mentioned in subsection \ref{dm-crypt}.
 
 It is important for us to know this specification a little more due to working with Linux distribution and the implementation of the Tang server.
 
-
-
-\section{Disk encryption with LUKS} \todo{merge and add motivation related to unlockers and tang}
-
-With modern versions of cryptsetup (i.e., since ~2006), encrypted block devices can be created in two main formats, plain dm-crypt format or the extended LUKS format.
-
-Plain format is just that: It has no meta-data on disk.
-When using any such encrypted device, all the necessary parameters must be passed to cryptsetup from the command-line (otherwise it uses the defaults, which will only succeed if the device was created using default settings).
-It derives (generate) the master key from the pass-phrase provided and then uses that to decrypt or encrypt the sectors of the device, with a direct 1:1 mapping between encrypted and decrypted sectors.
-
-In contrast to previous Linux disk encryption solutions, LUKS stores all necessary setup information in the partition header, enabling the user to transport or migrate their data more easily.
-LUKS uses the dm-crypt subsystem.
-Device-mapper is a part of the Linux kernel that provides a generic way to create virtual layers of block devices, most commonly LVM (Logical Volume Manager) logical volumes.
-The device-mapper crypt target (dm-crypt) provides transparent encryption of block devices using the kernel crypto API (Application programming interface) supporting ciphers and digest algorithms via standard kernel modules.
-
-In Fedora and Red Hat Enterprise Linux, user-space interaction with dm-crypt is managed by a tool called cryptsetup, which uses the device-mapper infrastructure to setup and operate on encrypted block devices.
-
-The advantages of LUKS over plain dm-crypt are higher usability: automatic configuration of non-default crypto parameters, the ability to add, change, and remove multiple pass-phrases.
-Additionally, LUKS offers defenses against low-entropy pass-phrases like salting and iterated PBKDF2\footnote{https://en.wikipedia.org/wiki/PBKDF2} (Password-Based Key Derivation Function 2) pass-phrase hashing.
-With LUKS, encryption keys are always generated by the kernel RNG (Random number generator); in contrast to plain dm-crypt where one can choose, e.g. a simple dictionary word and have an encryption key derived from that.
-One disadvantage of using LUKS over plain is that it is readily obvious there is encrypted data on disk; the other is that damage to the header or key slots usually results in permanent data loss.
-To mitigate this risk the Backup of the LUKS header would be best option \cite{fruhwirth2005luks}.
+The advantages of {\it LUKS} over plain {\it dm-crypt} are better usability: automatic configuration of non-default crypto parameters and the ability to add, change, and remove multiple pass-phrases.
+Additionally, {\it LUKS} offers defenses against low-entropy pass-phrases with salting and iterated PBKDF2\footnote{https://www.ietf.org/rfc/rfc2898.txt} (Password-Based Key Derivation Function 2) pass-phrase hashing\cite{RFC2898}.
+With {\it LUKS}, encryption keys are always generated by the kernel RNG (Random number generator); in contrast to plain {\it dm-crypt} where one can choose a simple dictionary word and have an encryption key derived from that.
+One disadvantage of using {\it LUKS} over plain is that it is readily obvious there is encrypted data on disk; the other is that damage to the header or key slots usually results in permanent data loss.
+To mitigate this risk the Backup of the {\it LUKS} header is the best option \cite{fruhwirth2005luks}.
 
 
 
 \subsection{Creating LUKS volume}\label{createLUKS}
 
-Creating just a LUKS volume is quite easy. All we need is a tool called cryptsetup.
-We can install it on Fedora system using command:
+Creating a {\it LUKS} volume with the {\tt cryptsetup} tool is easy.
+On Fedora system it can be installed using command:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install cryptsetup
 \end{lstlisting}
-Note, that this command has to be run by the user with root privileges.
-After installation succeeds, all we need to do is to choose a partition to encrypt.
-For demonstration, we will encrypt the {\it /dev/xvdc} patrtition using:
+Run this command with root privileges.
+After installation succeeds choose a partition to encrypt.
+For demonstration, we will encrypt the {\tt /dev/xvdc} patrtition using:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup -y -v luksFormat /dev/xvdc
 WARNING!
@@ -174,34 +166,36 @@ Enter LUKS passphrase:
 Verify passphrase:
 Command successful.
 \end{lstlisting}
-But having full disk encryption if the system is already installed might be quite tough.
-Hard drive partition must contain the LUKS header just before the encrypted data.
+But converting existing non-encrypted disk to have full disk encryption if the system is already installed might be quite tough.
+Hard drive partition must contain the {\it LUKS} header just before the encrypted data.
 Let us sum up the easier way first.
 
 In case we have not installed our Linux operation system yet, we could simply select an option in time of installation.
-Then the installation wizard will most likely asks for pass phrase - the key encryption key.
-To demonstrate this, screen shots with Fedora 25 system installation can be found on appendix \ref{luksinstall} Pre-installation enablement of hard drive encryption.
+Then the installation wizard will most likely ask for pass phrase -- the key encryption key.
+To demonstrate this, screen shots with Fedora 28 system installation can be found on appendix \ref{luksinstall}.
 
 If we have already system installed with lots of data on partition, process will probably last longer and the procedure will be more complex.
-There is no way we can encrypt the whole system disk with LUKS without unmounting a partition to encrypt.
-For this purpose, the LUKS In-Place Conversion Tool {\it luksipc} was developed.
-Steps to encrypt a disk using {\it luksipc} are in the appendix \ref{luksipc} LUKS In-Place Encryption.
+There is no way we can encrypt the whole system disk with {\it LUKS} without unmounting a partition to encrypt.
+For this purpose {\it luksipc}, the LUKS In-Place Conversion Tool, was developed.
+Steps to encrypt a disk using {\it luksipc} are in the appendix \ref{luksipc}.
 
 
 
 \subsection{LUKS drive structure}
 
-A hard drive with a LUKS partition has notable structure see Figure \ref{fig_luksvol} LUKS volume structure for a demonstration.
-The LUKS format uses a meta-data header, also marked as {\it phdr}, and 8 key slot areas at the the beginning of the device.
-After header, there is a section with bulk data, which are encrypted with the encryption key.
+The structure of {\it LUKS} partition is shown in Figure \ref{fig_luksvol} LUKS volume structure for a demonstration.
+At the the beginning of the device the {\it LUKS} format uses a meta-data header, also marked as {\it phdr}, and 8 key slot areas.
+After header, there is a section with bulk data, which is encrypted with the encryption key.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.7]{figures/LUKSdrive.pdf}
     \caption{LUKS volume structure}
     \label{fig_luksvol}
 \end{figure}
-Header contains information about the used cipher, cipher mode, the key length, a uuid and a master key check-sum.
+Header contains information about the cipher used, cipher mode, the key length, a uuid, and a master key check-sum.
 The pass-phrases stored in the key slots, which structure is shown on Figure \ref{fig_luksslot} LUKS Key Slot, are used to decrypt a single key encryption key that is stored in the anti-forensic stripes.
+Anti-forensic data storage, as described in article LUKS On-Disk Format Specification Version 1.1 \cite{fruhwirth2005luks}, is a feature specially developed for LUKS by Clemens Fruhwirth.
+The idea of anti-forensic information splitting in {\it LUKS} is to enlarge the size of every storage region for the encryption key encrypted with one of the user key encryption keys such that all parts of this storage region are required in order to recover the encrypion key.
 
 \begin{figure}[h]
     \centering
@@ -218,14 +212,13 @@ Supplying this user password unlocks the decryption for the key material, which 
 
 \subsection{Managing LUKS volume}
 
-This is a demonstration of how managing LUKS volume could look like in reality, in our case on our Fedora 27 system.
+To demonstrate {\it LUKS} volume management let us shot steps that can be used on our Fedora 27 system.
 For this demonstration we will use tools available for Fedora 27 such as:\\
 \begin{itemize}
     \item parted-3.2-28.fc27.x86\_64
     \item cryptsetup-1.7.5-3.fc27.x86\_64
 \end{itemize}
-These tools are available through Fedora 27 upstream repositories and can be easily downloaded and installed via Fedora package management system the dnf.
-To list hard drives for our system we will use the parted tool:
+To list hard drives for our system we will use the {\tt parted} tool:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # parted -l
 Model: NVMe Device (nvme)
@@ -236,29 +229,29 @@ Disk Flags:
 
 Number  Start   End     Size    Type     File system  Flags
  1      1049kB  1075MB  1074MB  primary  ext4         boot
- 2      1075MB  256GB   255GB   primary}
+ 2      1075MB  256GB   255GB   primary
 \end{lstlisting}
-The exhibit shows that on our "host" system we have installed an NVMe (NVM Express) volume\footnote{https://en.wikipedia.org/wiki/NVM\_Express} using the msdos, therefore MBR partition table.
+The output shows that on our system we have installed an NVMe (NVM Express) volume\footnote{https://en.wikipedia.org/wiki/NVM\_Express} using the msdos, therefore MBR partition table.
 The NVMe is a specification for accessing SSDs attached through the PCI Express bus.
-Our SSD drive has two partitions, as we can see, the first is a boot partition and second should be our LUKS partition.
-To find out if the second partition is LUKS volume, we will use cryptsetup tool with option isLuks:
+Our SSD drive has two partitions the first is a boot partition and second should be our {\it LUKS} partition.
+To find out if the second partition is {\it LUKS} volume, we will use cryptsetup tool with option {\it isLuks}:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup isLuks /dev/nvme0n1p1 -v
 Device /dev/nvme0n1p1 is not a valid LUKS device.
 Command failed with code 22: Invalid argument
 \end{lstlisting}
-This command has no /std/out nor /std/err output unless the -v option is used.
+Unless the -v option is used, this command produces no output.
 The actual result of the command is returned as an exit code.
-The output shown reflects that our boot partition is not a valid LUKS volume as expected.
-This is expected behavior, encrypting the MBR partition would make it impossible for system to boot.
+The output shown reflects that our first partition is not a valid {\it LUKS} volume.
+This is expected behavior, encrypting the boot partition would make it impossible for the system to boot.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup isLuks /dev/nvme0n1p2 -v
 Command successful.
 \end{lstlisting}
-At this point, we have successfully identified the LUKS volume.
-To dump the header information of this LUKS volume, use cryptsetup option luksDump:
+At this point, we have successfully identified the {\it LUKS}volume.
+To dump the header information of this {\it LUKS} volume, {\tt cryptsetup} option {\it luksDump} can be used:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-# cryptsetup luksDump /dev/nvme0n1p2
+# {\tt cryptsetup} luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
 
 Version:		1
@@ -287,17 +280,17 @@ Key Slot 5: DISABLED
 Key Slot 6: DISABLED
 Key Slot 7: DISABLED
 \end{lstlisting}
-From the listing we can assume that /dev/nvme0n1p2 has one key encryption key in key slot 0 and has other 7 slots (1-7) disabled.
-The advantage of LUKS is that if a team or group of up to eight people has to work with a common encrypted volume, each team member may use his own password.
+From the listing we can assume that {\tt /dev/nvme0n1p2} has one key encryption key in key slot 0 and has other 7 slots (1-7) disabled.
+The advantage of {\it LUKS} is that if a team or group of up to eight people has to work with a common encrypted volume, each team member may use their own password.
 New user keys may be added to the encrypted volume and old user keys may be removed.
-To add a new key, we will use cryptsetup with option luksAddKey as shown:
+To add a new key, we will use {\tt cryptsetup} with option {\it luksAddKey} as shown:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksAddKey  /dev/nvme0n1p2
 Enter any existing passphrase:
 Enter new passphrase for key slot:
 Verify passphrase:
 \end{lstlisting}
-The cryptsetup will derive the key encryption key from this passphrase and bind it to the first available key slot in LUKS header.
+The {\tt cryptsetup} will derive the key encryption key from this passphrase and bind it to the first available key slot in {\it LUKS} header.
 The dump of header will now contain information similar to the exhibit below:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
@@ -334,15 +327,15 @@ Key Slot 5: DISABLED
 Key Slot 6: DISABLED
 Key Slot 7: DISABLED
 \end{lstlisting}
-At this point, LUKS volume is accessible via two different passphrases.
-To remove any key from LUKS header we will use cryptsetup with option {\it luksKillSlot} as shown:
+At this point, {\it LUKS} volume is accessible via two different passphrases.
+To remove the key from {\it LUKS} header we will use cryptsetup with option {\it luksKillSlot} as shown:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksKillSlot /dev/nvme0n1p2 0
 Enter any remaining passphrase:
 \end{lstlisting}
 To successfully remove key from key slot 0, we have to enter any remaining pass-phrase.
 In our case, we would enter the newly created pass-phrase which is bound to key slot 1.
-This will result into having LUKS header in state like shown:
+This will result into having {\it LUKS} header in state like shown:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
@@ -373,8 +366,8 @@ Key Slot 5: DISABLED
 Key Slot 6: DISABLED
 Key Slot 7: DISABLED
 \end{lstlisting}
-Password rotation is very important.
-To change LUKS key slot pass-phrase use the cryptsetup's option {\it luksChangeKey}:
+As stated in section \ref{rotation} password rotation is very important.
+To change {\it LUKS} key slot pass-phrase use the {\tt cryptsetup}'s option {\it luksChangeKey}:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 #cryptsetup luksChangeKey /dev/nvme0n1p2 -S 1
 Enter passphrase to be changed:
@@ -382,7 +375,7 @@ Enter new passphrase:
 Verify passphrase:
 \end{lstlisting}
 Note that pass-phrase to be changed and the slot number must be related to each other.
-We could see a change in LUKS header after command succeeded:
+We could see a change in {\it LUKS} header after command succeeded:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
@@ -414,20 +407,19 @@ Key Slot 5: DISABLED
 Key Slot 6: DISABLED
 Key Slot 7: DISABLED
 \end{lstlisting}
-For more use-cases and examples how to use cryptsetup see the man page of the tool\footnote{https://linux.die.net/man/8/cryptsetup}.
-Examples shown demonstrate basic key management for LUKS volumes and should be sufficient for basic understanding of cryptsetup/LUKS behavior and usability on the system with an encrypted drive.
+More use-cases and examples how to use {\tt cryptsetup} can be found the man page of the tool\footnote{https://linux.die.net/man/8/cryptsetup}.
+Examples shown demonstrate basic key management for {\it LUKS} volumes and should be sufficient for basic understanding of {\tt cryptsetup}/{\it LUKS} behavior and usability on the system with an encrypted drive.
 
 
 
 \subsection{LUKS security}
 
-In August 2012 Ubuntu Privacy Remix Team did a deep analysis of LUKS/cryptsetup in Ubuntu environment.
-Cryptsetup in version 1.4.1 used by Ubuntu 12.04 LTS has been chosen for they analysis.
-They wrote the programs {\it luksanalyzer} and {\it hashtest} for the purpose of the analysis.
+In August 2012, Ubuntu Privacy Remix Team did a deep analysis of {\it LUKS}/{\tt cryptsetup} in Ubuntu environment.
+{\tt cryptsetup} in version 1.4.1 used by Ubuntu 12.04 LTS has been chosen for the analysis.
+The team wrote the programs {\it luksanalyzer} and {\it hashtest} for the purpose of the analysis.
 
-At the end, they came into conclusion that cryptsetup with LUKS is a highly secure program for encrypting whole data media or partitions thereupon.
-The encryption algorithms, and other security mechanism it implements, comply with the current state of the art in cryptography.
-They found no back door or security-related mistake in the published source code.
-If we use this program in a secure environment, we may assume with high certainty that no one can get access to the data stored in our volumes as long as they are closed, the passwords are really good and the attacker doesn't apply highly advanced methods below the layer of the operation system, such as BIOS root-kits, hardware key-loggers or video surveillance.
-A special strong point of cryptsetup with LUKS is its high power of resistance against dictionary attacks.
-This resisting power is adapted to the increased speed of hardware when new encrypted volumes are created on new up to date hardware\cite{team2012security}.
+The analysis lead to conclusion that {\tt cryptsetup} with {\it LUKS} is a highly secure program for encrypting whole data media or partitions.
+The encryption algorithms, and other security mechanisms it implements, comply with the current state of the art in cryptography.
+No back door, or security-related mistakes were found in the published source code.
+If we use this program in a secure environment, the passwords are strong, and the attacker doesn't apply highly advanced methods below the layer of the operation system, such as BIOS root-kits, hardware key-loggers or video surveillance, we may assume with high certainty that no one can get access to the data stored in our volumes.
+A special strong point of {\tt cryptsetup} with {\it LUKS} is its high power of resistance against dictionary attacks\cite{team2012security}.

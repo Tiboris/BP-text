@@ -1,10 +1,10 @@
 \chapter{Automated decryption}
 
-People usually try to automate everything they can in order to avoid repetitive tasks.
-Even though disc encryption provides another layer of security to our data, it is not used often.
+As article {\it Inductive programming meets the real world} \cite{Gulwani2015} states, we should try to automate everything we can in order to avoid repetitive tasks.
+Even though disc encryption provides another layer of security to our data, it is used less.
 Typing one more pass-phrase when accessing some removable storage seems like too much work.
 More crucial would be full disk encryption.
-In order to boot the system, we need to have storage with system decrypted - provide another pass-phrase every time the computer is turned off and on again.
+In order to boot the system, we need to have storage with system decrypted -- provide another pass-phrase every time the computer is turned off and on again.
 The Tang server aims to solve struggles with the early boot decryption of system volumes.
 Before Tang, automated decryption was usually handled by a Key Escrow server.
 
@@ -12,7 +12,7 @@ Before Tang, automated decryption was usually handled by a Key Escrow server.
 
 The Key Escrow server (also known as a “fair” cryptosystem) is providing escrow service for encryption keys.
 A client using Key Escrow usually generates a key, encrypts data with it and then stores the key encryption key on a remote server.
-Unfortunately, it is not always as simple as it sounds and there are couple of security concerns.
+Unfortunately there are couple of security concerns.
 
 To transfer the encryption keys we want to store on an Escrow server, we have to encrypt the channel on which we send them.
 When transmitting keys over an insecure network without an encrypted link, anyone listening to the network traffic could immediately fetch the key.
@@ -25,36 +25,29 @@ Usually we encrypt a channel with TLS (Transport Layer Security) or GSSAPI (Gene
     \label{fig_escrowmodel}
 \end{figure}
 Unfortunately, this is not enough to have the communication secure.
-We can not just start sending these keys to the escrow server if we do not know whether this server is the one it acts to be.
 This server has to have its identity verified, and the client has to authenticate to this server too.
 The increasing amount of keys implicates a need for Certification Authority server (CA) or a Key Distribution Center (KDC) to manage all of them.
 
-With all these keys, and at this point only, the server can verify if the client is permitted to get their key, and the client is able to identify a trusted server.
+Only with the infrastructure in place and keys produced, the server can verify if the client is permitted to get their key, and the client is able to identify a trusted server.
 This is a fully stateful process.
-To sum up, an authorized third party may gain access to keys stored on an Escrow server under certain circumstances only.
 
-The complexity of this system increases the attack surface and for a such complex system it would be unimaginable not to have backups.
+The complexity of this system increases the attack surface and for such complex system it would be unimaginable not to have backups.
 The Escrow server may store lots of keys from lots of different places, users and services.
-
-With key escrow, a third party gets copies of a cryptographic key.
-People might not be comfortable with any third party having this ability and that "technical" problems vex the key escrow solution.
-Tang's key recovery, on the other hand, lets us just "backup" and restore cryptographic keys anonymously and without any third party possesing our key.
-
-Key recovery is necessary.
-Key escrow is not.
-Let us not confuse these two.
 
 
 
 \section{Tang server}\label{tang}
 
-Tang is a very lightweight network service using systemd's socket activation as described in section \ref{socket_activation} Socket activation.
-Its purpose is to provide anonymous key recovery to clients all over the accessible network.
+With key escrow, a third party gets copies of a cryptographic key.
+People might not be comfortable with any third party having this ability and that "technical" problems vex the key escrow solution.
+Tang's key recovery, on the other hand, lets us just "backup" and restore cryptographic keys anonymously and without any third party possesing our key.
+
+Tang is a very lightweight network service using systemd's socket activation as described in section \ref{socket_activation}.
+Its purpose is to provide anonymous key recovery to clients over the network.
 This key recovery can be used with a help of the Tang's client descibed in subsection \ref{clevis} Clevis client to unlock data storages with LUKS encryption.
 The Tang server is an open source project implemented in C programming language.
-Let us see how it works.
 
-We can see on Figure \ref{fig_tangmodel} Tang Model that the model is very similar to the escrow seen on Figure \ref{fig_escrowmodel} Escrow model, but with some things missing.
+We can see on Figure \ref{fig_tangmodel} that the Tang model is very similar to the escrow seen on Figure \ref{fig_escrowmodel} but with some things missing.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.7]{figures/TangModel.pdf}
@@ -64,10 +57,7 @@ We can see on Figure \ref{fig_tangmodel} Tang Model that the model is very simil
 In fact, there is no longer need for TLS channel to secure communication between the client and the server,
  and that is because Tang implements the McCallum-Relyea exchange as described below.
 
-Tang server advertises asymmetric keys on the network and a client is able to get the list of these signing keys by HTTP (Hypertext Transfer Protocol) GET request or even using curl:
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-curl -f http://tang.local/adv
-\end{lstlisting}
+Tang server advertises asymmetric keys on the network and a client is able to get the list of these signing keys by HTTP (Hypertext Transfer Protocol) GET request.
 All tang communication is performed using the HTTP protocol with the message body in JWK (JSON Web Key) format defined by RFC 7517 \cite{RFC7517}.
 Getting advertised keys is the first step of the McCallum-Relyea exchange protocol summed up in table \ref{mrexchange} McCallum-Relyea exchange protocol.
 \begin{table}[h]
@@ -82,14 +72,14 @@ client's side & server's side & client's side & server's side \\ \hline
 \multicolumn{2}{c|} {$\leftarrow$  s} & \multicolumn{2}{c} {x $\rightarrow$}  \\
 $C \epsilon _{R} [1, p-1]$ &  &  & $y = z * S$\\
 $e = g * C $&  & \multicolumn{2}{c} {$\leftarrow$ y} \\
-$K = g * S * C = s * C$ &  & $K = y - s * E$&  \\
+$k = g * S * C = s * C$ &  & $k = y - s * E$&  \\
 Discard: K, C &  &  &  \\
 Retain s, c &  &  &  \\ \hline
 \multicolumn{4}{c}{*capital is private key; g stands for generate}
 \end{tabular}
 \caption{McCallum-Relyea exchange protocol}
 \end{table}
-This protocol has two phases provisioning and recovery.
+This protocol has two phases, provisioning and recovery.
 
 \paragraph{Provisioning}
 The server key pair generation is represented by equation \ref{servergen}, capital is private key; lowercase is public key; g stands for generate.
@@ -98,16 +88,15 @@ The server key pair generation is represented by equation \ref{servergen}, capit
 \end{equation}
 After the server generates key pair, it is advertising the public part of it.
 The client then selects one of the Tang server's exchange keys (we will call it {\it sJWK}; identified by the use of {\it deriveKey} in the {\it sJWK}'s {\it key\_ops} attribute).
-The lowercase "s" stands for server's public key and JWK is used format of the message.
+The lowercase "s" stands for server's public key and JWK is format of the message.
 The client then generates a new (random) JWK ({\it cJWK}; c stands for client's key pair).
 \begin{equation}\label{clientgen}
     c = g * C
 \end{equation}
-The client performs its half of a standard ECDH exchange producing {\it dJWK} which it uses to encrypt the data.
+The client performs its half of a standard ECDH exchange producing {\it dJWK} -- see equation \ref{dJWK_gen}, which it uses to encrypt the data.
 Afterwards, it must discard the {\it dJWK} and the private key from {\it cJWK}.
-The {\it dJWK} is represented as K in equation \ref{dJWK_gen}.
 \begin{equation}\label{dJWK_gen}
-    K = s * C
+    k = s * C
 \end{equation}
 The client has to store {\it cJWK} for later use in the recovery step.
 Generally speaking, the client may also store other data, such as the URL of the Tang server or the trusted advertisement signing keys called also binding keys.
@@ -117,12 +106,12 @@ Generally speaking, the client may also store other data, such as the URL of the
 \paragraph{Recovery}
 Mathematically capital letter is private key; g stands for generate.
 When the client wants to access the encrypted data, it must be able to recover encryption key.
-To recover {\it dJWK} after discarding it, the client generates a third ephemeral key ({\it eJWK}) as the equation \ref{eqn_ephemeral} represents.
+To recover {\it dJWK} after discarding it, the client generates a third ephemeral key ({\it eJWK}) as the equation \ref{eqn_ephemeral} represent.
 This key is used to hide the client's public key and the binding key.
 \begin{equation}\label{eqn_ephemeral}
     e = g * E
 \end{equation}
-The ephemeral key is generated for each execution of a key establishment process particularly.
+The ephemeral key is generated for each execution of a key establishment process.
 Using {\it eJWK}, the client performs elliptic curve group addition of {\it eJWK} and {\it cJWK}, producing {\it xJWK} represented in the equation \ref{eqn_ecga}.
 The client {\it POST}s {\it xJWK} to the server.
 \begin{equation}\label{eqn_ecga}
@@ -136,20 +125,20 @@ The client then performs half of an ECDH key exchange between {\it eJWK} and {\i
 \begin{equation}\label{eqn_get}
     z = s * E
 \end{equation}
-Subtracting {\it zJWK} from {\it yJWK} produces {\it dJWK} represented as {\it K} in the equation \ref{eqn_extract} again.
+Subtracting {\it zJWK} from {\it yJWK} produces {\it dJWK} shown in the equation \ref{eqn_extract}.
 \begin{equation}\label{eqn_extract}
-    K = y - z
+    k = y - z
 \end{equation}
-Finally, the client has calculated the key value, which is better than when the server calculates it.
-So the Tang server never knew the value of the key and literally nothing about its clients.
+Finally, the client has calculated the key value.
+So the Tang server never knows the value of the key and literally nothing about its clients.
 
 
 
 \subsection{Security}
 
-As shown in table \ref{compare} Comparing Escrow and Tang, Tang compared to Escrow is stateless and doesn't require TLS or authentication.
+As shown in table \ref{compare}, Tang compared to Escrow is stateless and doesn't require TLS or authentication.
 Tang also has limited knowledge.
-Unlike escrows, where the server has knowledge of every key ever used, Tang never sees a single client key.
+Unlike escrows, where the server has knowledge of every key used, Tang never sees any client keys.
 Tang never gains any identifying information from the client.
 
 \begin{table}[h]
@@ -167,40 +156,29 @@ Anonymous      & No       & Yes                          \\ \bottomrule
 \caption{Comparing Escrow and Tang}
 \end{table}
 
-Thanks to McCallum-Relyea exchange protocol summed up in the table \ref{mrexchange} McCallum-Relyea exchange protocol Tang is resistant to the man in the middle attack.
+Thanks to McCallum-Relyea exchange protocol summed up in the table \ref{mrexchange} Tang is resistant to the man in the middle attack.
 In case of the eavesdroppers, they see the client send {\it xJWK} and receive {\it yJWK}.
-Since, these packets are blinded by {\it eJWK}, only the party that can un-blind these values is the client itself (since only it has {\it eJWK}'s private key).
-Thus, the MitM attack fails.
+Since these packets are blinded by {\it eJWK}, only the party that can un-blind these values is the client itself (since only it has {\it eJWK}'s private key).
+Thus, the attack fails.
 
-It is of utmost importance that the client protects {\it cJWK} from prying eyes and the Tang server must protect the private key for {\it sJWK}.
+It is of utmost importance that the client protects {\it cJWK} and the Tang server must protect the private key for {\it sJWK}.
 
 
 
 \subsection{Building Tang}
 
-Tang is originally packaged for Fedora OS version 23 and later but we can build it from source of course.
-It relies on few other software libraries:
-\label{dependencies}
-\begin{itemize}
-\item http-parser
-\item systemd's socket activation
-\item jose
-    \begin{itemize}
-    \item jansson
-    \item openssl
-    \item zlib
-    \end{itemize}
-\end{itemize}
+Tang is originally packaged for Fedora operating system version 23 and later but we can of course build it from source.
+It relies on few other software libraries listed in section \ref{dependencies}.
 
-The steps to build the Tang from sources include downloading the source from poject's GitHub or cloning~it.
-Make sure we have all required dependencies installed and then run:
+The steps to build the Tang from sources include downloading the source from project's GitHub or cloning~it.
+Make sure all required dependencies are installed and then run:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ autoreconf -if
 $ ./configure --prefix=/usr
 $ make
 # make install
 \end{lstlisting}
-Optionally to run tests:
+Optionally tests can be run with:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ make check
 \end{lstlisting}
@@ -211,8 +189,7 @@ $ make check
 
 Enabling a Tang server is a two-step process.
 First step is to enable the Tang services.
-Start the key update service which is watching the database directory using systemd.
-After the database of the keys is changed the update service will regenerate the cache used by tang:
+Start the key update service which is watching the database directory using systemd:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # systemctl enable tangd-update.path --now
 \end{lstlisting}
@@ -222,7 +199,7 @@ Enable service using systemd socket activation:
 \end{lstlisting}
 After this, systemd will handle the sockets and the Tang's key rotation procedure.
 
-Secondly, generate a signing key using dependency tool jose and store it in a default directory expected by tang:
+Second, generate a signing key using dependency tool jose and store it in a default directory expected by tang:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # jose gen -t '{"alg":"ES256"}' -o /var/db/tang/sig.jwk
 \end{lstlisting}
@@ -231,32 +208,33 @@ Do not forget to generate an exchange key:
 # jose gen -t '{"kty":"EC","crv":"P-256","key_ops":["deriveKey"]}' \
         -o /var/db/tang/exc.jwk
 \end{lstlisting}
+These commands results into change in the Tang's database directory now containing the {\tt sig.jwk} and the {\tt exc.jwk}.
+The {\tt tangd-update.path} service will trigger regeneration of the cache, stored in {\tt /var/cache/tang/} directory, using {\tt /usr/libexec/tangd-update} script.
 
 Now we are up and running.
-Keys are stored in the Tang's database directory and update script, which is activated by systemd, generates the cache in a cache directory.
-The server is ready to send an advertisement on demand.
-
-
+The server is ready to send an advertisement on client's demand or even using curl:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+curl -f http://tang.local/adv
+\end{lstlisting}
+Tang now advertises its {\tt exc.jwk} key signed using the {\tt sig.jwk}.
 
 \subsection{Clevis client}\label{clevis}
 
-Clevis has full support for Tang and provides a pluggable key management framework for automated decryption.
+Clevis provides a pluggable key management framework for automated decryption and has full support for Tang.
 It can handle automated unlocking of LUKS volumes.
-Clevis lets us encrypt some data with a simple command:
+Clevis lets us encrypt data with a simple command:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ clevis encrypt PIN CONFIG < PLAINTEXT > CIPHERTEXT.jwe
 \end{lstlisting}
 In clevis terminology, a {\it PIN} is a plugin which implements automated decryption.
 We simply pass the name of the supported pin here.
-Besides Tang {\it PIN} clevis also supports a {\it PIN} for performing escrow using HTTP or an SSS {\it PIN} to provide a way to mix pins together to provide sophisticated unlocking policies by using an algorithm called Shamir Secret Sharing (SSS).%miso
+Besides {\tt Tang} {\it PIN} clevis also supports a {\it PIN} for performing escrow using {\tt HTTP} or an {\tt SSS} {\it PIN} to provide a way to mix pins together to provide sophisticated unlocking policies by using an algorithm called Shamir Secret Sharing (SSS).%miso
 
-Secondly, {\it CONFIG} is a JSON object which will be passed directly to the {\it PIN}.
+Second, {\it CONFIG} is a JSON object which will be passed directly to the {\it PIN}.
 It contains all the necessary configuration to perform encryption and setup automated decryption.
 
 
-\paragraph{PIN: Tang}
-Clevis has full support for Tang.
-Here is an example of how to use Clevis with Tang:
+\paragraph{PIN: Tang} -- Here is an example of how to use Clevis with Tang:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ echo hi | clevis encrypt tang '{"url": "http://tang.local"}' > hi.jwe
 The advertisement contains the following signing keys:
@@ -267,9 +245,9 @@ Do you wish to trust these keys? [ynYN] y
 $ clevis decrypt tang '{"url": "http://tang.local"}' < hi.jwe
 hi
 \end{lstlisting}
-In this example, we encrypt the message "hi" using the Tang pin.
+In this example, we encrypt the message "hi" using the {\tt Tang} {\it PIN}.
 The only parameter needed in this case is the URL of the Tang server.
-During the encryption process, the Tang pin requests the key advertisement from the server and asks us to trust the keys.
+During the encryption process, the {\tt Tang} {\it PIN} requests the key advertisement from the server and asks us to trust the keys.
 This works similarly to SSH.
 
 Alternatively, we can manually load the advertisement using the adv parameter.
@@ -279,12 +257,12 @@ When the advertisement is specified manually like this, Clevis presumes that the
 
 
 \subsection{Binding LUKS volumes with clevis}\label{dracut}
-Tang's main goal is to solve early boot decryption of the LUKS volumes and clevis has a solution for it.
-Clevis can be used to bind a LUKS volume using a pin so that it can be automatically unlocked.
+Tang's main purpose is to enable early boot decryption of the {\it LUKS} volumes and clevis is the client solution for it.
+Clevis can be used to bind a {\it LUKS} volume using a {\it PIN} so that it can be automatically unlocked.
 
-How this works is rather simple. We generate a new, cryptographically strong key.
-This key is added to LUKS as an additional passphrase.
-We then encrypt this key using Clevis, and store the output JWE inside the LUKS header using LUKSMeta.
+Clevis automatically generates a new, cryptographically strong key using the Tang's advertisement.
+This key is added to {\it LUKS} as an additional passphrase.
+Clevis then encrypt this key using Tang's advertisement, and store the output JWE (JSON Web Encryption) inside the {\it LUKS} header using {\it LUKSMeta} library\footnote{https://github.com/latchset/luksmeta}.
 Here is an example where we bind {\tt /dev/vda2} using the Tang ping:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # clevis bind-luks /dev/sda1 tang '{"url": "http://tang.local"}'
@@ -298,10 +276,15 @@ Enter existing LUKS password:
 Upon successful completion of this binding process, the disk can be unlocked using one of the unlockers described below.
 
 
-\paragraph{Dracut}\label{dracut}
+
+\paragraph{Dracut}\label{dracut}Install it to Fedora using:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+# dnf install clevis-dracut
+\end{lstlisting}
+
 The Dracut unlocker attempts to automatically unlock volumes during early boot.
 This permits the automated root volume encryption.
-To unlock our Fedora, rebuild initramfs after installing Clevis using: % miso
+To unlock Fedora, initramfs must be rebuilt after installing Clevis using:
 
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dracut -f
@@ -309,17 +292,16 @@ To unlock our Fedora, rebuild initramfs after installing Clevis using: % miso
 Upon reboot, we will be prompted to unlock the volume using a password.
 In the background, Clevis will attempt to unlock the volume automatically.
 If it succeeds, the password prompt will be canceled and boot will continue.
-Install it to fedora using:
-\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-# dnf install clevis-dracut
-\end{lstlisting}
+
+
+
 \paragraph{UDisks2}\label{udisk2}
-After installation UDisks2 unlocker runs in a Fedora desktop session.
-There is no need to manually enable it; just install the Clevis UDisks2 unlocker and restart our desktop session.
+After installation, UDisks2 unlocker runs in a Fedora desktop session.
+There is no need to manually enable it; just install the Clevis UDisks2 unlocker and restart desktop session.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # dnf install clevis-udisks2
 \end{lstlisting}
 The unlocker should be started automatically.
 This unlocker works almost exactly the same as the Dracut unlocker.
-If we insert a removable storage device that has been bound with Clevis, we will attempt to unlock it automatically in parallel with a desktop password prompt.
+If we insert a removable storage device that has been bound with Clevis, it will attempt to unlock it automatically in parallel with a desktop password prompt.
 If automatic unlocking succeeds, the password prompt will be dissmissed without user intervention.

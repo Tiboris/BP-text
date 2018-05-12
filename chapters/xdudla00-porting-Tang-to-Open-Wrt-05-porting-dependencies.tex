@@ -1,85 +1,83 @@
 \chapter{Porting the dependencies}\label{satisfy_dependencies}
 
-Programs don’t run in a vacuum but they interface with the outside world.
+Programs don’t run in a vacuum but they interact with the outside world.
 The view of this outside world differs from environment to environment.
 Things like host-names, system resources, and local conventions could be different.
 
 When we start porting a code to a specific target platform, in our case OpenWrt, it is likely that we will face the first problem: satisfying missing dependencies.
-This problem is easy to solve in principle, but can easily mess things up to a level we would not imagine.
+This problem is easy to solve in principle, but can become complex fast.
+If the code depends on some library that is not in the root file-system we need to add it.
 
-If the code depends on some library that is NOT in the root file-system, there’s no way out but to find them somewhere, somehow.
 Dependencies can be satisfied in two ways: with static libraries or with shared libraries.
-If we are lucky, we could find a binary package providing what we need (i.e. the library files and the header files), but most often we will have to cross-compile the source code on our own.
+We could find a binary package providing what we need (i.e. the library files and the header files), but most often we will have to cross-compile from the source code on our own.
 Either way, we end up with one or more binary files and a bunch of header files.
-Where to put them? Well, that depends.
-There are a few different situations that can happen, but basically everything reduces to having dependencies in buildroot's root file-system or in a different folder.
+There are a few different situations that can happen, but basically everything reduces to having dependencies in buildroot's root file-system.
 
-Having dependencies in a different folder could be an interesting solution to keep the libraries that we cross-compiled on our own separated from the other libraries (for example, the system libraries).
-We can do that if we want but if we do, we must remember to provide to compiler and linker programs with the paths where header files and binary files can be found.
-With static libraries, this information are only needed at compile and linking time, but if we are using shared libraries, this won’t suffice.
+Having dependencies in a separate folder could be an interesting solution to keep the libraries that we cross-compiled on our own separated from the system libraries.
+We must then remember to provide to compiler and linker programs the paths where header files and binary files can be found.
+With static libraries, this information is only needed at compile and link time, but if we are using shared libraries, this won’t suffice.
 We must also specify where these libraries can be found at run time.
 
-If we are satisfying the dependencies with shared libraries (.so files) having dependencies in root file-system is probably the most common solution (and maybe, the best solution).
-Remember that when everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
-So there is a natural answer to the question above: install them in the target's root file-system, for example in /usr/lib (the binary shared files) and /usr/include (the header files) or in any other path that allow the loader to find those libraries when the program executes.
-Do not forget to install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
-Please note that static libraries (‘.a’ files) does not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program.
-In case of OpenWrt we will use this approach\cite{fabrizio}.
+If we are satisfying the dependencies with shared libraries (.so files), having dependencies in root file-system is probably the most common solution.
+When everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
+In case of OpenWrt we will use this approach.
+It is natural to install dependencies in the target's root file-system, for example in {\tt /usr/lib} (the binary shared files) and {\tt /usr/include} (the header files) or in any other path that allow the loader to find those libraries when the program executes.
+We shall not forget to install them in the file system of the actual target machine, in the same places, in order to make everything work as expected.
+Please note that static libraries (‘.a’ files) do not need to be installed in the target file system since their code is embedded in the executable file when we cross-compile a program\cite{fabrizio}.
 
 
 
-\section{Find the depencies}
+\section{Find the dependencies}\label{dependencies}
 
 To port Tang to OpenWrt system we have have all its dependencies available and installed in buildroot.
-First thing we should do is some digging and find out if dependencies for our software, we are about to port, are available for target's platform.
-All packages available for OpenWrt can be found in its github repositories.
-Let us remember Tang's dependencies first:
-
+We should do find out if dependencies for our software project, we are about to port, are available for the target's platform.
+Usually every software project has its pages and all its dependencies should be found there.
+Let us find these dependencies at Tang's GitHub pages\footnote{https://github.com/latchset/tang} first:
 \begin{itemize}
 \item http-parser
 \item systemd's socket activation
-\item José
+\item José -- dependent on:
     \begin{itemize}
     \item jansson
     \item openssl
     \item zlib
     \end{itemize}
 \end{itemize}
+We will compare versions of all packages required for Tang using rpm information available from the Fedora's {\it koji} site\footnote{https://koji.fedoraproject.org/koji/rpminfo?rpmID=10772363}.
+All packages available for OpenWrt can be found in OpenWrt GitHub repositories.
+We will find out that OpenWrt system has already packages openssl, zlib, http-parser, and jansson.
+The openssl and zlib packages packaged for OpenWrt are in versions already sufficient for Tang.
 
-After some digging we will find out that the OpenWrt system has already packages openssl, zlib, http-parser, and jansson.
-Packages openssl and zlib are in versions already sufficient for Tang to get things work.
+Search for 'http-parser' does not find this package in base OpenWrt's repository.
+The reason, is that 'http-parser' is not located in OpenWrt's GitHub repository {\tt openwrt/openwrt} .
+After searching repository {\tt openwrt/packages} for 'http-parser' we will find out that it is named as 'libhttp-parser' and in version 2.2.3.
+This naming convention is really common in Linux and could be predictable as the {\tt http-parser} is in fact only a library.
+Compared to {\it koji} 'http-parser' needs to be updated to version 2.7.1 to satisfy Tang's requirements.
 
-Package http-parser was little bit tricky.
-At first try there is a chance that we will not find this package in OpenWrt's repository.
-The reason might be that we will try to find a exactly "http-parser" string in OpenWrt's GitHub repository openwrt/openwrt only.
-First of all, we must not forget that feeds of many packages are living in repository packages nested under openwrt organization.
-Secondly after searching repository openwrt/packages for http-parser we will find out that it is named as libhttp-parser and in version 2.2.3.
-This, let us say naming convention, is really common in Linux and could be predictable as the http-parser is in fact only a library.
-One way or another compared to fedora packages it needs to be updated to latest version.
-
-Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José because it require at least jansson version 2.10.
-We shall not forget that there is a need for updating jansson package for OpenWrt platform as well so we will do updates first.
+Jansson package was only available in version 2.7 which is too outdated for Tang's dependency José because it requires at least jansson version 2.10.
 
 Packages José, Tang and systemd are not listed in OpenWrt's packages.
-Porting of the systemd would be huge effort but tang's requirements are minimal and we should be able to work with xinetd's socket activation.
-Finally, as José and Tang are not listed in packages they will require to add them into package feeds to port Tang itself.
+Porting of the systemd would be huge effort but Tang's requirements are only for the socket activation.
+We should be able to work with xinetd's socket activation as this package is already packaged for OpenWrt.
+Finally, as José and Tang will require to add them into package feeds.
 
-We will use fork of openwrt/packages repository placed outside of the buildroot package:
+Let us clone the fork of {\tt openwrt/packages} repository outside of the buildroot environment:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git clone git@github.com:Tiboris/packages-OpenWrt.git
 \end{lstlisting}
+We will use this fork to have branch for every new package and package change and one special branch {\tt new\_pkgs} set up as a feed for buildroot.
+This will allow us to easily create a upstream pull-request for each package separatelly.
 
-The following packages were built using OpenWrt buildroot with latest upstream commit hash {\tt 030a23001b74ede5fa2e6070a8fb04f3feccfbbd}.
+To build the packages we used OpenWrt buildroot\footnote{https://github.com/openwrt/openwrt} with latest upstream commit hash {\tt 030a23001b74ede5fa2e6070a8fb04f3feccfbbd}.
 The OpenWrt buildroot has to have a packages feeds set to point to repository with available OpenWrt packages.
-We used repository with latest upstream commit hash {\tt 580053888235713dd95b96b37169926bffedce0b}.
-\newpage
+We used upstream packages\footnote{https://github.com/openwrt/packages} with latest commit hash {\tt 580053888235713dd95b96b37169926bffedce0b}.
 
 
 \section{Update outdated packages}
 
-Finding that some of dependencies are already available on our desired target platform will definitely make us satisfied.
+Finding some of dependencies already available for our desired target platform will definitely make us satisfied.
 We would agree that starting with something already built for OpenWrt is the best thing to do when we are approaching unknown platform.
-In following subsections we will use all things we know from section \ref{working-with-buildroot} Working with buildroot.
+In following subsections we will use all things we know from section \ref{working-with-buildroot}.
 Let us start with missing update of José's dependency, package jansson.
 
 
@@ -88,7 +86,7 @@ Let us start with missing update of José's dependency, package jansson.
 Jansson is a C library for encoding, decoding and manipulating JSON data.
 The latest release of the jansson is v2.11 released on 11th of February 2018\cite{jansson}.
 
-However at the beginning of the Tang porting effort started the latest release was v2.10.
+However at the beginning of the Tang porting effort the latest release was v2.10.
 To update mentioned OpenWrt available jansson package version v2.7 to 2.10 change to package's fork directory and create a new branch for changes:
 
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -102,19 +100,18 @@ We shall now find the jansson package Makefile in the repository using for examp
 $ git grep jansson | grep PKG_NAME
 libs/jansson/Makefile:PKG_NAME:=jansson
 \end{lstlisting}
-The {\it PKG\_NAME} variable is one that identifies package for OpenWrt buildroot\cite{creating_pkgs}.
+The {\it PKG\_NAME} variable identifies the package for OpenWrt buildroot\cite{creating_pkgs}.
 List of all available variables can be found on the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages}.
-We can assume that the jansson library related files are located in {\it libs/jansson} directory of the packages repository.
-Now we can now update Makefile.
+We can assume that the jansson library related files are located in {\tt libs/jansson} directory of the packages repository.
+Now we can update the Makefile.
 
-We will open it with our preferred editor and find variable {\it PKG\_VERSION}.
-Edit the old version number (in our case 2.7) to new version number (2.10).
+We will find variable {\it PKG\_VERSION} and change the old version number (in our case 2.7) to new version number (2.10).
 This edit will result into changing the {\it PKG\_SOURCE} variable in Makefile.
 Variables {\it PKG\_SOURCE} and {\it PKG\_SOURCE\_URL} are used to identify location of the archive with sources for specified version from where the sources would be downloaded.
 After the downaload the OpenWrt buildroot checks the file integrity.
 The {\it PKG\_HASH} and {\it PKG\_MD5SUM} variables serve this purpose.
 As the new version of archive with sources will be downloaded we need to change {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable as well.
-For some reason upstream developers required the use of {\it PKG\_HASH} variable and the bz2 archive for the jansson package.
+For some reason, OpenWrt upstream developers required the use of {\it PKG\_HASH} variable and the bz2 archive for the jansson package.
 In general it would be sufficient to change only version and the appropriate {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable.
 We changed the filename extension for {\it PKG\_SOURCE} variable from ".tar.gz" to ".tar.bz2".
 Now download the archive containing sources and get the archive hash using sha256sum:
@@ -130,26 +127,25 @@ $ git push --set-upstream origin jansson-update
 \end{lstlisting}
 
 Before submitting the pull request we should try to build updated package first.
-Following step is not necessary because update of jansson package has been already merged upstream.
-But to do so, let us remember that we have special branch set up for buildroot feeds.
+The following step is not necessary because update of jansson package has been already merged upstream\footnote{https://github.com/openwrt/packages/pull/4289/files} where the diff can be wieved.
+But to do so, let us remember that we have special branch set up for buildroot feeds -- the {\tt new\_pkgs} branch.
 In general to test updated or new packages we will use this branch to merge our newly created branch into it using:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git checkout new_packages
+$ git checkout new_pkgs
 $ git merge jansson-update
 \end{lstlisting}
 After successful merge we have updated jansson package available in our custom feeds.
-Trigger update with feeds script and make jansson available in menuconfig with:
+Trigger update with feeds script and make updated jansson available in menuconfig with:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ ./scripts/feeds update packages
 $ ./scripts/feeds install jansson
 \end{lstlisting}
-To finally build package we shall run the command:
+To finally build updated package we shall run the command:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ make package/jansson/{clean,compile} V=s
 \end{lstlisting}
 
-After successful build the most important part would be to contribute changes to the upstream.
-Update of jansson is already done through merged pull-request\footnote{https://github.com/openwrt/packages/pull/4289}.
+After successful build the most important part would be to contribute changes to the upstream as we already did through merged pull-request mentioned above.
 With a knowledge of buildroot and the contribution guidelines effort spent on such updates may be quite minimal.
 
 
@@ -158,15 +154,14 @@ With a knowledge of buildroot and the contribution guidelines effort spent on su
 Tang uses this parser library for both parsing HTTP requests and HTTP responses.
 Sources can be found on its GitHub page\footnote{https://github.com/nodejs/http-parser}.
 
-The latest release available at the time was version v2.7.1 until 9th February's 2018 release of v2.8.0 which update will be demonstrated below.
+The latest release available was version v2.7.1 until 9th February 2018 release of v2.8.0 which update will be demonstrated below.
 Fedora is still using version v2.7.1 with Tang server so compared to last available version on OpenWrt which was v2.3.0 an update is needed.
 Hoping for the best we first try to update the libhttp-parser to version v2.7.1 to match Fedora version similar way as with jansson.
 Only updating version of the package may suffice but the case of libhttp-parser as dependency was special as you will notice in subsection \ref{porting_problems} Obstacles of delivering Tang.
 To upgrade this package we will do same as with jansson package.
 First make sure that we are still in packages repository and create branch for the change:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git checkout master
-$ git checkout -b libhttp-parser-update
+$ git checkout -b libhttp-parser-update master
 \end{lstlisting}
 Let us locate the http-parser Makefile:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -181,15 +176,15 @@ $ sha256sum /tmp/v2.8.0.tar.gz | cut -d " " -f1
 \end{lstlisting}
 Please note the file extension in old makefile and download same file-type for upgrade.
 
-Before committing the changes we also realized that owner of the repository changed from "joyent" to "nodejs" so we addressed these changes as well by editing proper sections.
-We shall now edit correspondent variables, commit the changes and push them into our fork.
+Before committing the changes we also found that owner of the repository changed from 'joyent' to 'nodejs' so we addressed these changes as well by editing proper sections in the Makefile.
+We shall now commit the changes and push them into our fork.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git commit -a
 $ git push --set-upstream origin libhttp-parser-update
 \end{lstlisting}
-Again following step to merge the libhttp-parser-update branch with feeds branch is not necessary because the submitted pull-request containing these changes has been already merged to the upstream:
+Again following step to merge the libhttp-parser-update branch with feeds branch is not necessary because the submitted pull-request\footnote{https://github.com/openwrt/packages/pull/5446} containing these changes has been already merged to the upstream:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git checkout new_packages
+$ git checkout new_pkgs
 $ git merge libhttp-parser-update
 \end{lstlisting}
 After package is available in our feeds trigger update with feeds script and make new version of libhttp-parser package available in menuconfig:
@@ -201,7 +196,6 @@ Finally build an updated libhttp-parser running:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ make package/libhttp-parser/{clean,compile} V=s
 \end{lstlisting}
-The update of the libhttp-parser can be found upstream in merged pull-request\footnote{https://github.com/openwrt/packages/pull/5446}.
 Unfortunately as we will see in subsection \ref{porting_problems} Obstacles of delivering Tang, the successful build of the updated package may not be enough.
 Especially when built package is also a dependency for other packages.
 
@@ -209,9 +203,8 @@ Especially when built package is also a dependency for other packages.
 
 \section{New package José}
 
-After updating of jansson and libhttp-parser we are kind of familiar with the OpenWrt's Makefiles.
-Unfortunately José package is not packaged for OpenWrt.
-Now comes the time to write makefile on our own.
+After updating of jansson and libhttp-parser we are familiar with OpenWrt's Makefiles.
+As José package is not packaged for OpenWrt now comes the time to write new makefile on our own.
 
 José is a C-language implementation of the Javascript Object Signing and Encryption standards.
 Specifically, José aims towards implementing the following standards:
@@ -235,16 +228,15 @@ Both POST request and reply bodies are JWK objects\cite{jose_prog}.
 
 First, let us create feature branch and directory for new package:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-$ git checkout master
-$ git checkout -b libhttp-parser-update
+$ git checkout -b libhttp-parser-update master
 $ mkdir -p utils/jose
 \end{lstlisting}
-At first it does not matter whether new Makefile will be placed whe the libs or utils for the build purposes.
+It does not matter whether new Makefile will be placed whe the libs or utils for the build purposes.
 We can simply change it as upstream developers would require.
 
 To start with such a work it is good to have some kind of the template.
 For the José we used the jansson's Makefile as a template.
-Place this "template" Makefile into utils/jose directory and start with editing having the OpenWrt wiki page\footnote{https://wiki.openwrt.org/doc/devel/packages} opened on the side.
+Place this "template" Makefile into {\tt utils/jose} directory and start editing.
 
 Let us go through it from the top to the bottom.
 This is first non comment line in the file:
@@ -259,7 +251,6 @@ PKG_NAME:=jose
 PKG_VERSION:=10
 PKG_RELEASE:=1
 \end{lstlisting}
-We may skip the {\it PKG\_LICENSE} variable for José because its upstream does not have any license file.
 
 As we defined the version of the package which we desire, we should visit the José project pages and browse for the release archive.
 José's upstream releases lives on GitHub\footnote{https://github.com/latchset/jose/releases}.
@@ -281,7 +272,7 @@ https://github.com/latchset/$(PKG_NAME)/releases/download/v$(PKG_VERSION)/
 PKG_HASH:=\
 5c9cdcfb535c4d9f781393d7530521c72b1dd81caa9934cab6dd752cc7efcd72
 \end{lstlisting}
-The {\it PKG\_SOURCE} variable now contain the value of the source archive name.
+The {\it PKG\_SOURCE} variable now contains the value of the source archive name.
 The {\it PKG\_SOURCE\_URL} provides the whole path to archive stored on GitHub server and the {\it PKG\_HASH} is used to verify the file integrity.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 PKG_INSTALL:=1
@@ -293,8 +284,7 @@ include $(INCLUDE_DIR)/package.mk
 Setting {\it PKG\_INSTALL} to "1" will call the package's original "make install" to the directory defined with {\it PKG\_INSTALL\_DIR} variable.
 The {\it PKG\_FIXUP} performs the important {\tt autoreconf -f -i} for project using autotools.
 And again without including makefile package.mk the buildroot would not now how to continue build.
-Upstream may require to divide it into two packages the library and the tool.
-It is a good practice to do with every similar package:
+It is a good practice to divide it into two packages the library and the tool:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/libjose
   SECTION:=libs
@@ -304,7 +294,7 @@ define Package/libjose
   MAINTAINER:=Tibor Dudlak <tibor.dudlak@gmail.com>
 endef
 
-define Package/$jose
+define Package/jose
   SECTION:=utils
   TITLE:=Provides a full crypto stack...
   DEPENDS:=+libjose +zlib +jansson +libopenssl
@@ -312,7 +302,7 @@ define Package/$jose
   MAINTAINER:=Tibor Dudlak <tibor.dudlak\@gmail.com>
 endef
 \end{lstlisting}
-To add a nice description for both packages we should add some defines to Makefile with proper text:
+To add description for both packages we should add defines to Makefile with proper text:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/jose/description
 	... description text ...
@@ -343,7 +333,7 @@ define Build/InstallDev
 	$(CP)	$(PKG_BUILD_DIR)/*.pc	$(1)/usr/lib/pkgconfig
 endef
 \end{lstlisting}
-A set of commands to copy files into the ipkg which is represented by the {\it \$(1)} directory.
+Section {it Package/<package\_name>/install} contains set of commands to copy files into the device file-system represented by the {\it \$(1)} directory.
 As source we can use relative paths which will install from the unpacked and compiled source, or {\it \$(PKG\_INSTALL\_DIR)} which is where the files in the Build/Install (not used here) step end up.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/libjose/install
@@ -356,8 +346,8 @@ define Package/jose/install
 	$(INSTALL_BIN)	$(PKG_INSTALL_DIR)/usr/bin/$(PKG_NAME)	$(1)/usr/bin/
 endef
 \end{lstlisting}
-At the bottom of the file is where the real magic happens, {\it BuildPackage} is a macro setup by the earlier include statements.
-BuildPackage only takes one argument directly – the name of the package to be built.
+At the bottom of the file we put {\it BuildPackage}, a macro setup by the earlier include statements.
+BuildPackage only takes one argument directly -- the name of the package to be built.
 All other information is taken from the define blocks.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $(eval $(call BuildPackage,libjose))
@@ -368,7 +358,7 @@ Let us merge this changes to feeds and try to build our freshly created package.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git commit -a
 $ git push --set-upstream origin add-jose
-$ git checkout new_packages
+$ git checkout new_pkgs
 $ git merge add-jose
 \end{lstlisting}
 In buildroot run:
@@ -386,5 +376,5 @@ The new packages will be available in the {\it Extra packages} section of the me
     \caption{Extra Packages}
     \label{fig_extra}
 \end{figure}
-Do not worry if the José's build takes time, it has openssl library as dependency and to compile this one it takes some time.
-The pull request for adding the Jose package for OpenWrt can be found in its repository\footnote{https://github.com/openwrt/packages/pull/4334}.
+José's build takes som time, since it has openssl library as dependency which also needs to be compiled.
+The pull request for adding the José package to OpenWrt can be found in its repository\footnote{https://github.com/openwrt/packages/pull/4334}.

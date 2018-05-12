@@ -5,7 +5,7 @@
 \contentsline {section}{\numberline {2.2}Hard drive encryption}{5}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Bit Locker}{6}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}LibreCrypt}{6}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}LUKS}{7}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.3}dm-crypt}{7}{subsection.2.2.3}
 \contentsline {section}{\numberline {2.3}Disk encryption with LUKS}{7}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}Creating LUKS volume}{8}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}LUKS drive structure}{8}{subsection.2.3.2}
@@ -17,72 +17,68 @@
 \contentsline {paragraph}{Provisioning}{16}{section*.2}
 \contentsline {paragraph}{Recovery}{16}{section*.3}
 \contentsline {subsection}{\numberline {3.2.1}Security}{17}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Building Tang}{18}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.2}Building Tang}{17}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Server enablement}{18}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Clevis client}{19}{subsection.3.2.4}
-\contentsline {paragraph}{PIN: Tang}{19}{section*.4}
+\contentsline {subsection}{\numberline {3.2.4}Clevis client}{18}{subsection.3.2.4}
+\contentsline {paragraph}{PIN: Tang}{18}{section*.4}
 \contentsline {subsection}{\numberline {3.2.5}Binding LUKS volumes with clevis}{19}{subsection.3.2.5}
-\contentsline {paragraph}{Dracut}{20}{section*.5}
-\contentsline {paragraph}{UDisks2}{20}{section*.6}
+\contentsline {paragraph}{Dracut}{19}{section*.5}
+\contentsline {paragraph}{UDisks2}{19}{section*.6}
 \contentsline {chapter}{\numberline {4}Software portability}{21}{chapter.4}
 \contentsline {section}{\numberline {4.1}OpenWrt system}{22}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}OpenWrt and LEDE}{22}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Why use OpenWrt}{23}{subsection.4.1.2}
-\contentsline {section}{\numberline {4.2}OpenWrt's toolchain}{23}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Compiler}{24}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Linker}{25}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}C standard library}{25}{subsection.4.2.3}
-\contentsline {section}{\numberline {4.3}OpenWrt's buildroot}{25}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Buildroot prerequisites}{26}{subsection.4.3.1}
-\contentsline {section}{\numberline {4.4}Preparing the host environment}{27}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Getting buildroot}{27}{subsection.4.4.1}
-\contentsline {section}{\numberline {4.5}Working with buildroot}{27}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Setting feeds}{28}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}The menuconfig}{29}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Building single Packages}{30}{subsection.4.5.3}
-\contentsline {chapter}{\numberline {5}Porting the dependencies}{31}{chapter.5}
-\contentsline {section}{\numberline {5.1}Find the depencies}{32}{section.5.1}
-\contentsline {section}{\numberline {5.2}Update outdated packages}{33}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Update jansson}{33}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Update http-parser}{34}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}New package Jos\IeC {\'e}}{35}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Create Jos\IeC {\'e}}{36}{subsection.5.3.1}
-\contentsline {chapter}{\numberline {6}Porting Tang}{39}{chapter.6}
-\contentsline {section}{\numberline {6.1}Socket activation}{39}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}xinetd}{39}{subsection.6.1.1}
-\contentsline {section}{\numberline {6.2}Package the Tang}{40}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Obstacles of delivering Tang package}{42}{subsection.6.2.1}
-\contentsline {paragraph}{Outdated buildroot}{42}{section*.7}
-\contentsline {paragraph}{libhttp-parser}{42}{section*.8}
-\contentsline {chapter}{\numberline {7}Tang on OpenWrt}{44}{chapter.7}
-\contentsline {section}{\numberline {7.1}Install the packages}{44}{section.7.1}
-\contentsline {section}{\numberline {7.2}Setting up the Tang keys}{45}{section.7.2}
-\contentsline {section}{\numberline {7.3}Configure Tang for xinetd}{46}{section.7.3}
-\contentsline {section}{\numberline {7.4}Contribute you work!}{48}{section.7.4}
-\contentsline {section}{\numberline {7.5}Tang's limitations}{48}{section.7.5}
-\contentsline {paragraph}{Key exchange and generation}{48}{section*.9}
-\contentsline {paragraph}{xinetd forwarding the stderr}{48}{section*.10}
-\contentsline {paragraph}{Early boot decryption using Wi-Fi network}{48}{section*.11}
-\contentsline {chapter}{\numberline {8}Conclusion}{49}{chapter.8}
-\contentsline {chapter}{Bibliography}{50}{chapter*.12}
+\contentsline {subsection}{\numberline {4.1.2}Why use OpenWrt}{22}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}OpenWrt's tool-chain}{23}{section.4.2}
+\contentsline {section}{\numberline {4.3}OpenWrt's buildroot}{24}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Buildroot prerequisites}{24}{subsection.4.3.1}
+\contentsline {section}{\numberline {4.4}Preparing the host environment}{25}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Getting buildroot}{25}{subsection.4.4.1}
+\contentsline {section}{\numberline {4.5}Working with buildroot}{26}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Setting feeds}{26}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}The menuconfig}{27}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Building single Packages}{29}{subsection.4.5.3}
+\contentsline {chapter}{\numberline {5}Porting the dependencies}{30}{chapter.5}
+\contentsline {section}{\numberline {5.1}Find the dependencies}{31}{section.5.1}
+\contentsline {section}{\numberline {5.2}Update outdated packages}{32}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Update jansson}{32}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Update http-parser}{33}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}New package Jos\IeC {\'e}}{34}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Create Jos\IeC {\'e}}{35}{subsection.5.3.1}
+\contentsline {chapter}{\numberline {6}Porting Tang}{38}{chapter.6}
+\contentsline {section}{\numberline {6.1}Socket activation}{38}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}xinetd}{38}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}Package the Tang}{39}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Delivering Tang package}{41}{subsection.6.2.1}
+\contentsline {paragraph}{Outdated buildroot}{41}{section*.7}
+\contentsline {paragraph}{libhttp-parser}{41}{section*.8}
+\contentsline {chapter}{\numberline {7}Configuring the Tang on OpenWrt}{43}{chapter.7}
+\contentsline {section}{\numberline {7.1}Install the packages}{43}{section.7.1}
+\contentsline {section}{\numberline {7.2}Setting up the Tang keys}{44}{section.7.2}
+\contentsline {section}{\numberline {7.3}Configure Tang for xinetd}{45}{section.7.3}
+\contentsline {section}{\numberline {7.4}Tang's limitations}{47}{section.7.4}
+\contentsline {paragraph}{Key exchange and generation}{47}{section*.9}
+\contentsline {paragraph}{xinetd forwarding the stderr}{47}{section*.10}
+\contentsline {paragraph}{Early boot decryption using Wi-Fi network}{47}{section*.11}
+\contentsline {chapter}{\numberline {8}Conclusion}{48}{chapter.8}
+\contentsline {chapter}{Bibliography}{49}{chapter*.12}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Compact disk content}{53}{appendix.A}
-\contentsline {chapter}{\numberline {B}Pre-istallation enablement of hard drive encryption}{54}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 25 - disc encryption option selecting }{54}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 25 - determination key encryption key }{55}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{56}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 - unmounting}{56}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 - resizing}{56}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 - encrypting}{57}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 - adding key}{57}{section.C.4}
-\contentsline {chapter}{\numberline {D}Setting up the repository}{58}{appendix.D}
-\contentsline {chapter}{\numberline {E}OpenWrt package's Makefile}{60}{appendix.E}
-\contentsline {chapter}{\numberline {F}List of pull-requests}{62}{appendix.F}
-\contentsline {paragraph}{package zlib}{62}{section*.13}
-\contentsline {paragraph}{package jansson}{62}{section*.14}
-\contentsline {paragraph}{package libhttp-parser}{62}{section*.15}
-\contentsline {paragraph}{package jose}{62}{section*.16}
-\contentsline {paragraph}{package tang}{62}{section*.17}
+\contentsline {chapter}{\numberline {A}Compact disk content}{52}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pre-installation enablement of hard drive encryption}{53}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 28 -- disc encryption option selecting }{53}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 28 -- determination key encryption key }{54}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{55}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 -- unmounting}{55}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 -- resizing}{55}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 -- encrypting}{56}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 -- adding key}{56}{section.C.4}
+\contentsline {chapter}{\numberline {D}Setting up the repository}{57}{appendix.D}
+\contentsline {chapter}{\numberline {E}OpenWrt package's Makefile}{59}{appendix.E}
+\contentsline {chapter}{\numberline {F}List of pull-requests}{61}{appendix.F}
+\contentsline {paragraph}{package zlib}{61}{section*.13}
+\contentsline {paragraph}{package jansson}{61}{section*.14}
+\contentsline {paragraph}{package libhttp-parser}{61}{section*.15}
+\contentsline {paragraph}{package jose}{61}{section*.16}
+\contentsline {paragraph}{package tang}{61}{section*.17}
 \contentsfinish 
