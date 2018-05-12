@@ -220,15 +220,34 @@ Thank you all.},
 
 % Rozšířený abstrakt (cca 3 normostrany) - lze definovat zde nebo výše / Extended abstract (approximately 3 standard pages) - can be defined here or above
 \extendedabstract{
-TODO !!! Hlavným cieľom tejto práce je naportovať a zdokumentovať tento proces sprístupnenia serveru Tang, na vstavané zariadenia typu WiFi smerovač s plne modulárnym operačným systémom OpenWrt.
+Hlavným cieľom tejto práce je naportovať a zdokumentovať tento proces sprístupnenia serveru Tang, na vstavané zariadenia typu WiFi smerovač, s plne modulárnym operačným systémom OpenWrt.
 Tým dosiahneme anonymnú správu šifrovacích kľúčov pre domáce siete a siete malých firiem.
-Preto táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie pevného disku počítača.
-Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie na operačných systémoch typu Linux.
-Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera, ktorý vstupuje do procesu ako tretia strana.
-Sú v nej popísané princípy serverov Key Escrow a Tang.
-Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a cross-kompilácie na platforme Linux.
-Práca obsahuje zdokumentovaný postup prispievania zmien a novo vytvorených balíkov pre OpenWrt do príslušných Open Source projektov.}
+Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a krížovej kompilácie na platforme Linux.
 
+Krížovú kompiláciu vykonáva upravený kompilátor, ktorý generuje binárny kód spustiteľný na inej platforme, než na ktorej je samotný preklad zdrojových kódov spustený.
+Používa sa v prípadoch, keď sú zdrojové kódy spoločné pre viacero ceľových platforiem, na ktorých môže byť program spustený (Linux a Microsoft Windows) alebo rovnaký systém s rôznymi typmi procesorov (16bitový, 32bitový a 64bitový) alebo architektúr (x86\_64, MIPS, ARM).
+Často sa využíva na generovanie spustiteľných súborov pre vstavané systémy a pri prekladu na platformy, ktoré niesú shopné kompilácie.
+
+Tento kompilátor je spolu s linkerom a štandardnou knižnicou jazyka C hlavnou súčasťou súboru počítačových programov, nástrojov alebo utilít, nazývaným aj tool-chain.
+Tool-chain pre systém OpenWrt je možné vygenerovať použitím buildroot-u z GitHub repozitára openwrt/openwrt.
+Tento buildroot obsahuje pomocné skripty a Makefile-y uľahčujúce automatizáciu procesu vytvárania inštalovateľného obrazu systému OpenWrt.
+Buildroot je možné nakonfigurovať pre špecifické zariadenie podporované systémom OpenWrt.
+
+Okrem schopnosti vytvárania obrazov systému OpenWrt je tento nástroj používany na vytváranie inštalovateľných softvérových balíkov pre túto platformu.
+Pre portnutie, teda vytvorenie balíka, je potrebné vytvoriť adresárovú štruktúru v repozitári feeds.
+Táto adresárová štruktúra obsahuje súbory zdrojového kódu pre rôzne softvérové projekty spolu s Makefile-om, ktorý obsahuje direktívy buildroot-u pre spustenie krížovej kompilácie na cielenú architektúru.
+Takto vytvorené balíky je možné následne nainštalovať na zariadenia s nainštalovaným systémom OpenWrt.
+
+Táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie pevného disku počítača.
+Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie na operačných systémoch typu Linux.
+Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera {\it Key Escrow} alebo {\it Tang}, ktorý vstupuje do procesu ako tretia strana.
+
+Server Key Escrow slúži na ukladanie šifrovacích kľučov.
+Na rozdiel od serveru Tang, Key Escrow potrebuje zabezpečenú infraštruktúru a identifikovať každého používateľa ktorý chce jeho služby využívať.
+Server Tang poskytuje anonymnú obnovu kľúčov, a teda žiaden z nich nepozná, iba poskytne matematickú operáciu klientovi, ktorý žiada o obnovenie.
+Operácie, ktoré server tang vykonáva pri tejto obnove sú detailne opísané v práci.
+
+}
 % nastavení délky bloku s titulkem pro úpravu zalomení řádku - lze definovat zde nebo výše / setting the length of a block with a thesis title for adjusting a line break - can be defined here or above
 %\titlelength{14.5cm}
 
