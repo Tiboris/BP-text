@@ -214,6 +214,32 @@ Due to many changes to the Makefile and the Tang branch in packages see the subm
 
 
 
+\section{Binding to the Tang on OpenWrt device}
+Let us now bind the client to the Tang server which is up and running on our OpenWrt:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+# clevis luks bind -d /dev/nvme0n1p2 tang '{"url":"http://192.168.0.1:8888"}'
+The advertisement contains the following signing keys:
+
+Apb39FO1vey9FyUe_fEd8lVDABs
+
+Do you wish to trust these keys? [ynYN] y
+Enter existing LUKS password:
+\end{lstlisting}
+Clevis will add a new key encryption key to the first available {\it LUKS} header key slot.
+After rebuilding the initramfs on our Fedora client the early boot decryption will work.
+
+Clevis client does not have option to unbind encrypted volume bound to Tang server.
+We have to make sure that the key encryption key we are about to remove from the {\it LUKS} header key slot is one added by Clevis.
+To do so please run {\tt cryptsetup} with option {\it luksDump} before and after binding with the Tang.
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+# cryptsetup luksDump /dev/nvme0n1p2
+\end{lstlisting}
+The manual step to remove key from key slot was demonstrated in subsection \ref{manageLUKS}:
+\begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
+# cryptsetup luksKillSlot /dev/nvme0n1p2 1
+Enter any remaining passphrase:
+\end{lstlisting}
+
 \section{Tang's limitations}\label{limitations}
 
 Let us sum up the limitations that Tang has on OpenWrt platform due to replaced systemd dependency with less capable xinetd implementation of super-server.

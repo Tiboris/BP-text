@@ -1,20 +1,35 @@
 \chapter{Conclusion}\label{conlusion}
 
 
+Porting to OpenWrt platform is done using cross-compilation tools available throughout the OpenWrt's buildroot.
+Buildroot is configured using the menuconfig tool for specific device supported by the OpenWrt system.
+Buildroot is capable to create packages and also the Image of the OpenWrt system ready to be installed to our device.
+Using outdated buildroots (SDKs) may cause some troubles but it is recommended to use an SDK while porting to older OpenWrt system release.
 
-The Tang \ref{tang} server is a very lightweight program.
-It provides secure and anonymous data binding using McCallum-Relyea exchange algorithm.
+To port software to the OpenWrt the user have to create a Makefile in a feed corresponding to the software usage.
+After creating the Makefile for the OpenWrt buildroot the actual build of the package should be triggered before proposing changes to the OpenWrt upstream.
+If the build cucceeded we have package ready to be tested on our device.
 
-As every server purpose is to serve its clients, it needs to have client application.
-In case of Tang we have Clevis.
-Clevis is a client software with full support for Tang.
-It has minimal dependencies and it is possible to use with HTTP, Escrow, and it implements Shamir Secret Sharing.
-Clevis has GNOME integration so it is not only a command line tool.
-Clevis also supports removable devices unlocking using UDisks2 or even early boot integration with dracut.
-This was inspiration for this thesis with a goal to achieve it with OpenWrt embedded device running Tang server only.
+It happens that software requires a dependencies.
+To be able to build our desired software application we have to check whether these dependencies are available for our target platform, the OpenWrt.
+In our case Porting tang required to update existing packages in the OpenWrt feeds to newer versions and creating a new dependency package as well.
 
-To port Tang to OpenWrt system it was necessary to port all its dependencies first.
+Every OpenWrt package can be modified before build time.
+This is done having a new files and diff files in package's directory.
+Diff files, used to change original sources, are automatically applied when placed in proper diffs directory.
+New files located in files directory of the package should be processed by directives in package's Makefile.
 
-After struggling with older version, package http-parser known as libhttp-parser in OpenWrt feeds, is now updated to latest upstream version 2.8.0 with {\it STATUS\_MAP} patch.
-The systemd would be huge effort but tang's requirements are minimal and we were able to work with xinetd's socket activation.
-With correct configuration of xinetd and removing dependency for systemd Tang server is running on OpenWrt with some platform specific changes and limitations.
+After successful build of the Tang package we needed also to configure it.
+The socket activation on xinetd is working similarly like systemd's.
+We created the new configuration file for tangd service and the wrapper script.
+Having post install script in the Tang's Makefile will ensure that the Tang will have generated files required for run-time.
+The only thing that user has to do is to re-start the xinetd daemon.
+
+Every change we did to acomplish goal of this thesis is reflected in separated pull requests against openwrt/packages upstream.
+The update of the jansson package can be found in pull-request with number 4289\footnote{https://github.com/openwrt/packages/pull/4289/files}.
+A pull-request containing update of libhttp-parser package has number 5446\footnote{https://github.com/openwrt/packages/pull/5446/files}.
+New packages for the OpenWrt José and Tang are waiting for community to accept.
+José can be found in pull-request with number 4334\footnote{https://github.com/openwrt/packages/pull/4334/files}.
+And finally Makefile for the Tang server package in pull-request 5447\footnote{https://github.com/openwrt/packages/pull/5447/files}.
+
+With correct configuration of xinetd daemon for Tang's socket activation, the Tang server is working on OpenWrt with some platform specific changes and limitations, able to serve its clients on the network.

@@ -210,7 +210,7 @@ Supplying this user password unlocks the decryption for the key material, which 
 
 
 
-\subsection{Managing LUKS volume}
+\subsection{Managing LUKS volume}\label{manageLUKS}
 
 To demonstrate {\it LUKS} volume management let us shot steps that can be used on our Fedora 27 system.
 For this demonstration we will use tools available for Fedora 27 such as:\\
@@ -251,7 +251,7 @@ Command successful.
 At this point, we have successfully identified the {\it LUKS}volume.
 To dump the header information of this {\it LUKS} volume, {\tt cryptsetup} option {\it luksDump} can be used:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-# {\tt cryptsetup} luksDump /dev/nvme0n1p2
+# cryptsetup luksDump /dev/nvme0n1p2
 LUKS header information for /dev/nvme0n1p2
 
 Version:		1

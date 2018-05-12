@@ -55,30 +55,31 @@
 \contentsline {section}{\numberline {7.1}Install the packages}{42}{section.7.1}
 \contentsline {section}{\numberline {7.2}Setting up the Tang keys}{43}{section.7.2}
 \contentsline {section}{\numberline {7.3}Configure Tang for xinetd}{44}{section.7.3}
-\contentsline {section}{\numberline {7.4}Tang's limitations}{46}{section.7.4}
+\contentsline {section}{\numberline {7.4}Binding to the Tang on OpenWrt device}{46}{section.7.4}
+\contentsline {section}{\numberline {7.5}Tang's limitations}{46}{section.7.5}
 \contentsline {paragraph}{Key exchange and generation}{46}{section*.9}
-\contentsline {paragraph}{xinetd forwarding the stderr}{46}{section*.10}
-\contentsline {paragraph}{Early boot decryption using Wi-Fi network}{46}{section*.11}
-\contentsline {chapter}{\numberline {8}Conclusion}{47}{chapter.8}
-\contentsline {chapter}{Bibliography}{48}{chapter*.12}
+\contentsline {paragraph}{xinetd forwarding the stderr}{47}{section*.10}
+\contentsline {paragraph}{Early boot decryption using Wi-Fi network}{47}{section*.11}
+\contentsline {chapter}{\numberline {8}Conclusion}{48}{chapter.8}
+\contentsline {chapter}{Bibliography}{50}{chapter*.12}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Compact disk content}{51}{appendix.A}
-\contentsline {chapter}{\numberline {B}Pre-installation enablement of hard drive encryption}{52}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 28 -- disc encryption option selecting }{52}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 28 -- determination key encryption key }{53}{section.B.2}
-\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{54}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 -- unmounting}{54}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 -- resizing}{54}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 -- encrypting}{55}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 -- adding key}{55}{section.C.4}
-\contentsline {chapter}{\numberline {D}Setting up the repository}{56}{appendix.D}
-\contentsline {chapter}{\numberline {E}OpenWrt package's Makefile}{58}{appendix.E}
-\contentsline {chapter}{\numberline {F}List of pull-requests}{60}{appendix.F}
-\contentsline {paragraph}{package zlib}{60}{section*.13}
-\contentsline {paragraph}{package jansson}{60}{section*.14}
-\contentsline {paragraph}{package libhttp-parser}{60}{section*.15}
-\contentsline {paragraph}{package jose}{60}{section*.16}
-\contentsline {paragraph}{package tang}{60}{section*.17}
+\contentsline {chapter}{\numberline {A}Compact disk content}{53}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pre-installation enablement of hard drive encryption}{54}{appendix.B}
+\contentsline {section}{\numberline {B.1}Fedora 28 -- disc encryption option selecting }{54}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 28 -- determination key encryption key }{55}{section.B.2}
+\contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{56}{appendix.C}
+\contentsline {section}{\numberline {C.1}Step 1 -- unmounting}{56}{section.C.1}
+\contentsline {section}{\numberline {C.2}Step 2 -- resizing}{56}{section.C.2}
+\contentsline {section}{\numberline {C.3}Step 3 -- encrypting}{57}{section.C.3}
+\contentsline {section}{\numberline {C.4}Step 4 -- adding key}{57}{section.C.4}
+\contentsline {chapter}{\numberline {D}Setting up the repository}{58}{appendix.D}
+\contentsline {chapter}{\numberline {E}OpenWrt package's Makefile}{60}{appendix.E}
+\contentsline {chapter}{\numberline {F}List of pull-requests}{62}{appendix.F}
+\contentsline {paragraph}{package zlib}{62}{section*.13}
+\contentsline {paragraph}{package jansson}{62}{section*.14}
+\contentsline {paragraph}{package libhttp-parser}{62}{section*.15}
+\contentsline {paragraph}{package jose}{62}{section*.16}
+\contentsline {paragraph}{package tang}{62}{section*.17}
 \contentsfinish 
