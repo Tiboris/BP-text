@@ -1,62 +1,62 @@
 \select@language {english}
 \contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
-\contentsline {chapter}{\numberline {2}How we use Encryption}{4}{chapter.2}
-\contentsline {section}{\numberline {2.1}Encryption and security}{4}{section.2.1}
-\contentsline {section}{\numberline {2.2}Hard drive encryption}{5}{section.2.2}
+\contentsline {chapter}{\numberline {2}How We Use Encryption}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Encryption and Security}{4}{section.2.1}
+\contentsline {section}{\numberline {2.2}Hard Drive Encryption}{5}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Bit Locker}{6}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}LibreCrypt}{6}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}dm-crypt}{7}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Disk encryption with LUKS}{7}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Creating LUKS volume}{8}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.2.3}Dm-crypt}{7}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Disk Encryption with LUKS}{7}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Creating LUKS Volume}{8}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}LUKS drive structure}{8}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}Managing LUKS volume}{9}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}LUKS security}{13}{subsection.2.3.4}
-\contentsline {chapter}{\numberline {3}Automated decryption}{14}{chapter.3}
+\contentsline {subsection}{\numberline {2.3.4}LUKS Security}{13}{subsection.2.3.4}
+\contentsline {chapter}{\numberline {3}Automated Decryption}{14}{chapter.3}
 \contentsline {section}{\numberline {3.1}Key Escrow}{14}{section.3.1}
-\contentsline {section}{\numberline {3.2}Tang server}{15}{section.3.2}
+\contentsline {section}{\numberline {3.2}Tang Server}{15}{section.3.2}
 \contentsline {paragraph}{Provisioning}{16}{section*.2}
 \contentsline {paragraph}{Recovery}{16}{section*.3}
 \contentsline {subsection}{\numberline {3.2.1}Security}{17}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Building Tang}{17}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Server enablement}{18}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Clevis client}{18}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.3}Server Enablement}{18}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Clevis Client}{18}{subsection.3.2.4}
 \contentsline {paragraph}{PIN: Tang}{18}{section*.4}
-\contentsline {subsection}{\numberline {3.2.5}Binding LUKS volumes with clevis}{19}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.5}Binding LUKS Volumes with Clevis}{19}{subsection.3.2.5}
 \contentsline {paragraph}{Dracut}{19}{section*.5}
 \contentsline {paragraph}{UDisks2}{19}{section*.6}
 \contentsline {chapter}{\numberline {4}Software portability}{20}{chapter.4}
-\contentsline {section}{\numberline {4.1}OpenWrt system}{21}{section.4.1}
+\contentsline {section}{\numberline {4.1}OpenWrt System}{21}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}OpenWrt and LEDE}{21}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Why use OpenWrt}{21}{subsection.4.1.2}
-\contentsline {section}{\numberline {4.2}OpenWrt's tool-chain}{22}{section.4.2}
-\contentsline {section}{\numberline {4.3}OpenWrt's buildroot}{23}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Buildroot prerequisites}{23}{subsection.4.3.1}
-\contentsline {section}{\numberline {4.4}Preparing the host environment}{24}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Getting buildroot}{24}{subsection.4.4.1}
-\contentsline {section}{\numberline {4.5}Working with buildroot}{25}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Setting feeds}{25}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}The menuconfig}{26}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Building single Packages}{28}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.1.2}Why Use OpenWrt}{21}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}OpenWrt's Tool-chain}{22}{section.4.2}
+\contentsline {section}{\numberline {4.3}OpenWrt's Buildroot}{23}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Buildroot Prerequisites}{23}{subsection.4.3.1}
+\contentsline {section}{\numberline {4.4}Preparing the Host Environment}{24}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Getting Buildroot}{24}{subsection.4.4.1}
+\contentsline {section}{\numberline {4.5}Working with Buildroot}{25}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Setting Feeds}{25}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}The Menuconfig}{26}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Building Single Packages}{28}{subsection.4.5.3}
 \contentsline {chapter}{\numberline {5}Porting the dependencies}{29}{chapter.5}
-\contentsline {section}{\numberline {5.1}Find the dependencies}{30}{section.5.1}
-\contentsline {section}{\numberline {5.2}Update outdated packages}{31}{section.5.2}
+\contentsline {section}{\numberline {5.1}Find the Dependencies}{30}{section.5.1}
+\contentsline {section}{\numberline {5.2}Update Outdated Packages}{31}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Update jansson}{31}{subsection.5.2.1}
 \contentsline {subsection}{\numberline {5.2.2}Update http-parser}{32}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}New package Jos\IeC {\'e}}{33}{section.5.3}
+\contentsline {section}{\numberline {5.3}New Package Jos\IeC {\'e}}{33}{section.5.3}
 \contentsline {subsection}{\numberline {5.3.1}Create Jos\IeC {\'e}}{34}{subsection.5.3.1}
 \contentsline {chapter}{\numberline {6}Porting Tang}{37}{chapter.6}
-\contentsline {section}{\numberline {6.1}Socket activation}{37}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}xinetd}{37}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.1}Socket Activation}{37}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Xinetd}{37}{subsection.6.1.1}
 \contentsline {section}{\numberline {6.2}Package the Tang}{38}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Delivering Tang package}{40}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.1}Delivering the Tang Package}{40}{subsection.6.2.1}
 \contentsline {paragraph}{Outdated buildroot}{40}{section*.7}
 \contentsline {paragraph}{libhttp-parser}{40}{section*.8}
 \contentsline {chapter}{\numberline {7}Configuring the Tang on OpenWrt}{42}{chapter.7}
-\contentsline {section}{\numberline {7.1}Install the packages}{42}{section.7.1}
-\contentsline {section}{\numberline {7.2}Setting up the Tang keys}{43}{section.7.2}
-\contentsline {section}{\numberline {7.3}Configure Tang for xinetd}{44}{section.7.3}
-\contentsline {section}{\numberline {7.4}Binding to the Tang on OpenWrt device}{46}{section.7.4}
-\contentsline {section}{\numberline {7.5}Tang's limitations}{46}{section.7.5}
+\contentsline {section}{\numberline {7.1}Install the Packages}{42}{section.7.1}
+\contentsline {section}{\numberline {7.2}Setting Up the Tang Keys}{43}{section.7.2}
+\contentsline {section}{\numberline {7.3}Configure Tang for Xinetd}{44}{section.7.3}
+\contentsline {section}{\numberline {7.4}Binding to the OpenWrt Device Running Tang}{46}{section.7.4}
+\contentsline {section}{\numberline {7.5}Tang's Limitations}{46}{section.7.5}
 \contentsline {paragraph}{Key exchange and generation}{46}{section*.9}
 \contentsline {paragraph}{xinetd forwarding the stderr}{47}{section*.10}
 \contentsline {paragraph}{Early boot decryption using Wi-Fi network}{47}{section*.11}
@@ -71,7 +71,7 @@
 \contentsline {section}{\numberline {B.2}Fedora 28 -- determination key encryption key }{55}{section.B.2}
 \contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{56}{appendix.C}
 \contentsline {section}{\numberline {C.1}Step 1 -- unmounting}{56}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 -- resizing}{56}{section.C.2}
+\contentsline {section}{\numberline {C.2}Step 2 -- Resizing}{56}{section.C.2}
 \contentsline {section}{\numberline {C.3}Step 3 -- encrypting}{57}{section.C.3}
 \contentsline {section}{\numberline {C.4}Step 4 -- adding key}{57}{section.C.4}
 \contentsline {chapter}{\numberline {D}Setting up the repository}{58}{appendix.D}

@@ -16,7 +16,7 @@ By removing systemd lines from sources we end up not have automatic updates of t
 
 
 
-\section{Install the packages}
+\section{Install the Packages}
 
 The packages that have been built in our buildroot are not available in any online mirror yet.
 To make them available for OpenWrt we should create a pull-request tith the change and work with the community to accept it.
@@ -59,7 +59,7 @@ After packages are installed we may now proceed to the enviroment setup.
 
 
 
-\section{Setting up the Tang keys}
+\section{Setting Up the Tang Keys}
 The Tang server is packaged with cripts which help us to generate keys and cache for the Tang daemon.
 OpenWrt has no realpath available, therefore the {\tt tangd-update} script did not work on OpenWrt.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -91,7 +91,7 @@ endef
 
 
 
-\section{Configure Tang for xinetd}
+\section{Configure Tang for Xinetd}
 
 We need xinetd's socket activation for Tang to work.
 And to do so we will need a configuration file for the tangd service for xinetd daemons shown in listing \ref{tangdx}.
@@ -214,7 +214,7 @@ Due to many changes to the Makefile and the Tang branch in packages see the subm
 
 
 
-\section{Binding to the Tang on OpenWrt device}
+\section{Binding to the OpenWrt Device Running Tang}
 Let us now bind the client to the Tang server which is up and running on our OpenWrt:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # clevis luks bind -d /dev/nvme0n1p2 tang '{"url":"http://192.168.0.1:8888"}'
@@ -240,7 +240,7 @@ The manual step to remove key from key slot was demonstrated in subsection \ref{
 Enter any remaining passphrase:
 \end{lstlisting}
 
-\section{Tang's limitations}\label{limitations}
+\section{Tang's Limitations}\label{limitations}
 
 Let us sum up the limitations that Tang has on OpenWrt platform due to replaced systemd dependency with less capable xinetd implementation of super-server.
 We also found one platform independent limitation of the Tang's solution to full disk description on early boot.

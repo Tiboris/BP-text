@@ -19,14 +19,14 @@ To do so we need to restart our computer and boot any other or live distribution
 
 
 
-\section{Step 2 -- resizing}
+\section{Step 2 -- Resizing}
 There are plenty tools for re-sizing, essentially for partitioning as whole (fdisk, e2fsck, etc.).
 Demonstrating how this is done for ext 2, 3, 4 here:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # e2fsck /dev/vda2
 # resize2fs /dev/vda2 -s -10M
 \end{lstlisting}
-Delete and recreate shrinked partition with fdisk:
+Delete and recreate shrunk partition with fdisk:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # fdisk /dev/vda
 Welcome to fdisk (util-linux 2.23.2).

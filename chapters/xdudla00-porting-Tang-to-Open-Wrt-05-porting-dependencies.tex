@@ -27,7 +27,7 @@ Please note that static libraries (“.a” files) do not need to be installed i
 
 
 
-\section{Find the dependencies}\label{dependencies}
+\section{Find the Dependencies}\label{dependencies}
 
 To port Tang to OpenWrt system we have have all its dependencies available and installed in buildroot.
 We should do find out if dependencies for our software project, we are about to port, are available for the target's platform.
@@ -73,7 +73,7 @@ The OpenWrt buildroot has to have a packages feeds set to point to repository wi
 We used upstream packages\footnote{https://github.com/openwrt/packages} with latest commit hash {\tt 580053888235713dd95b96b37169926bffedce0b}.
 
 
-\section{Update outdated packages}
+\section{Update Outdated Packages}
 
 Finding some of dependencies already available for our desired target platform will definitely make us satisfied.
 We would agree that starting with something already built for OpenWrt is the best thing to do when we are approaching unknown platform.
@@ -201,7 +201,7 @@ Especially when built package is also a dependency for other packages.
 
 
 
-\section{New package José}
+\section{New Package José}
 
 After updating of jansson and libhttp-parser we are familiar with OpenWrt's Makefiles.
 As José package is not packaged for OpenWrt now comes the time to write new makefile on our own.

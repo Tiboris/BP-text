@@ -5,7 +5,7 @@ The systemd is only one of the many implementations (inetd, launchd, ucspi-tcp, 
 
 
 
-\section{Socket activation}\label{socket_activation}
+\section{Socket Activation}\label{socket_activation}
 
 Socket activation is a technology provided by a super-server (also called a service dispatcher daemon).
 It uses very few resources when in idle state and starts other services when needed as well, normally with access to them checked by a TCP wrapper.
@@ -16,7 +16,7 @@ The xinetd implementation is already packaged for OpenWrt and we will try to con
 
 
 
-\subsection{xinetd}
+\subsection{Xinetd}
 xinetd listens for incoming requests over a network and launches the appropriate service for that request.
 Requests come to network ports and xinetd usually launches another daemon to handle the request.
 This is reflected on Figure \ref{fig_xinetd} xinetd socket activation below.
@@ -151,7 +151,7 @@ The most important part after successful build would be to configure it correctl
 
 
 
-\subsection{Delivering Tang package}\label{porting_problems}
+\subsection{Delivering the Tang Package}\label{porting_problems}
 
 The upstream world is not always ideal.
 Soon after this porting effort started OpenWrt upstream was in bad shape and almost dead for reasons we described in subsection \ref{LEDE} OpenWrt and LEDE.

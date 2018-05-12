@@ -1,4 +1,4 @@
-\chapter{How we use Encryption}\label{encryption}
+\chapter{How We Use Encryption}\label{encryption}
 
 We may not realize this, but we use encryption every day.
 The purpose of encryption is to keep us safe when we are browsing the Internet or just storing our sensitive information on digital media.
@@ -16,7 +16,7 @@ If we encrypt our laptop or desktop computer's hard drive, encryption protects o
 
 
 
-\section{Encryption and security}
+\section{Encryption and Security}
 
 Security is not binary; it is a sliding scale of risk management.
 People are used to mark things, for example good and bad, expensive, and cheap.
@@ -46,7 +46,7 @@ The only disadvantage is that it is hard to remember \cite{splashdata}.
 
 
 
-\section{Hard drive encryption}
+\section{Hard Drive Encryption}
 
 It all starts, as mentioned, with desire to keep our data to ourselves and as a secret to others.
 More often than not, these secrets are stored on our hard drives.
@@ -110,7 +110,7 @@ https://github.com/t-d-k/LibreCrypt
 
 
 
-\subsection{dm-crypt}\label{dm-crypt}
+\subsection{Dm-crypt}\label{dm-crypt}
 
 The device-mapper crypt target ({\it dm-crypt}) provides transparent encryption of block devices using the kernel crypto API (Application programming interface) supporting ciphers and digest algorithms via standard kernel modules.
 Device-mapper is a part of the Linux kernel that provides a generic way to create virtual layers of block devices, for example LVM (Logical Volume Manager) logical volumes.
@@ -126,7 +126,7 @@ In contrast to previous Linux disk encryption solutions, {\it LUKS} stores all n
 
 
 
-\section{Disk encryption with LUKS}\label{LUKS}
+\section{Disk Encryption with LUKS}\label{LUKS}
 
 {\it LUKS} (Linux Unified Key Setup-on-disk-format) is a platform-independent disk encryption specification.
 {\it LUKS} was created by Clemens Fruhwirth in 2004 and was originally intended for Linux distributions only.
@@ -145,7 +145,7 @@ To mitigate this risk the Backup of the {\it LUKS} header is the best option \ci
 
 
 
-\subsection{Creating LUKS volume}
+\subsection{Creating LUKS Volume}
 
 Creating a {\it LUKS} volume with the {\tt cryptsetup} tool is easy.
 On Fedora system it can be installed using command:
@@ -412,7 +412,7 @@ Examples shown demonstrate basic key management for {\it LUKS} volumes and shoul
 
 
 
-\subsection{LUKS security}
+\subsection{LUKS Security}
 
 In August 2012, Ubuntu Privacy Remix Team did a deep analysis of {\it LUKS}/{\tt cryptsetup} in Ubuntu environment.
 {\tt cryptsetup} in version 1.4.1 used by Ubuntu 12.04 LTS has been chosen for the analysis.

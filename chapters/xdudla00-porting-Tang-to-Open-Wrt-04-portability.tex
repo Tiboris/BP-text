@@ -22,7 +22,7 @@ But still, in the embedded system market, where OpenWrt operating system belongs
 
 
 
-\section{OpenWrt system}\label{owrt}
+\section{OpenWrt System}\label{owrt}
 OpenWrt is Linux distribution for embedded devices especially for wireless routers.
 It was originally developed in January 2004 for the Linksys WRT54G with buildroot from the uClibc project.
 Now it supports many more models of routers.
@@ -56,7 +56,7 @@ Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released 
 
 
 
-\subsection{Why use OpenWrt}
+\subsection{Why Use OpenWrt}
 
 Custom router firmware may be more stable than our hardware’s default firmware from the vendor.
 Not even that, but probably more secure with regular security updates.
@@ -84,7 +84,7 @@ With Tang, we do not have to care about typing passphrases over and over to unlo
 
 
 
-\section{OpenWrt's tool-chain}
+\section{OpenWrt's Tool-chain}
 
 Compilation is done by set of tools called tool-chain and it consists of:
 \begin{itemize}
@@ -116,7 +116,7 @@ In case of OpenWrt, we have an available set of Makefiles and patches called bui
 
 
 
-\section{OpenWrt's buildroot}
+\section{OpenWrt's Buildroot}
 
 OpenWrt's buildroot is a build system capable of generating the tool-chain, and also a root file-system (also called sysroot), an environment tightly bound to the target.
 The build system can be configured for any device that is supported by OpenWrt.
@@ -130,7 +130,7 @@ Be tidy and pedantic, because cross-compiling can easily become a painful mess!\
 
 
 
-\subsection{Buildroot prerequisites}
+\subsection{Buildroot Prerequisites}
 
 Let us demonstrate minimum requirements of space and size of RAM for building packages for Openwrt using its buildroot.
 For generating an installable OpenWrt firmware image file with a size of e.g. 8 MB, we will need at least:
@@ -174,7 +174,7 @@ Another reasons, not to just compare internal storage which might be extended\fo
 
 
 
-\section{Preparing the host environment}
+\section{Preparing the Host Environment}
 
 To start with cross-compilation on the host system, we need to set up an environment for it.
 As the OpenWrt buildroot is a set of scripts, it has run-time dependencies.
@@ -196,7 +196,7 @@ These commands have to be run by a user with root privileges.
 
 
 
-\subsection{Getting buildroot}
+\subsection{Getting Buildroot}
 
 OpenWrt system has SDK (Software development kit) buildroots available for every released version of OpenWrt system.
 It is good to consider using OpenWrt's SDK in order to build the software application for specific release of the target system.
@@ -212,7 +212,7 @@ To clone upstream buildroot run command:
 $ git clone https://github.com/openwrt/openwrt.git
 \end{lstlisting}
 
-\section{Working with buildroot}\label{working-with-buildroot}
+\section{Working with Buildroot}\label{working-with-buildroot}
 
 Working with Openwrt's buildroot requires some basic knowledge of the git version control system\footnote{https://git-scm.com/docs/gittutorial} and processes of upstream project development using GitHub\footnote{https://guides.github.com/introduction/flow/}.
 A short description of how to fork and set up repository can be found in appendix \ref{set_repo} Setting up the repository.
@@ -231,7 +231,7 @@ After we have the environment ready to be worked on, all required dependencies i
 
 
 
-\subsection{Setting feeds}
+\subsection{Setting Feeds}
 
 In OpenWrt, a {\it feed} is a collection of packages which share a common location.
 {\it Feeds} may reside on a remote server, in a version control system, on the local file-system, or in any other location addressable by a single name (path/URL) over a protocol with a supported {\it feed} method.
@@ -276,7 +276,7 @@ If for some unknown reason the issued update of packages does not seems to show 
 $ rm -rf tmp/
 \end{lstlisting}
 
-\subsection{The menuconfig}
+\subsection{The Menuconfig}
 
 For OpenWrt menuconfig provides a simple, yet powerful, environment for the configuration of individual builds.
 Working with menuconfig is very intuitive.
@@ -322,7 +322,7 @@ When we save our configuration, the file {\tt .config} will be created in the bu
 
 
 
-\subsection{Building single Packages}
+\subsection{Building Single Packages}
 
 When developing or packaging software for OpenWrt, it is convenient to be able to build only the package in question (e.g. with package cups):
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]

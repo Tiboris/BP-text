@@ -1,4 +1,4 @@
-\chapter{Automated decryption}
+\chapter{Automated Decryption}
 
 As article {\it Inductive programming meets the real world} \cite{Gulwani2015} states, that we should try to automate everything we can in order to avoid repetitive tasks.
 Even though disc encryption provides another layer of security to our data, it is used less.
@@ -36,7 +36,7 @@ The Escrow server may store lots of keys from lots of different places, users an
 
 
 
-\section{Tang server}\label{tang}
+\section{Tang Server}\label{tang}
 
 With key escrow, a third party gets copies of a cryptographic key.
 People might not be comfortable with any third party having this ability and that “technical” problems vex the key escrow solution.
@@ -185,7 +185,7 @@ $ make check
 
 
 
-\subsection{Server enablement}
+\subsection{Server Enablement}
 
 Enabling a Tang server is a two-step process.
 First step is to enable the Tang services.
@@ -218,7 +218,7 @@ curl -f http://tang.local/adv
 \end{lstlisting}
 Tang now advertises its {\tt exc.jwk} key signed using the {\tt sig.jwk}.
 
-\subsection{Clevis client}\label{clevis}
+\subsection{Clevis Client}\label{clevis}
 
 Clevis provides a pluggable key management framework for automated decryption and has full support for Tang.
 It can handle automated unlocking of LUKS volumes.
@@ -256,7 +256,7 @@ When the advertisement is specified manually like this, Clevis presumes that the
 
 
 
-\subsection{Binding LUKS volumes with clevis}\label{dracut}
+\subsection{Binding LUKS Volumes with Clevis}\label{dracut}
 Tang's main purpose is to enable early boot decryption of the {\it LUKS} volumes and clevis is the client solution for it.
 Clevis can be used to bind a {\it LUKS} volume using a {\it PIN} so that it can be automatically unlocked.
 
