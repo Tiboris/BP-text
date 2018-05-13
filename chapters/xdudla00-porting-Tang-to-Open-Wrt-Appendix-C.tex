@@ -10,7 +10,7 @@ It takes 4 steps to perform an in place encryption with {\it luksipc} \cite{luks
 
 
 
-\section{Step 1 -- unmounting}
+\paragraph{Step 1 -- Unmounting}
 There should not be any problems unmounting partition, unless you want to encrypt {\it /} -- the root partition, which in our case (to lock whole disk) will be necessary.
 To do so we need to restart our computer and boot any other or live distribution capable of completing these next steps.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -19,7 +19,7 @@ To do so we need to restart our computer and boot any other or live distribution
 
 
 
-\section{Step 2 -- Resizing}
+\paragraph{Step 2 -- Resizing}
 There are plenty tools for re-sizing, essentially for partitioning as whole (fdisk, e2fsck, etc.).
 Demonstrating how this is done for ext 2, 3, 4 here:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
@@ -54,7 +54,7 @@ Device        Boot        Start     End         Blocks      Id    System
 
 
 
-\section{Step 3 -- encrypting}
+\paragraph{Step 3 -- Encrypting}
 After this, luksipc comes into play. It performs an in-place encryption of the data and prepends the partition with a LUKS header. Firt we have to download luksipc or install it with package manager.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ wget https://github.com/johndoe31415/luksipc/archive/master.zip
@@ -74,7 +74,7 @@ luksipc will have created a key file /root/initial\_keyfile.bin that you can use
 
 
 
-\section{Step 4 -- adding key}
+\paragraph{Step 4 -- Adding key}
 DO NOT FORGET to add key to LUKS volume:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksAddKey --key-file /root/initial\_keyfile.bin /dev/vda2
