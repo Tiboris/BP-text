@@ -249,8 +249,8 @@ We also found one platform independent limitation of the Tang's solution to full
 But this means that the embedded device with such configuration will have another process always running.
 We decided not to implement an automated update of the cache to save the computation resources.
 
-\paragraph{xinetd forwarding the stderr} output to the socket is a little problem as well.
-To have tang working correctly, we wrote a wrapper running the shell script redirecting the {\it stderr} into log file.
+\paragraph{xinetd forwarding the /dev/stderr} output to the socket is a little problem as well.
+To have tang working correctly, we wrote a wrapper running the shell script redirecting the {\it /dev/stderr} into log file.
 Running some shell script takes some time compared to only running the binary file, but for xinetd it is necessary.
 
 \paragraph{Early boot decryption using Wi-Fi network} is a platform independent chicken-egg problem caused by information about wireless network being encrypted on system volume.
