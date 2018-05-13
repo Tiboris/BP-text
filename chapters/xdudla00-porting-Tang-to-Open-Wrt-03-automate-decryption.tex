@@ -93,7 +93,7 @@ The client then generates a new (random) JWK ({\it cJWK}; c stands for client's 
 \begin{equation}\label{clientgen}
     c = g * C
 \end{equation}
-The client performs its half of a standard ECDH exchange producing {\it kJWK} -- see equation \ref{k    JWK_gen}, which it uses to encrypt the data.
+The client performs its half of a standard ECDH exchange producing {\it kJWK} -- see equation \ref{kJWK_gen}, which it uses to encrypt the data.
 Afterwards, it must discard the {\it kJWK} and the private key from {\it cJWK}.
 \begin{equation}\label{kJWK_gen}
     k = s * C
