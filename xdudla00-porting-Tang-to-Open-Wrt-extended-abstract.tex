@@ -6,44 +6,45 @@ Táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie
 Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie na operačných systémoch typu Linux.
 Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera {\it Key Escrow} alebo {\it Tang}, ktorý vstupuje do procesu ako tretia strana.
 
-Server Key Escrow slúži na ukladanie šifrovacích kľučov.
-Na rozdiel od serveru Tang, Key Escrow potrebuje zabezpečenú infraštruktúru a identifikovať každého používateľa ktorý chce jeho služby využívať.
-Server Tang poskytuje anonymnú obnovu kľúčov, a teda žiaden z nich nepozná, iba poskytne matematickú operáciu klientovi, ktorý žiada o obnovenie.
-Operácie, ktoré server tang vykonáva pri tejto obnove sú detailne opísané v práci.
+Server Key Escrow slúži na ukladanie šifrovacích kľúčov.
+Na rozdiel od serveru Tang, Key Escrow potrebuje zabezpečenú infraštruktúru a identifikovať každého používateľa, ktorý chce jeho služby využívať.
+Server Tang poskytuje anonymnú obnovu kľúčov, a teda žiaden z nich nepozná. Poskytne iba matematickú operáciu klientovi, ktorý žiada o obnovenie.
+Operácie, ktoré server tang vykonáva pri tejto obnove, sú detailne opísané v práci.
 
-Krížovú kompiláciu vykonáva upravený kompilátor, ktorý generuje binárny kód možný spustenia na inej platforme, než na ktorej je samotný preklad zdrojových kódov spustený.
+Krížovú kompiláciu vykonáva upravený kompilátor, ktorý generuje binárny kód s možnosťou spustenia na inej platforme, než je tá, na ktorej je spustený samotný preklad zdrojových kódov.
 Používa sa v prípadoch, keď sú zdrojové kódy spoločné pre viacero ceľových platforiem, na ktorých môže byť program spustený (Linux a Microsoft Windows) alebo rovnaký systém s rôznymi typmi procesorov (16bitový, 32bitový a 64bitový) alebo architektúr (x86\_64, MIPS, ARM).
-Často sa využíva na generovanie spustiteľných súborov pre vstavané systémy a pri prekladu na platformy, ktoré niesú shopné kompilácie.
+Často sa využíva na generovanie spustiteľných súborov pre vstavané systémy a pri preklade na platformy, ktoré nie sú schopné kompilácie.
 
-Tento kompilátor je spolu s linkerom a štandardnou knižnicou jazyka C hlavnou súčasťou súboru počítačových programov, nástrojov alebo utilít, nazývaným aj tool-chain.
+Tento kompilátor je spolu s linkerom a štandardnou knižnicou jazyka C hlavnou súčasťou súboru počítačových programov, nástrojov alebo utilít, nazývaných aj tool-chain.
 Tool-chain pre systém OpenWrt je možné vygenerovať použitím buildroot-u z GitHub repozitára openwrt/openwrt.
 Tento buildroot obsahuje pomocné skripty a Makefile-y uľahčujúce automatizáciu procesu vytvárania inštalovateľného obrazu systému OpenWrt.
 Buildroot je možné nakonfigurovať pre špecifické zariadenie podporované systémom OpenWrt.
 
-Okrem schopnosti vytvárania obrazov systému OpenWrt je tento nástroj používany na vytváranie inštalovateľných softvérových balíkov pre túto platformu.
+Okrem schopnosti vytvárania obrazov systému OpenWrt je tento nástroj používaný na vytváranie inštalovateľných softvérových balíkov pre túto platformu.
 Pre portnutie, teda vytvorenie balíka, je potrebné vytvoriť adresárovú štruktúru v repozitári feeds.
 Táto adresárová štruktúra obsahuje súbory zdrojového kódu pre rôzne softvérové projekty spolu s Makefile-om, ktorý obsahuje direktívy buildroot-u pre spustenie krížovej kompilácie na cielenú architektúru.
-Takto vytvorené balíky je možné následne nainštalovať na zariadenia s nainštalovaným systémom OpenWrt.
+Takto vytvorené balíky je možné následne nainštalovať na zariadenia, ktoré majú nainštalovaný systém OpenWrt.
 
 Počas procesu balenia softvéru pomocou buildroot-u OpenWrt môže dôjsť ku mnohým chybám.
 Najčastejšie sú chýbajúce závislosti knižníc pre úspešné skompilovanie a prepínače pre linker a kompilátor v Makefile pre OpenWrt.
-Tieto chyby sa riešia postupne, ako sa počas kompilácie v buildroot-u vyskytnú preto ich riešenie je aj časovo náročnejšie.
+Tieto chyby sa riešia postupne, ako sa počas kompilácie v buildroot-u vyskytnú, preto ich riešenie je aj časovo náročnejšie.
 
 Pre úspešné skompilovanie softwéru Tang bolo potrebné zaistiť, aby všetky jeho závislostí boli dostupné pre OpenWrt.
-Pre získanie informácií o týchto softvérových závislostiach a ich verziách sme využili Internetové stránky projektu {\it Tang} a {\it koji} obsahujúcej informácie o balíčkoch pre distribúciu Fedora.
+Na získanie informácií o týchto softvérových závislostiach a ich verziách sme využili Internetové stránky projektu {\it Tang} a {\it koji} obsahujúcej informácie o balíčkoch pre distribúciu Fedora.
 
 Niektoré softvérové závislosti už boli dostupné pre OpenWrt systém v jeho repozitároch.
-Závislosť jansson potrebovala aktualizovať na novšiu verziu, čo sa nám aj podarilo a náš pull-request komunita prijala takmer okamžite.
-Knižnica libhttp-parser bola zdrojom viacerých problémov, ktoré sa nám ale poradilo vyriešiť ako pre Tang, tak aj pri aktualizovaní verzií a komunikácií s komunitou OpenWrt.
+Závislosť jansson potrebovala aktualizovať na novšiu verziu, čo sa nám aj podarilo.
+Komunita náš pull-request prijala takmer okamžite.
+Knižnica libhttp-parser bola zdrojom viacerých problémov, ktoré sa nám však poradilo vyriešiť ako pre Tang, tak aj pri aktualizovaní verzií a komunikácií s komunitou OpenWrt.
 
-Závislosť knižnice a nástroja José si vyžadovala vytvorenie nového balíka ktorý nebol dostupný pre zariadenia OpenWrt.
+Závislosť knižnice a nástroja José si vyžadovala vytvorenie nového balíka, ktorý nebol dostupný pre zariadenia OpenWrt.
 Túto závislosť sa nám podarilo portnúť a po komunikácii s komunitou na GitHub-e je balík pripravený na revidalizáciu.
 
-Po odstránení závislosti systemd pre Tang a zápasení s knižnicou http-parser sa nám nakoniec podarilo úspešne portnúť a teda aj zabaliť softvér serveru Tang do balíka inštalovateľného na platforme OpenWrt.
-Tento balík sme niekoľko krát upravovali a zariadili to, že používateľovi sa automaticky po inštalácii vytvoria súbory potrebné pre správne fungovanie serveru Tang.
-Konfigurácia serveru tang nie je taktiež potrebná.
+Po odstránení závislosti systemd pre Tang a zápasení s knižnicou http-parser sa nám nakoniec podarilo úspešne portnúť, a teda aj zabaliť softvér serveru Tang do balíka inštalovateľného na platforme OpenWrt.
+Tento balík sme niekoľko krát upravovali a zariadili tak to, že používateľovi sa automaticky po inštalácii vytvoria súbory potrebné pre správne fungovanie serveru Tang.
+Konfigurácia serveru Tang nie je taktiež potrebná.
 Po inštalačný skript zaistí nie len vygenerovanie potrebných súborov, ale aj následnú konfiguráciu služby {\tt tangd}.
-Posledný krok používateľa pre aktiváciu služby tangd je reštartovanie služby xinetd.
-Finálna verzia balíku Tang čaká na prijatie kominitou a následnu revidalizáciu jej vývojármi.
+Posledným krokom používateľa pre aktiváciu služby tangd je reštartovanie služby xinetd.
+Finálna verzia balíku Tang čaká na prijatie komunitou a následnú revidalizáciu jej vývojármi.
 
-Nakoniec so správnou konfiguráciou serveru Tang pre službu xinetd na našom zariadení OpenWrt, je server Tang schopný obsluhovať klientov bez nutnosti ďalšieho počítača na sieti, s obmedzeniami, ktoré táto konfigurácia na vstavané zariadenie priniesla.
+Nakoniec, so správnou konfiguráciou serveru Tang pre službu xinetd na našom zariadení OpenWrt, je server Tang schopný obsluhovať klientov bez nutnosti ďalšieho počítača na sieti, s obmedzeniami, ktoré táto konfigurácia na vstavané zariadenie priniesla.
