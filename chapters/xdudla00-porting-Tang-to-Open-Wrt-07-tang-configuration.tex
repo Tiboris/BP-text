@@ -12,18 +12,18 @@ It also has similarities with NSLU2's Optware, also made for embedded devices.
 Opkg attempts to resolve dependencies with packages in the available repositories/mirrors.
 If the opkg fails to find the dependency, it will report an error, and abort the installation of selected package.
 
-By removing systemd lines from sources we end up not have automatic updates of the Tang's cache and xinetd's socket activation to set up.
+By removing systemd lines from sources, we end up not having automatic updates of the Tang's cache and we will need the xinetd's socket activation to be set up.
 
 
 
 \section{Install the Packages}
 
 The packages that have been built in our buildroot are not available in any online mirror yet.
-To make them available for OpenWrt we should create a pull-request tith the change and work with the community to accept it.
-Before we do so, we have to make sure, that the built packages are working try installing them and testing their functionality.
+To make them available for OpenWrt we should create a pull-request with the change and work with the community to accept it.
+Before we do so, we have to make sure that the built packages are working by trying to install them and test their functionality.
 
-To get our newly built packages to the target device running the OpenWrt we can upload them using scp to device's file-system.
-After successful build, the packages are present in the bin/packages/mips\_24kc/packages/ directory (the location is bound to device configuration):
+To get our newly built packages to the target device running the OpenWrt, we can upload them by using scp to device's file-system.
+After the successful build, the packages are present in the bin/packages/mips\_24kc/packages/ directory (the location is bound to device configuration):
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ scp bin/packages/mips_24kc/packages/*.ipk \
     root@192.168.0.1:/root/custom-packages/
@@ -55,22 +55,22 @@ opkg install /root/custom-packages/libhttp-parser_2.8.0-1_mips_24kc.ipk
 opkg install /root/custom-packages/tang_6-1_mips_24kc.ipk
 \end{lstlisting}
 The opkg tool will resolve other known dependencies and install them as well.
-After packages are installed we may now proceed to the enviroment setup.
+After packages are installed, we can now proceed to the enviroment setup.
 
 
 
 \section{Setting Up the Tang Keys}
-The Tang server is packaged with cripts which help us to generate keys and cache for the Tang daemon.
+The Tang server is packaged with scripts which help us to generate keys and cache for the Tang daemon.
 OpenWrt has no realpath available, therefore the {\tt tangd-update} script did not work on OpenWrt.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 bash: realpath: command not found
 \end{lstlisting}
-Simply replacing it with {\tt readlink -f} solved the issue and script with such change is capable of generating cache.
+Simply replacing it with {\tt readlink -f} solved the issue and the script with such change is capable of generating cache.
 We have to create a diff file for this change and add it into {\tt utils/tang/patches} directory.
 
 The OpenWrt Makefile can define section {\it Package/\$(PKG\_NAME)/postinst}.
-This section usually contain a short shell script to tweak the package after installation to make package work out of the box.
-We can place this short sript to the Tang's Makefile to run the keys and cache generation after installation:
+This section usually contains a short shell script to tweak the package after installation to make the package work out of the box.
+We can place this short script to the Tang's Makefile to run the keys and cache generation after installation:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/tang/postinst
 #!/bin/sh
@@ -94,7 +94,7 @@ endef
 \section{Configure Tang for Xinetd}
 
 We need xinetd's socket activation for Tang to work.
-And to do so we will need a configuration file for the tangd service for xinetd daemons shown in listing \ref{tangdx}.
+To do so, we will need a configuration file for the tangd service for xinetd daemons shown in listing \ref{tangdx}.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10},caption=Configuration of Tang service for xinetd,label=tangdx]
 service tangd
 {
@@ -111,7 +111,7 @@ service tangd
 \end{lstlisting}
 This is configuration to run {\tt /usr/libexec/tangd} after a request comes to port 8888.
 The server will be spawned with one argument, the cache directory.
-Please note that we used diffent directory compared to Fedora.
+Please note that we used a diffent directory compared to Fedora.
 We need to have Tang keys stored on persistent data storage.
 The {\tt /var/} location is only a symbolic link to the {\tt /tmp} directory on OpenWrt device.
 The developers on IRC channel proposed to use the persistent {\tt /usr/share/} directory for that purpose.
@@ -124,7 +124,7 @@ and add the very same thing to post-installation script to have Tang completelly
 (cat /etc/services | grep -E "tangd.*8888\/tcp") > /dev/null \
     || echo -e "tangd\t\t8888/tcp" >> /etc/services
 \end{lstlisting}
-In case of the accidental removal of {\tt /etc/services} file we have to copy the backup of the file from devices ROM and edit it again.
+In case of the accidental removal of {\tt /etc/services} file, we have to copy the backup of the file from devices ROM and edit it again.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cp /rom/etc/services /etc/services
 \end{lstlisting}
@@ -133,10 +133,9 @@ Now we shall restart the xinetd daemon using the xinetd script located in {\tt /
 # /etc/init.d/xinetd stop
 # /etc/init.d/xinetd start
 \end{lstlisting}
-To test that service is running we can use the telnet to the device on port defined in the xinetd configuration.
+To test that the service is running, we can use the telnet to the device on port defined in the xinetd configuration.
 The server should advertise its public key.
-It can be retrieved with simple {\it GET} request for {\it /adv} content from the server.
-Try telnet to device write “GET /adv HTTP/1.1” and confirm this with two newlines (return key).
+It can be retrieved with a simple {\it GET} request for {\it /adv} content from the server or using telnet to the device, then write “GET /adv HTTP/1.1” and confirm this with two newlines (return key).
 The output similar to following should appear:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ telnet 192.168.0.1 8888
@@ -164,14 +163,14 @@ iJ9","signature":"ADpGOjYeB45MznQOxA6Pw9MXTMYQ649UkRSi_RsP8KPKosl-eA7GmOIiBM
 FOoPnCNX-cGjhyDBbQuvESUCJ_3txjANf-srntxFAX5p72Eip-kROGrlCdLrVLnlg36itQUBFx7S
 UyB_7I6CX6gdpWyJ-wtro8f2Snu6wwMGl-8V3ylWYr"}
 \end{lstlisting}
-The content of the first line from server response should be suspicious to us.
-According to the RFC 2616 the HTTP header should not contain such line\cite{RFC2616}.
+The content of the first line from the server response should be suspicious to us.
+According to the RFC 2616, the HTTP header should not contain such line\cite{RFC2616}.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 <unknown> GET /adv => 200 (src/tangd.c:85)
 \end{lstlisting}
-After some investigation done in the Tang sources we found out that the line contains debug information from the Tang daemon which were written to the /dev/stderr.
+After some investigation done in the Tang sources, we found out that the line contains debug information from the Tang daemon which were written to the /dev/stderr.
 From this we can assume that xinetd is sending also {\tt /dev/stderr} to the network socket.
-To bypass this beavior we should write wrapper script which will redirect the {\tt /dev/stderr} output somewhere else.
+To bypass this beavior, we should write a wrapper script which will redirect the {\tt /dev/stderr} output somewhere else.
 We decided that this output may be helpful for debugging purpose and forwarded it to the log file in the {\tt /var/log/} directory of the device using this script:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 #!/bin/bash
@@ -181,24 +180,24 @@ echo `date`: >> /var/log/tangd.log
 \end{lstlisting}
 Let us name this wrapper script the tangdw.
 
-To get Tang to work we need to put invocation of this script in place where tangd binary was configured to.
-Move the script to the /usr/libexec directory where the tangd binary is to have it in one place and edit the line of xinetd configuration to run wrapper:
+To get Tang to work, we need to put invocation of this script in place where tangd binary was configured to.
+Move the script to the /usr/libexec directory where the tangd binary is, to have it in one place and edit the line of xinetd configuration to run the wrapper:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
     server          = /usr/libexec/tangdw
 \end{lstlisting}
-The last thing would be to change the script's permissions on device to allow execution.
+The last thing would be to change the script's permissions on the device to allow the execution.
 
-We did a lot changes to the configuration.
-The Tang for the OpenWrt platform needs a xinetd configuration which for the ease of use could be packaged with it.
-The same with the wrapper script in order to have the service working correctly we also need this file.
+We did a lot of changes to the configuration.
+The Tang for the OpenWrt platform needs a xinetd configuration which, for the ease of use, could be packaged with it.
+Do the same with the new wrapper script in order to have the service working correctly.
 There is a way to add new files for each package and package them for the OpenWrt's opkg to install.
-To do so we will crate a directory for the files in the package's feeds repository we forked on branch containing commit adding the Tang and copy files there.
+To do so, we will crate a directory for the files in the package's feeds repository we forked on branch containing commit adding the Tang and copy files there.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ cd packages-OpenWrt
 $ git checkout add-tang
 $ mkdir -p utils/tang/files
 \end{lstlisting}
-As the new files are copied there we need to also edit a {\it Package/tang/install} section to install these files in proper directories (config file into dedicated {\tt /etc/xinetd.d/}; wrapper into {\tt /usr/libexec/}) as shown:\newpage
+As the new files are copied there, we also need to edit a {\it Package/tang/install} section to install these files in proper directories (config file into dedicated {\tt /etc/xinetd.d/}; wrapper into {\tt /usr/libexec/}) as shown:\newpage
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/tang/install
 	$(INSTALL_DIR)	$(1)/usr/libexec
@@ -209,8 +208,8 @@ define Package/tang/install
 	$(CP)			./files/tangdx	$(1)/etc/xinetd.d/
 endef
 \end{lstlisting}
-After all changes done last, we need to to amend commit on a branch, update the feeds in buildroot, rebuild the Tang package, upload and re-install it on our device running the OpenWrt.
-Due to many changes to the Makefile and the Tang branch in packages see the submitted pull-request\footnote{https://github.com/openwrt/packages/pull/5447} which includes all the changes.
+After all changes done, we need to amend a commit on a branch, update the feeds in the buildroot, rebuild the Tang package, upload and re-install it on our device running the OpenWrt.
+See the submitted pull-request\footnote{https://github.com/openwrt/packages/pull/5447} which includes all the changes.
 
 
 
@@ -226,15 +225,15 @@ Do you wish to trust these keys? [ynYN] y
 Enter existing LUKS password:
 \end{lstlisting}
 Clevis will add a new key encryption key to the first available {\it LUKS} header key slot.
-After rebuilding the initramfs on our Fedora client the early boot decryption will work.
+After rebuilding the initramfs on our Fedora client, the early boot decryption will work.
 
 Clevis client does not have option to unbind encrypted volume bound to Tang server.
-We have to make sure that the key encryption key we are about to remove from the {\it LUKS} header key slot is one added by Clevis.
-To do so please run {\tt cryptsetup} with option {\it luksDump} before and after binding with the Tang.
+We have to make sure that the key encryption key we are about to remove from the {\it LUKS} header key slot is the one added by Clevis.
+To do so, please run {\tt cryptsetup} with the option {\it luksDump} before and after binding with the Tang.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksDump /dev/nvme0n1p2
 \end{lstlisting}
-The manual step to remove key from key slot was demonstrated in subsection \ref{manageLUKS}:
+The manual step to remove a key from a key slot was demonstrated in subsection \ref{manageLUKS}:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 # cryptsetup luksKillSlot /dev/nvme0n1p2 1
 Enter any remaining passphrase:
@@ -242,17 +241,18 @@ Enter any remaining passphrase:
 
 \section{Tang's Limitations}\label{limitations}
 
-Let us sum up the limitations that Tang has on OpenWrt platform due to replaced systemd dependency with less capable xinetd implementation of super-server.
+Let us sum up the limitations that we found.
+Platform specific limitations are there because of the systemd replacement with xinetd implementation of super-server.
 We also found one platform independent limitation of the Tang's solution to full disk description on early boot.
 
-\paragraph{Key exchange and generation} of cache must be manual but  can be automated with inotifytools to watch directory for change and run update script automatically.
-But this mean that the embedded device with such configuration will have another process always running.
-We decided to not implement automated update of the cache to save the computation resources.
+\paragraph{Key exchange and generation} of cache must be manual but can be automated with inotifytools to watch the directory for a change and run update script automatically.
+But this means that the embedded device with such configuration will have another process always running.
+We decided not to implement an automated update of the cache to save the computation resources.
 
-\paragraph{xinetd forwarding the stderr} output to the socket as well is a little problem.
-To have tang working correctly we wrote a wrapper running the shell script redirecting the {\it stderr} into log file.
-Running some shell script takes some time compared to only running the binary file but for xinetd it is necessary.
+\paragraph{xinetd forwarding the stderr} output to the socket is a little problem as well.
+To have tang working correctly, we wrote a wrapper running the shell script redirecting the {\it stderr} into log file.
+Running some shell script takes some time compared to only running the binary file, but for xinetd it is necessary.
 
 \paragraph{Early boot decryption using Wi-Fi network} is a platform independent chicken-egg problem caused by information about wireless network being encrypted on system volume.
-The information needed to connect to wireless network needs to be decrypted but in order to decrypt them automatically we need to connect to network exposed to Tang server.
-It could be solved using a TPM to store information about such network but it is a security vulnerability and must be considered with a caution.
+The information needed to connect to wireless network needs to be decrypted, but in order to decrypt them automatically, we need to connect to the network exposed to Tang server.
+It could be solved using a TPM to store the information about such network, but it is a security vulnerability and must be considered with a caution.

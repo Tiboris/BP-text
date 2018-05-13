@@ -2,34 +2,34 @@
 
 
 Porting to OpenWrt platform is done using cross-compilation tools available throughout the OpenWrt's buildroot.
-Buildroot is configured using the menuconfig tool for specific device supported by the OpenWrt system.
-Buildroot is capable to create packages and also the Image of the OpenWrt system ready to be installed to our device.
-Using outdated buildroots (SDKs) may cause some troubles but it is recommended to use an SDK while porting to older OpenWrt system release.
+Buildroot is configured using the menuconfig tool for a specific device supported by the OpenWrt system.
+Buildroot is capable of creating packages as well as the Image of the OpenWrt system, which are then ready to be installed on our device rightaway.
+Using outdated buildroots (SDKs) may cause some troubles, but it is recommended to use an SDK while porting to older OpenWrt system release.
 
-To port software to the OpenWrt the user have to create a Makefile in a feed corresponding to the software usage.
-After creating the Makefile for the OpenWrt buildroot the actual build of the package should be triggered before proposing changes to the OpenWrt upstream.
-If the build cucceeded we have package ready to be tested on our device.
+To port software to the OpenWrt, the user has to create a Makefile in a feed corresponding to the software usage.
+After creating the Makefile for the OpenWrt buildroot, the actual build of the package should be triggered before proposing changes to the OpenWrt upstream.
+If the build succeeded, we have the package ready to be tested on our device.
 
 It happens that software requires a dependencies.
-To be able to build our desired software application we have to check whether these dependencies are available for our target platform, the OpenWrt.
-In our case Porting tang required to update existing packages in the OpenWrt feeds to newer versions and creating a new dependency package as well.
+To be able to build our desired software application, we have to check whether these dependencies are available for our target platform, the OpenWrt.
+In our case, porting of Tang requires an update of existing packages from the OpenWrt feeds to newer versions and creating a new dependency package there as well.
 
 Every OpenWrt package can be modified before build time.
-This is done having a new files and diff files in package's directory.
-Diff files, used to change original sources, are automatically applied when placed in proper diffs directory.
-New files located in files directory of the package should be processed by directives in package's Makefile.
+This is done by having new files and diff files in the package's directory.
+Diff files, used to change original sources, are automatically applied when placed in a proper diffs directory.
+New files located in the files directory of the package should be processed by directives in the package's Makefile.
 
-After successful build of the Tang package we needed also to configure it.
-The socket activation on xinetd is working similarly like systemd's.
+After successful build of the Tang package, we needed also to configure it.
+The socket activation on xinetd is working on similar principle as systemd's.
 We created the new configuration file for tangd service and the wrapper script.
 Having post install script in the Tang's Makefile will ensure that the Tang will have generated files required for run-time.
-The only thing that user has to do is to re-start the xinetd daemon.
+The only thing that the user has to do, is to re-start the xinetd daemon.
 
-Every change we did to acomplish goal of this thesis is reflected in separated pull requests against openwrt/packages upstream.
+Every change we did to acomplish the goal of this thesis is reflected in separated pull requests against openwrt/packages upstream.
 The update of the jansson package can be found in pull-request with number 4289\footnote{https://github.com/openwrt/packages/pull/4289/files}.
 A pull-request containing update of libhttp-parser package has number 5446\footnote{https://github.com/openwrt/packages/pull/5446/files}.
 New packages for the OpenWrt José and Tang are waiting for community to accept.
 José can be found in pull-request with number 4334\footnote{https://github.com/openwrt/packages/pull/4334/files}.
-And finally Makefile for the Tang server package in pull-request 5447\footnote{https://github.com/openwrt/packages/pull/5447/files}.
+And finally, the Makefile for the Tang server package is in pull-request 5447\footnote{https://github.com/openwrt/packages/pull/5447/files}.
 
-With correct configuration of xinetd daemon for Tang's socket activation, the Tang server is working on OpenWrt with some platform specific changes and limitations, able to serve its clients on the network.
+With correct configuration of xinetd daemon for Tang's socket activation, the Tang server is working on OpenWrt with some platform specific changes and limitations, and it is able to serve its clients on the network.
