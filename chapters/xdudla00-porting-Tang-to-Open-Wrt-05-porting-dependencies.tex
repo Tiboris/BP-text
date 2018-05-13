@@ -18,7 +18,7 @@ We must then remember to provide the compiler and linker programs the paths wher
 With static libraries, this information is only needed at compile and link time, but if we are using shared libraries, this won’t suffice.
 We must also specify where these libraries can be found at run time.
 
-If we are satisfying the dependencies with shared libraries (“.so ” files), having dependencies in root file-system is probably the most common solution.
+If we are satisfying the dependencies with shared libraries (“.so” files), having dependencies in root file-system is probably the most common solution.
 In case of OpenWrt, we will use this approach.
 When everything will be up and running, these libraries must be installed somewhere in the file system of the target platform.
 It is natural to install dependencies in the target's root file-system, for example in {\tt /usr/lib} (the binary shared files) and {\tt /usr/include} (the header files) or in any other path that allows the loader to find those libraries when the program executes.
