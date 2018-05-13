@@ -58,28 +58,28 @@
 \contentsline {section}{\numberline {7.4}Binding to the OpenWrt Device Running Tang}{46}{section.7.4}
 \contentsline {section}{\numberline {7.5}Tang's Limitations}{46}{section.7.5}
 \contentsline {paragraph}{Key exchange and generation}{46}{section*.9}
-\contentsline {paragraph}{xinetd forwarding the stderr}{47}{section*.10}
+\contentsline {paragraph}{xinetd forwarding the /dev/stderr}{47}{section*.10}
 \contentsline {paragraph}{Early boot decryption using Wi-Fi network}{47}{section*.11}
 \contentsline {chapter}{\numberline {8}Conclusion}{48}{chapter.8}
 \contentsline {chapter}{Bibliography}{50}{chapter*.12}
 \select@language {english}
 \select@language {english}
 \ttl@starttoc {chapters@1}
-\contentsline {chapter}{\numberline {A}Compact disk content}{53}{appendix.A}
+\contentsline {chapter}{\numberline {A}Contents of Attached CD}{53}{appendix.A}
 \contentsline {chapter}{\numberline {B}Pre-installation enablement of hard drive encryption}{54}{appendix.B}
-\contentsline {section}{\numberline {B.1}Fedora 28 -- disc encryption option selecting }{54}{section.B.1}
-\contentsline {section}{\numberline {B.2}Fedora 28 -- determination key encryption key }{55}{section.B.2}
+\contentsline {section}{\numberline {B.1}Fedora 27 -- Disc Encryption Option Selecting}{54}{section.B.1}
+\contentsline {section}{\numberline {B.2}Fedora 27 -- Determining the Key Encryption Key}{55}{section.B.2}
 \contentsline {chapter}{\numberline {C}LUKS In-Place Encryption}{56}{appendix.C}
-\contentsline {section}{\numberline {C.1}Step 1 -- unmounting}{56}{section.C.1}
-\contentsline {section}{\numberline {C.2}Step 2 -- Resizing}{56}{section.C.2}
-\contentsline {section}{\numberline {C.3}Step 3 -- encrypting}{57}{section.C.3}
-\contentsline {section}{\numberline {C.4}Step 4 -- adding key}{57}{section.C.4}
-\contentsline {chapter}{\numberline {D}Setting up the repository}{58}{appendix.D}
-\contentsline {chapter}{\numberline {E}OpenWrt package's Makefile}{60}{appendix.E}
-\contentsline {chapter}{\numberline {F}List of pull-requests}{62}{appendix.F}
-\contentsline {paragraph}{package zlib}{62}{section*.13}
-\contentsline {paragraph}{package jansson}{62}{section*.14}
-\contentsline {paragraph}{package libhttp-parser}{62}{section*.15}
-\contentsline {paragraph}{package jose}{62}{section*.16}
-\contentsline {paragraph}{package tang}{62}{section*.17}
+\contentsline {paragraph}{Step 1 -- Unmounting}{56}{section*.13}
+\contentsline {paragraph}{Step 2 -- Resizing}{56}{section*.14}
+\contentsline {paragraph}{Step 3 -- Encrypting}{57}{section*.15}
+\contentsline {paragraph}{Step 4 -- Adding key}{57}{section*.16}
+\contentsline {chapter}{\numberline {D}Setting Up the Repository}{58}{appendix.D}
+\contentsline {chapter}{\numberline {E}OpenWrt Package's Makefile}{60}{appendix.E}
+\contentsline {chapter}{\numberline {F}List of Pull-requests}{62}{appendix.F}
+\contentsline {paragraph}{Package zlib}{62}{section*.17}
+\contentsline {paragraph}{Package jansson}{62}{section*.18}
+\contentsline {paragraph}{Package libhttp-parser}{62}{section*.19}
+\contentsline {paragraph}{Package jose}{62}{section*.20}
+\contentsline {paragraph}{Package tang}{62}{section*.21}
 \contentsfinish 
