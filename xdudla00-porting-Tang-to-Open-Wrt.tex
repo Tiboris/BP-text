@@ -22,7 +22,7 @@
 %\documentclass[zadani,print]{fitthesis} % pro tisk - odkazy jsou černé
 %\documentclass[zadani,cprint]{fitthesis} % pro barevný tisk - odkazy jsou černé, znak VUT barevný
 %\documentclass[english,zadani,print]{fitthesis} % for the color print - links are black
-\documentclass[english,zadani,cprint]{fitthesis} % for the print - links are black, logo is color
+\documentclass[english,enslovak,zadani,cprint]{fitthesis} % for the print - links are black, logo is color
 % * Je-li práce psaná v anglickém jazyce, je zapotřebí u třídy použít
 %   parametr english následovně:
 %   If thesis is written in english, it is necessary to use
@@ -136,7 +136,9 @@
     Escrow,
     OpenWrt,
     operačný systém,
-    vstavané zariadenie,
+    vstavané za\-ria\-de\-nie,
+    smerovač,
+    xinetd,
     šifrovanie,
     LUKS,
     pevný disk,
@@ -144,6 +146,7 @@
     šifrovací kľúč,
     automatizácia,
     krížová kompilácia,
+    buildroot,
     balíkový systém },
   keywords.en={
     porting,
@@ -155,6 +158,8 @@
     OpenWrt,
     operating system,
     embedded device,
+    router,
+    xinetd,
     encryption,
     LUKS,
     hard drive,
@@ -162,18 +167,19 @@
     encryption key,
     automation,
     cross-compiling,
+    buildroot,
     package system },
   % Abstrakt / Abstract
   %abstract.cs={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}, % abstrakt v českém či slovenském jazyce / abstract in czech or slovak language
   %abstract.en={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v anglickém jazyce.}, % abstrakt v anglickém jazyce / abstract in english
   abstract.cs={
-  Hlavným cieľom tejto práce je naportovať a zdokumentovať tento proces sprístupnenia serveru Tang na vstavané zariadenia typu WiFi smerovač, s~plne modulárnym operačným systémom OpenWrt.
-  Tým dosiahneme anonymnú správu šifrovacích kľúčov pre zabezpečené domáce siete a siete malých firiem.
-  Preto táto práca popisuje problematiku šifrovania a jeho využitie na zabezpečenie pevného disku počítača.
+  Hlavným cieľom tejto práce je naportovať a~zdokumentovať tento proces sprístupnenia serveru Tang na vstavané zariadenia typu WiFi smerovač, s~plne modulárnym operačným systémom OpenWrt.
+  Tým dosiahneme anonymnú správu šifrovacích kľúčov pre zabezpečené domáce siete a~siete malých firiem.
+  Preto táto práca popisuje problematiku šifrovania a~jeho využitie na zabezpečenie pevného disku počítača.
   Oboznámuje čitateľa so štruktúrou šifrovaného diskového oddielu podľa LUKS špecifikácie, na operačných systémoch typu Linux.
   Práca rozoberá možnosti automatizácie odomykania šifrovaných diskov použitím externého servera, ktorý vstupuje do procesu ako tretia strana.
-  Sú v~nej popísané princípy serverov Key Escrow a Tang.
-  Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a krížovej kompilácie na platforme Linux.
+  Sú v~nej popísané princípy serverov Key Escrow a~Tang.
+  Dosiahnutie hlavného cieľa je možné vďaka procesu portovania a~krížovej kompilácie na platforme Linux.
   Práca obsahuje zdokumentovaný postup prispievania zmien a novo vytvorených balíkov pre OpenWrt do príslušných Open Source projektov.},
   abstract.en={
   The main objective of this work was to port and document the process of porting the Tang server and its dependencies to OpenWrt system, which is designed for embedded devices such as WiFi routers.
