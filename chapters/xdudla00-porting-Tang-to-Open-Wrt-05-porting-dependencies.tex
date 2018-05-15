@@ -114,7 +114,7 @@ As the new version of archive with sources will be downloaded, we need to change
 For some reason, OpenWrt upstream developers required the use of {\it PKG\_HASH} variable and the bz2 archive for the jansson package.
 In general, it would be sufficient to change only the version and the appropriate {\it PKG\_HASH}/{\it PKG\_MD5SUM} variable.
 We changed the filename extension for {\it PKG\_SOURCE} variable from “.tar.gz” to “.tar.bz2”.
-Now download the archive containing sources and get the archive hash using sha256sum:
+Now download the archive containing sources and get the archive hash using {\tt sha256sum}:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ wget http://www.digip.org/jansson/releases/jansson-2.10.tar.bz2 -P /tmp
 $ sha256sum /tmp/jansson-2.10.tar.bz2 | cut -d " " -f1
@@ -176,7 +176,7 @@ $ sha256sum /tmp/v2.8.0.tar.gz | cut -d " " -f1
 \end{lstlisting}
 Please note the file extension in the old makefile and download the same file-type for upgrade.
 
-Before committing the changes we also found that the owner of the repository changed from 'joyent' to 'nodejs' so we addressed these changes as well by editing proper sections in the Makefile.
+Before committing the changes we also found that the owner of the repository changed from {\tt joyent} to {\tt nodejs} so we addressed these changes as well by editing proper sections in the Makefile.
 We shall now commit the changes and push them into our fork.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ git commit -a
@@ -258,7 +258,7 @@ Visit the site and copy link location of the tar.bz2 archive for José release 1
 Now download the archive and as we did when updating packages run sha256sum:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ wget -P /tmp \
-https://github.com/latchset/jose/releases/download/v10/jose-10.tar.bz2
+    https://github.com/latchset/jose/releases/download/v10/jose-10.tar.bz2
 $ sha256sum /tmp/jose-10.tar.bz2 | cut -d " " -f1
 5c9cdcfb535c4d9f781393d7530521c72b1dd81caa9934cab6dd752cc7efcd72
 \end{lstlisting}
@@ -333,7 +333,7 @@ define Build/InstallDev
 	$(CP)	$(PKG_BUILD_DIR)/*.pc	$(1)/usr/lib/pkgconfig
 endef
 \end{lstlisting}
-Section {it Package/<package\_name>/install} contains set of commands to copy files into the device file-system represented by the {\it \$(1)} directory.
+Section {\it Package/<package>/install} contains set of commands to copy files into the device file-system represented by the {\it \$(1)} directory.
 As a source, we can use relative paths which will install software from the unpacked and compiled source, or {\it \$(PKG\_INSTALL\_DIR)} which is where the files in the Build/Install (not used here) step ends up.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 define Package/libjose/install

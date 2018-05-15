@@ -23,7 +23,7 @@ To make them available for OpenWrt we should create a pull-request with the chan
 Before we do so, we have to make sure that the built packages are working by trying to install them and test their functionality.
 
 To get our newly built packages to the target device running the OpenWrt, we can upload them by using scp to device's file-system.
-After the successful build, the packages are present in the bin/packages/mips\_24kc/packages/ directory (the location is bound to device configuration):
+After the successful build, the packages are present in the {\tt bin/packages/mips\_24kc/packages/} directory (the location is bound to device configuration):
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ scp bin/packages/mips_24kc/packages/*.ipk \
     root@192.168.0.1:/root/custom-packages/
@@ -216,7 +216,8 @@ See the submitted pull-request\footnote{https://github.com/openwrt/packages/pull
 \section{Binding to the OpenWrt Device Running Tang}
 Let us now bind the client to the Tang server which is up and running on our OpenWrt:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
-# clevis luks bind -d /dev/nvme0n1p2 tang '{"url":"http://192.168.0.1:8888"}'
+# clevis luks bind -d /dev/nvme0n1p2 \
+    tang '{"url": "http://192.168.0.1:8888"}'
 The advertisement contains the following signing keys:
 
 Apb39FO1vey9FyUe_fEd8lVDABs

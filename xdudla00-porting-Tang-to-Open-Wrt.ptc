@@ -20,7 +20,7 @@
 \contentsline {subsection}{\numberline {3.2.2}Building Tang}{17}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Server Enablement}{18}{subsection.3.2.3}
 \contentsline {subsection}{\numberline {3.2.4}Clevis Client}{18}{subsection.3.2.4}
-\contentsline {paragraph}{PIN: Tang}{18}{section*.4}
+\contentsline {paragraph}{PIN: tang}{18}{section*.4}
 \contentsline {subsection}{\numberline {3.2.5}Binding LUKS Volumes with Clevis}{19}{subsection.3.2.5}
 \contentsline {paragraph}{Dracut}{19}{section*.5}
 \contentsline {paragraph}{UDisks2}{19}{section*.6}

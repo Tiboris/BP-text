@@ -1,7 +1,7 @@
 \chapter{Software portability}\label{porting}
 
 Ideally, any software would be usable on any operating system, platform, and any processor architecture.
-Existence of term "porting", derived from the Latin portāre which means "to~carry", proves that this ideal situation does not occurs that often, and the actual process of "carrying" software to a system with a different environment is often required.
+Existence of term “porting”, derived from the Latin portāre which means “to~carry”, proves that this ideal situation does not occurs that often, and the actual process of “carrying” software to a system with a different environment is often required.
 Porting is process required to adapt software designed for specific platform to another platform.
 Porting is also used to describe process of converting computer games to become platform independent\cite{wiki_porting}.
 
@@ -28,7 +28,7 @@ It was originally developed in January 2004 for the Linksys WRT54G with buildroo
 Now it supports many more models of routers.
 OpenWrt is a registered trademark which is held by the Software in the Public Interest (SPI) in the name of the OpenWrt project.
 
-Installing OpenWrt system means replacing our router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management.
+Installing OpenWrt system means replacing our router’s built-in firmware with the Linux system which provides a fully writable filesystem with package management\footnote{https://openwrt.org/docs/guide-quick-start/factory\_installation}.
 This means that we are not bound to applications provided by the vendor.
 A router (the embedded device) with this distribution can be used for anything that an embedded Linux system can be used for, from using its SSH Server for SSH Tunneling, to running lightweight server software (e.g. IRC server) on it.
 In fact, it allows us to customize the device through the use of packages to suit any application. \cite{openwrt}
@@ -39,20 +39,20 @@ In fact, it allows us to customize the device through the use of packages to sui
 
 The LEDE Project (“Linux Embedded Development Environment”) is a Linux operating system emerged from the OpenWrt project.
 Its announcement was sent on 3th May 2016 by Jo-Philipp Wich to both the OpenWrt development list and the new LEDE development list\footnote{https://lwn.net/Articles/686180/}.
-It describes LEDE as "a reboot of the OpenWrt community" and as "a spin-off of the OpenWrt project" seeking to create an embedded-Linux development community "with a strong focus on transparency, collaboration and decentralisation"\footnote{https://www.phoronix.com/scan.php?page=news\_item\&px=OpenWRT-Forked-As-LEDE}.
+It describes LEDE as “a reboot of the OpenWrt community” and as a “spin-off of the OpenWrt project” seeking to create an embedded-Linux development community “with a strong focus on transparency, collaboration and decentralisation”\footnote{https://www.phoronix.com/scan.php?page=news\_item\&px=OpenWRT-Forked-As-LEDE}.
 
 The rationale given for the reboot was that OpenWrt suffered from longstanding issues that could not be fixed from within—namely, regarding internal processes and policies.
 For instance, the announcement said, the number of developers is at an all-time low, but there is no process for on-boarding new developers and no process for granting commit access to new developers.
 
-At the moment, the latest release of OpenWrt is 15.05.1 (code-named "Chaos Calmer") released in March 2016.
-LEDE developers continued to work separately on their upstream release and they delivered LEDE "Reboot" with version 17.01.0 on February 22nd 2017.
+At the moment, the latest release of OpenWrt is 15.05.1 (code-named “Chaos Calmer”) released in March 2016.
+LEDE developers continued to work separately on their upstream release and they delivered LEDE “Reboot” with version 17.01.0 on February 22nd 2017.
 
 The remerge proposal vote was passed by LEDE developers in June 2017\footnote{http://lists.infradead.org/pipermail/lede-adm/2017-June/000552.html}.
 After long and sometimes slowly moving discussions about the specifics of the re-merge, with multiple similar proposals but little subsequent action, projects formally announced on LEDE forum in January 2018\footnote{https://forum.lede-project.org/t/announcing-the-openwrt-lede-merge/10217}.
 OpenWrt and LEDE projects agreed upon their unification under the OpenWrt name.
 After merge, OpenWrt upstream repository started to show signs of life.
 
-Today (April 2018) the stable LEDE 17.01.4 "Reboot" release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers \cite{lede_release}.
+Today (April 2018) the stable LEDE 17.01.4 “Reboot” release of OpenWrt released in October 2017 using Linux kernel version 4.4.92 runs on many routers \cite{lede_release}.
 
 
 
@@ -65,21 +65,21 @@ Besides OpenWrt, there is another open source Linux based firmware available suc
 In the past OpenWrt has supported only CLI (command line interface) configuration, therefore, it was best match for software developers, network admins, or advanced users.
 A user not acquainted with Linux or even not comfortable with CLI may find the OpenWrt platform hard to use and may turn to other available solutions.
 
-The Tomato firmware is the best match for unexperienced users providing rich GUI and many other features, specifically live "visual" traffic monitoring, allowing easy visibility on inbound/outbound traffic in real-time.
+The Tomato firmware is the best match for unexperienced users providing rich GUI and many other features, specifically live ”visual” traffic monitoring, allowing easy visibility on inbound/outbound traffic in real-time.
 Big disadvantage of the Tomato is that the list of supported devices is quite poor.
 
 DD-WRT on the other hand, is compatible with more routers than any other third party firmware.
 Compared to Tomato, DD-WRT is reported to have more bugs and less intuitive GUI.
 The DD-WRT was known as the most feature rich firmware until OpenWrt came along.
 
-OpenWrt turns our router in a fully capable GNU/Linux computer, not just a network "magic" box.
+OpenWrt turns our router in a fully capable GNU/Linux computer, not just a network “magic” box.
 Recently, the OpenWrt platform has come a long way in making itself more accessible to all user levels.
 It has an Luci\footnote{https://github.com/openwrt/luci} Web UI(user interface) now.
 Users that are less experienced with Linux can easily set up their network using Luci.
 OpenWrt is capable of running lightweight services like an IRC bouncer or samba/ftp file sharing (some routers have USB ports able to power HDD) or even run software build on our own\cite{vpnpick}.
 
 The goal of this thesis would be to port a lightweight Tang daemon, described in the section \ref{tang}, to OpenWrt system.
-Tang server will help us unlock our encrypted volumes while on safe home or office network without a need for extra PC running it but having it on our tiny OpenWrt "server".
+Tang server will help us unlock our encrypted volumes while on safe home or office network without a need for extra PC running it but having it on our tiny OpenWrt “server”.
 With Tang, we do not have to care about typing passphrases over and over to unlock LUKS drives in a safe environment.
 
 
@@ -98,7 +98,7 @@ For example device specification see Table \ref{routerspec}.
 Building on such device would be time consuming and may result in overheating, which could cause the hardware to fail.
 For this particular reason, package building is done with cross-compiler.
 
-Cross-compiler is a programming tool capable of creating an executable file that is supposed to run on a "target" architecture, in a similar or completely different environment, while working on a different "host" architecture.
+Cross-compiler is a programming tool capable of creating an executable file that is supposed to run on a “target” architecture, in a similar or completely different environment, while working on a different “host” architecture.
 It can also create object files used by linker.
 The reason for using cross-compiling might be to separate the build environment from the target environment as well.
 OpenWrt tool-chain uses gcc compiler, and it is one of the most important parts of tool-chain.
@@ -107,9 +107,9 @@ Most common C standard libraries are: GNU Libc, uClibc musl-libc, or dietlibc.
 They provide macros, type definitions and functions for tasks such as input/output processing (<stdio.h>), memory management (<stdlib.h>), string handling (<string.h>), mathematical computations (<math.h>), and many more\footnote{https://en.wikipedia.org/wiki/C\_standard\_library\#Header\_files}.
 The OpenWrt's cross-compilation tool-chain uses musl-libc.
 
-For porting to "target" system (OpenWrt) this tool-chain has to be generated on "host" system.
+For porting to “target” system (OpenWrt) this tool-chain has to be generated on “host” system.
 The tool-chain can be created in many different ways.
-The easiest way is undoubtedly to find a .rpm (.deb or any distribution specific package available) package and have it installed on our "host" system.
+The easiest way is undoubtedly to find a .rpm (.deb or any distribution specific package available) package and have it installed on our “host” system.
 If a binary package with desired tool-chain is not available for our system or is not available at all, there might be a need to compile a custom tool-chain from scratch\footnote{tools like crosstool-ng (https://github.com/crosstool-ng/crosstool-ng) may help}.
 
 In case of OpenWrt, we have an available set of Makefiles and patches called buildroot which is capable of generating tool-chain.
@@ -122,7 +122,7 @@ OpenWrt's buildroot is a build system capable of generating the tool-chain, and 
 The build system can be configured for any device that is supported by OpenWrt.
 
 The root file-system in general is a mere copy of the file system of target's platform.
-In many cases, just having the folders /usr and /lib would be sufficient, therefore we do not need to copy nor create the entire target file system on our host.
+In many cases, just having the folders {\tt /usr} and {\tt /lib} would be sufficient, therefore we do not need to copy nor create the entire target file system on our host.
 
 It is a good idea to store all these things, the tool-chain and the root file-system in a single place.
 With using OpenWrt's buildroot we will have this covered.
@@ -200,7 +200,7 @@ These commands have to be run by a user with root privileges.
 
 OpenWrt system has SDK (Software development kit) buildroots available for every released version of OpenWrt system.
 It is good to consider using OpenWrt's SDK in order to build the software application for specific release of the target system.
-For example when we are using a "stable" release of OpenWrt 15.05.1 with code-name "Chaos Calmer" on TL-WR842N(EU) device, we should probably end up in "Supplementary Files" section of the OpenWrt archives\footnote{https://archive.openwrt.org/chaos\_calmer/15.05.1/ar71xx/generic/} looking for the SDK.
+For example when we are using a “stable” release of OpenWrt 15.05.1 with code-name “Chaos Calmer” on TL-WR842N(EU) device, we should probably end up in “Supplementary Files” section of the OpenWrt archives\footnote{https://archive.openwrt.org/chaos\_calmer/15.05.1/ar71xx/generic/} looking for the SDK.
 While porting an upstream projects (such as Tang) for latest target release a bleeding edge buildroot would be the best solution.
 
 If we have a host platform which aims to be on the bleeding edge, such as OS Fedora, we will probably encounter issues with dependencies.
@@ -260,13 +260,13 @@ src-git packages https://github.com/Tiboris/packages-OpenWrt.git^dbdfc99
 \end{lstlisting}
 Changing this {\it feed} to our custom {\it branch} will reduce effort spent on getting all new dependencies to the buildroot's {\tt feeds/packages} directory.
 
-The feeds are 'managed' with the script available in builroot's {\tt scripts} directory, {\tt feeds}.
+The feeds are “managed” with the script available in builroot's {\tt scripts} directory, {\tt feeds}.
 To download the feeds, run this script with command {\it update} and option {\it -a} as shown.
 Remember to invoke it from the buildroot directory($\sim$/buildroot-openwrt).
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ ./scripts/feeds update -a
 \end{lstlisting}
-To make any package available for the build, we shall "install" it using the same feeds script:
+To make any package available for the build, we shall “install” it using the same feeds script:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ ./scripts/feeds install <PACKAGENAME>
 \end{lstlisting}
@@ -332,12 +332,12 @@ For a rebuild run:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ make package/cups/{clean,compile,install} V=s
 \end{lstlisting}
-It doesn't matter what {\it feed} the package is located in, this same syntax works for any available package.
+It does not matter what {\it feed} the package is located in, this same syntax works for any available package.
 
 If for some reason the build fails, the easiest way to spot the error is to do:
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 $ make package/cups/{clean,compile,install} V=s 2>&1 | \
     tee build.log | grep -i error
 \end{lstlisting}
-This pipeline shown invocates the rebuild of the package forwarding the ouput to {\tt build.log} file with {\tt tee}, looking for case insensitive string 'error' with {\tt grep}.
+This pipeline shown invocates the rebuild of the package forwarding the ouput to {\tt build.log} file with {\tt tee}, looking for case insensitive string “error” with {\tt grep}.
 Complete guide can be found on OpenWrt Wiki\footnote{https://wiki.openwrt.org/doc/howto/build}.

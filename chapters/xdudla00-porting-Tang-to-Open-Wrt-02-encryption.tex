@@ -7,7 +7,7 @@ Encryption protects us from many threats.
 
 It protects us from identity theft.
 Our personal information stored all over governmental authorities should be secured with it.
-Encryption takes care for not revealing sensitive information about ourselves, to protect our financial details, passwords along with others, mainly when we bank online from being defraud.
+Encryption takes care for not revealing sensitive information about ourselves, to protect our financial details, passwords along with others, mainly when we bank online.
 
 It looks after our conversation privacy, protecting our cell phone conversations from eavesdroppers and our online chatting with acquaintances or colleagues.
 It also allows attorneys to communicate privately with their clients and it aims to secure communication between investigation bureaus to exchange sensitive information about lawbreakers.
@@ -102,7 +102,7 @@ LibreCrypt is easy to use even for inexperienced user through its GUI (Graphical
 LibreCrypt supports many ciphers including AES (up to 256 bit), Twofish\footnote{https://en.wikipedia.org/wiki/Twofish} (up to 256 bit), Blowfish\footnote{https://en.wikipedia.org/wiki/Blowfish\_(cipher)} (up to 448 bit), Serpent\footnote{https://en.wikipedia.org/wiki/Serpent\_(cipher)} (up to 256 bit).
 It can create “virtual disks” on our computer and anything written to these disks is automatically encrypted before being stored on our computer’s hard drive\cite{FreeOTFE}.
 
-Unfortunately this project seems to be abandoned by its developer on GitHub
+Unfortunately this project seems to be abandoned by its developer.
 The source code of LibreCrypt is available at GitHub.
 \begin{lstlisting}[columns=fixed,basicstyle=\ttfamily\footnotesize,tabsize=4,backgroundcolor=\color{yellow!10}]
 https://github.com/t-d-k/LibreCrypt
@@ -120,7 +120,7 @@ With modern versions of {\tt cryptsetup} (i.e., since ~2006), encrypted block de
 
 Plain format has no meta-data on disk.
 When using any such encrypted device, all the necessary parameters must be passed to {\tt cryptsetup} from the command line, otherwise it uses the defaults, which will only succeed if the device was created using default settings.
-It derives (generates) the master key from the pass-phrase provided and then uses that to decrypt or encrypt the sectors of the device, with a direct 1:1 mapping between encrypted and decrypted sectors.
+It derives (generates) the encryption key from the pass-phrase provided and then uses that to decrypt or encrypt the sectors of the device, with a direct 1:1 mapping between encrypted and decrypted sectors.
 
 In contrast to previous Linux disk encryption solutions, {\it LUKS} stores all necessary setup information in the partition header, enabling the user to transport or migrate their data more easily.
 
@@ -172,7 +172,7 @@ Let us sum up the easier way first.
 
 In case we have not installed our Linux operation system yet, we could simply select an option in time of installation.
 Then the installation wizard will most likely ask for pass phrase -- the key encryption key.
-To demonstrate this, screen shots with Fedora 28 system installation can be found on appendix \ref{luksinstall}.
+To demonstrate this, screen shots with Fedora 28 system installation can be found in appendix \ref{luksinstall}.
 
 If we have already system installed with lots of data on partition, process will probably last longer and the procedure will be more complex.
 There is no way we can encrypt the whole system disk with {\it LUKS} without unmounting a partition to encrypt.
@@ -192,9 +192,9 @@ After header, there is a section with bulk data, which is encrypted with the enc
     \caption{LUKS Volume Structure}
     \label{fig_luksvol}
 \end{figure}
-Header contains information about the cipher used, cipher mode, the key length, a uuid, and a master key check-sum.
+Header contains information about the cipher used, cipher mode, the key length, a uuid, and a encryption key check-sum.
 The pass-phrases stored in the key slots, which structure is shown on Figure \ref{fig_luksslot} LUKS Key Slot, are used to decrypt a single key encryption key that is stored in the anti-forensic stripes.
-Anti-forensic data storage, as described in article LUKS On-Disk Format Specification Version 1.1 \cite{fruhwirth2005luks}, is a feature specially developed for LUKS by Clemens Fruhwirth.
+Anti-forensic data storage, as described in article {\it LUKS On-Disk Format Specification Version 1.1} \cite{fruhwirth2005luks}, is a feature specially developed for {\it LUKS} by Clemens Fruhwirth.
 The idea of anti-forensic information splitting in {\it LUKS} is to enlarge the size of every storage region for the encryption key encrypted with one of the user key encryption keys such that all parts of this storage region are required in order to recover the encrypion key.
 
 \begin{figure}[h]
@@ -204,9 +204,9 @@ The idea of anti-forensic information splitting in {\it LUKS} is to enlarge the 
     \label{fig_luksslot}
 \end{figure}
 Every key slot is associated with a key material section after the header.
-When a key slot is active, the key slot stores an encrypted copy of the master key in its key material section.
+When a key slot is active, the key slot stores an encrypted copy of the encryption key in its key material section.
 This encrypted copy is locked by a user password or cipher.
-Supplying this user password unlocks the decryption for the key material, which stores the master key.
+Supplying this user password unlocks the decryption for the key material, which stores the encryption key.
 
 
 
@@ -240,7 +240,7 @@ To find out if the second partition is {\it LUKS} volume, we will use cryptsetup
 Device /dev/nvme0n1p1 is not a valid LUKS device.
 Command failed with code 22: Invalid argument
 \end{lstlisting}
-Unless the -v option is used, this command produces no output.
+Unless the {\tt -v} option is used, this command produces no output.
 The actual result of the command is returned as an exit code.
 The output shown reflects that our first partition is not a valid {\it LUKS} volume.
 This is expected behavior, encrypting the boot partition would make it impossible for the system to boot.
