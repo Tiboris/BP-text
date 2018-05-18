@@ -11,3 +11,7 @@ In order to port the Tang project, see https://github.com/latchset/tang, these p
 
 This little program has been created:
 - https://github.com/Tiboris/xinetd-example
+
+Pictures created in drew.io:
+
+- https://github.com/Tiboris/bachelor-thesis-pictures
